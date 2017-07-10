@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
+import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+import {InMemoryDataService} from './in-memory-db/in-memory-data.service';
 
 @NgModule({
   declarations: [
@@ -12,9 +14,9 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    InMemoryWebApiModule.forRoot(InMemoryDataService),
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

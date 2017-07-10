@@ -1,3 +1,14 @@
 <h1>
   {{title}}
 </h1>
+<div>
+<label>Search Solutions Implementing a Pattern: </label>
+<input [(ngModel)]="patternName" placeholder="pattern name" />
+</div>
+<button (click)="search()">Search</button>
+<div *ngIf="concreteSolutions">
+<div *ngFor="let solution of concreteSolutions">
+  <label>URI:</label><h4>{{solution.uri}}</h4>
+  <label>Desc:</label><h4>{{solution.description}}</h4>
+</div>
+</div>

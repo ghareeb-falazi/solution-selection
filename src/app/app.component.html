@@ -2,13 +2,23 @@
   {{title}}
 </h1>
 <div>
-<label>Search Solutions Implementing a Pattern: </label>
-<input [(ngModel)]="patternName" placeholder="pattern name" />
+  <div>
+<label>Select solutions based on following patterns: (hint: elastic load balancer,stateless component,blob storage) </label>
+  </div>
+<input [(ngModel)]="listOfPatterns" placeholder="comma-separated list of pattern uris" style="width: 50em; margin: 5px;"/>
 </div>
-<button (click)="search()">Search</button>
-<div *ngIf="concreteSolutions">
-<div *ngFor="let solution of concreteSolutions">
-  <label>URI:</label><h4>{{solution.uri}}</h4>
-  <label>Desc:</label><h4>{{solution.description}}</h4>
+<div *ngIf="isInitialized">
+<button (click)="search()">Execute Algorithm</button>
+<div *ngIf="paths">
+<div *ngFor="let path of paths">
+  {{path.toString()}}
 </div>
+
+</div>
+
+
+</div>
+
+<div *ngIf="!isInitialized">
+  Initializing Services...
 </div>

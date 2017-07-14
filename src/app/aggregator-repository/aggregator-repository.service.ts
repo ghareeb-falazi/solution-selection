@@ -1,22 +1,55 @@
 /**
  * Created by falazigb on 09-Jul-17.
  */
-import 'rxjs/add/operator/toPromise';
+import "rxjs/add/operator/toPromise";
 import {Injectable} from "@angular/core";
 import {Http} from "@angular/http";
-import {toPromise} from "rxjs/operator/toPromise";
-import {Aggregator} from "../data-model/Aggregator";
+import {AbstractAggregator} from "../data-model/AbstractAggregator";
+import {AggregatorCreator} from "../data-model/AggregatorCreator";
+import {BasicAggregator} from "../data-model/BasicAggregator";
 
 @Injectable()
 export class AggregatorRepositoryService {
-  constructor(private http:Http)
-  {}
 
-  getAggregators(solution1URI: string, solution2URI: string):Promise<Aggregator[]> {
-    return this.http.get(`api/agg/?concreteSolution1URI=${solution1URI}&concreteSolution2URI=${solution2URI}`)
+  private allAggregators:AbstractAggregator[];
+
+  constructor(private http: Http) {
+  }
+
+  initialize():Promise<any> {
+    let url:string = 'api/agg';
+
+    return this.http.get(url)
       .toPromise()
-      .then(response => response.json().data as Aggregator[])
+      .then((response) => {
+          let result: AbstractAggregator[] = [];
+          let originalData: AbstractAggregator[] = response.json().data as AbstractAggregator[];
+          let creator: AggregatorCreator = new AggregatorCreator();
+
+          for (let i = 0; i < originalData.length; i++) {
+            result.push(creator.createNewInstance(originalData[i]));
+          }
+
+          this.allAggregators = result;
+
+          return result;
+        }
+      )
       .catch(this.handleError);
+  }
+
+  getAggregators(solution1URI: string, solution2URI: string): AbstractAggregator[] {
+    let result:AbstractAggregator[] = [];
+
+    for(let i = 0; i < this.allAggregators.length; i++){
+      if((this.allAggregators[i] as BasicAggregator).concreteSolution1URI.toLowerCase() === solution1URI.toLowerCase() &&
+        (this.allAggregators[i] as BasicAggregator).concreteSolution2URI.toLowerCase() === solution2URI.toLowerCase())
+      {
+        result.push(this.allAggregators[i]);
+      }
+    }
+
+    return result;
   }
 
   private handleError(error: any): Promise<any> {

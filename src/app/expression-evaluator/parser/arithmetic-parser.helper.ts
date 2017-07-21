@@ -12,17 +12,26 @@ import {NumLiteral} from "app/expression-evaluator/common/arithemtic-expression/
 import {Tokenizer} from "../lexer/token-adders/tokenizer.helper";
 import {UnaryPlus} from "../common/arithemtic-expression/unary-plus.helper";
 import {UnaryMinus} from "../common/arithemtic-expression/unary-minus.helper";
+import {tokenize} from "@angular/compiler/src/ml_parser/lexer";
 /**
  * Created by falazigb on 21-Jul-17.
  */
 
 
 export class ArithmeticParser extends AbstractParser {
-  private symbol: TokenWithStr<TokenType>;
+  //private symbol: TokenWithStr<TokenType>;
   private root: Expression;
 
   constructor(lexer: Tokenizer) {
     super(lexer);
+  }
+
+  private readNext():TokenWithStr<TokenType> {
+    return this.tokenizer.next();
+  }
+
+  private peekNext(): TokenWithStr<TokenType> {
+    return this.tokenizer.peek();
   }
 
   public  parse(): Expression {
@@ -32,9 +41,13 @@ export class ArithmeticParser extends AbstractParser {
 
   private arithmeticExpression(): void {
     this.arithmeticTerm();
-    while (this.symbol && (this.symbol.token === TokenType.PLUS || this.symbol.token === TokenType.MINUS)) {
+    let nextToken: TokenWithStr<TokenType> = this.peekNext();
+
+    while (nextToken && (nextToken.token === TokenType.PLUS || nextToken.token === TokenType.MINUS)) {
+      this.readNext();
+      //console.debug('after read next!');
       let exp: NonTerminalExpression;
-      if (this.symbol.token === TokenType.PLUS) {
+      if (nextToken.token === TokenType.PLUS) {
         exp = new Sum();
       }
       else {
@@ -46,15 +59,21 @@ export class ArithmeticParser extends AbstractParser {
       exp.setRight(this.root);
 
       this.root = exp;
+
+      nextToken = this.peekNext();
     }
   }
 
   arithmeticTerm(): void {
     this.arithmeticFactor();
-    while (this.symbol && (this.symbol.token === TokenType.MULTIPLICATION || this.symbol.token === TokenType.DIV || this.symbol.token === TokenType.MOD)) {
+
+    let nextToken:TokenWithStr<TokenType> = this.peekNext();
+
+    while (nextToken && (nextToken.token === TokenType.MULTIPLICATION || nextToken.token === TokenType.DIV ||nextToken.token === TokenType.MOD)) {
+      this.readNext();
       let exp: NonTerminalExpression;
 
-      switch (this.symbol.token) {
+      switch (nextToken.token) {
         case TokenType.MOD:
           exp = new Mod();
           break;
@@ -69,22 +88,24 @@ export class ArithmeticParser extends AbstractParser {
       this.arithmeticFactor();
       exp.setRight(this.root);
       this.root = exp;
+
+      nextToken = this.peekNext();
     }
   }
 
-  arithmeticFactor():void {
-    this.symbol = this.tokenizer.next();
+  arithmeticFactor(): void {
+    let nextToken: TokenWithStr<TokenType> = this.readNext();
     //console.debug(`${TokenType[this.symbol.token]} is the current token at the factor level`);
 
-    switch (this.symbol.token) {
+    switch (nextToken.token) {
       case TokenType.NUM_LITERAL:
-        this.root = new NumLiteral(new Number(this.symbol.str).valueOf());
-        this.symbol = this.tokenizer.next();
+        this.root = new NumLiteral(new Number(nextToken.str).valueOf());
+        //this.symbol = this.tokenizer.next();
         break;
       case TokenType.START_PARENTHESIS:
         this.arithmeticExpression();
-        this.symbol = this.tokenizer.next();
-        if (this.symbol.token != TokenType.END_PARENTHESIS) {
+        nextToken = this.readNext();
+        if (!nextToken || nextToken.token != TokenType.END_PARENTHESIS) {
           throw  new Error(') is expected!');
         }
         break;

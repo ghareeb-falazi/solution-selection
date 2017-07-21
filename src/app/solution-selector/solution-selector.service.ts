@@ -1,13 +1,16 @@
-import {Label} from "../data-model/Label";
-import {BooleanExpression} from "../data-model/BooleanExpression";
-import {SolutionPath} from "../data-model/SolutionPath";
+import {LabelModel} from "../data-model/label.model";
+import {BooleanExpressionModel} from "../data-model/boolean-expression.model";
+import {SolutionPathModel} from "../data-model/solution-path.model";
 import {ExpressionEvaluatorService} from "../expression-evaluator/expression-evaluator.service";
 import {ConcreteSolutionRepositoryService} from "../concrete-solution-repository/concrete-solution-repository.service";
 import {AggregatorRepositoryService} from "../aggregator-repository/aggregator-repository.service";
-import {ConcreteSolution} from "../data-model/ConcreteSolution";
-import {AbstractAggregator} from "../data-model/AbstractAggregator";
-import {SolutionPathStep} from "app/data-model/SolutionPathStep";
+import {ConcreteSolutionModel} from "../data-model/concrete-solution.model";
+import {AbstractAggregatorModel} from "../data-model/abstract-aggregator.model";
+import {SolutionPathStepModel} from "app/data-model/solution-path-step.model";
 import {Injectable} from "@angular/core";
+import {ContextModel} from "../data-model/context.model";
+import {CapabilityModel} from "../data-model/capability.model";
+import {RequirementModel} from "../data-model/requirement.model";
 /**
  * Created by falazigb on 13-Jul-17.
  */
@@ -20,16 +23,16 @@ export class SolutionSelectorService {
 
   }
 
-  selectConcreteSolutions(patternPath:string[], initialProperties:Label[], generalConditions:BooleanExpression):SolutionPath[]{
-    let phas1SolutionPaths:SolutionPath[] = this.phase1(patternPath);
+  selectConcreteSolutions(patternPath:string[], initialProperties:LabelModel[], generalConditions:BooleanExpressionModel):SolutionPathModel[]{
+    let phas1SolutionPaths:SolutionPathModel[] = this.phase1(patternPath);
 
     return this.phase2(phas1SolutionPaths, initialProperties, generalConditions);
   }
 
-  getNextPathSteps(currentSolution:ConcreteSolution, nextPatternUri:string):SolutionPathStep[]{
-    let allNextSols:ConcreteSolution[] = this.concreteSolutionRepository.getConcreteSolutionsOfPattern(nextPatternUri);
-    let result: SolutionPathStep[] = [];
-    let aggregators:AbstractAggregator[] = null;
+  getNextPathSteps(currentSolution:ConcreteSolutionModel, nextPatternUri:string):SolutionPathStepModel[]{
+    let allNextSols:ConcreteSolutionModel[] = this.concreteSolutionRepository.getConcreteSolutionsOfPattern(nextPatternUri);
+    let result: SolutionPathStepModel[] = [];
+    let aggregators:AbstractAggregatorModel[] = null;
 
 
     if(currentSolution) {//current solution is provided so we are not looking for the starting nodes
@@ -37,28 +40,28 @@ export class SolutionSelectorService {
         aggregators = this.aggregatorsRepository.getAggregators(currentSolution.uri, allNextSols[i].uri);
 
         if (aggregators.length > 0) {
-          result.push(new SolutionPathStep(aggregators, allNextSols[i]));
+          result.push(new SolutionPathStepModel(aggregators, allNextSols[i]));
         }
       }
     }
     else //current solution is not provided, so we are looking for the starting nodes
       {
         for(let solution of allNextSols){
-          result.push(new SolutionPathStep(null, solution));
+          result.push(new SolutionPathStepModel(null, solution));
         }
       }
 
     return result;
   }
 
-  depthFirstTraversal(currentStep:SolutionPathStep, patterPath:string[], currentPosition:number, path:SolutionPath
-    , completePaths:SolutionPath[]){
-    console.debug(currentStep, patterPath, currentPosition, path, completePaths);
+  depthFirstTraversal(currentStep:SolutionPathStepModel, patterPath:string[], currentPosition:number, path:SolutionPathModel
+    , completePaths:SolutionPathModel[]){
+    //console.debug(currentStep, patterPath, currentPosition, path, completePaths);
     if(currentStep)//otherwise, this is the path start
       path.pushPathStep(currentStep);
 
 
-    let currentSolution: ConcreteSolution = null;
+    let currentSolution: ConcreteSolutionModel = null;
 
     if(currentStep)
       currentSolution = currentStep.concreteSolution;
@@ -70,7 +73,7 @@ export class SolutionSelectorService {
     }
     else
     {
-      let nextSteps:SolutionPathStep[] = this.getNextPathSteps(currentSolution, patterPath[currentPosition + 1]);
+      let nextSteps:SolutionPathStepModel[] = this.getNextPathSteps(currentSolution, patterPath[currentPosition + 1]);
 
       for(let i = 0; i < nextSteps.length; i++){
         this.depthFirstTraversal(nextSteps[i], patterPath, currentPosition + 1, path, completePaths);
@@ -80,20 +83,75 @@ export class SolutionSelectorService {
     path.popPathStep();
   }
 
-  phase1(patternPath:string[]):SolutionPath[]{
+  phase1(patternPath:string[]):SolutionPathModel[]{
     //console.debug(patternPath);
-    let startingNodes:SolutionPathStep[] = this.getNextPathSteps(null, patternPath[0]);
-    let result:SolutionPath[] = [];
+    const startingNodes:SolutionPathStepModel[] = this.getNextPathSteps(null, patternPath[0]);
+    const result:SolutionPathModel[] = [];
 
     for(let startingNode of startingNodes){
-      let currentPath:SolutionPath = new SolutionPath(startingNode.concreteSolution);
+      const currentPath:SolutionPathModel = new SolutionPathModel(startingNode.concreteSolution);
       this.depthFirstTraversal(null, patternPath, 0, currentPath, result);
     }
-    console.debug(result);
+
     return result;
   }
 
-  phase2(solutionPaths:SolutionPath[], initialProperties:Label[], generalConditions:BooleanExpression):SolutionPath[]{
-    return null;
+  phase2(solutionPaths:SolutionPathModel[], initialProperties:LabelModel[], generalConditions:BooleanExpressionModel):SolutionPathModel[]{
+    //console.debug(solutionPaths);
+    const result:SolutionPathModel[] = [];
+
+    for(const path of solutionPaths){
+      console.debug('solution path: ');
+      console.debug(path);
+      const context:ContextModel = SolutionSelectorService.createContext(initialProperties, path);
+      //console.debug(context);
+      const requirements:RequirementModel[] = SolutionSelectorService.createRequirementList(path);
+      let isFound = true;
+      //console.debug(context);
+      //console.debug(requirements);
+      if(this.expressionEvaluator.isExpressionFulfilled(generalConditions, context))//does the context
+        // fulfill the general condition?
+      {
+        console.debug('GC fulfilled');
+        for (const requirement of requirements) {//does the context fulfill all requirements?
+          if (!this.expressionEvaluator.isExpressionFulfilled(requirement.expression, context)) {
+            console.debug(`requirement${requirement.expression.expression.value} is not fulfilled`);
+            isFound = false;
+            break;
+          }
+        }
+      }
+      else {
+        isFound = false;
+      }
+
+      if(isFound){
+        result.push(path);
+      }
+    }
+
+    return result;
   }
+
+  static createRequirementList(path:SolutionPathModel):RequirementModel[]{
+    const requirements:RequirementModel[] = [];
+
+    for(const solution of path.getAllConcreteSolutions()){
+      requirements.push(...solution.requirements);
+    }
+
+    return requirements;
+  }
+
+  static createContext(initialProperties:LabelModel[], solutionPath:SolutionPathModel):ContextModel{
+    const capabilities:CapabilityModel[] = [];
+
+    for(const solution of solutionPath.getAllConcreteSolutions()){
+      capabilities.push(...solution.capabilities);
+    }
+
+    return new ContextModel(initialProperties, capabilities);
+  }
+
+
 }

@@ -5,11 +5,11 @@ import {Injectable} from "@angular/core";
 import {Http} from "@angular/http";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
-import {ConcreteSolution} from "../data-model/ConcreteSolution";
+import {ConcreteSolutionModel} from "../data-model/concrete-solution.model";
 
 @Injectable()
 export class ConcreteSolutionRepositoryService {
-  private allSolutions:ConcreteSolution[];
+  private allSolutions:ConcreteSolutionModel[];
 
   constructor(private http: Http) {
   }
@@ -19,10 +19,10 @@ export class ConcreteSolutionRepositoryService {
     return this.http.get(url)
       .toPromise()
       .then((response) => {
-        let result: ConcreteSolution[] = [];
-        let original: ConcreteSolution[] = response.json().data as ConcreteSolution[];
+        let result: ConcreteSolutionModel[] = [];
+        let original: ConcreteSolutionModel[] = response.json().data as ConcreteSolutionModel[];
         for (let i = 0; i < original.length; i++) {
-          result.push(ConcreteSolution.fromData(original[i]));
+          result.push(ConcreteSolutionModel.fromData(original[i]));
         }
 
         this.allSolutions = result;
@@ -31,8 +31,8 @@ export class ConcreteSolutionRepositoryService {
       .catch(this.handleError);
   }
 
-  getConcreteSolutionsOfPattern(patternName: string): ConcreteSolution[] {
-    let result:ConcreteSolution[] = [];
+  getConcreteSolutionsOfPattern(patternName: string): ConcreteSolutionModel[] {
+    let result:ConcreteSolutionModel[] = [];
 
     for(let i = 0; i < this.allSolutions.length; i++){
       if(this.allSolutions[i].implementedPatternUri.toLowerCase() === patternName.toLowerCase()){

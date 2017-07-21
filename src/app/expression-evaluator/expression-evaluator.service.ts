@@ -1,5 +1,5 @@
-import {BooleanExpression} from "../data-model/BooleanExpression";
-import {Context} from "../data-model/Context";
+import {BooleanExpressionModel} from "../data-model/boolean-expression.model";
+import {ContextModel} from "../data-model/context.model";
 import {Injectable} from "@angular/core";
 /**
  * Created by falazigb on 13-Jul-17.
@@ -8,7 +8,10 @@ import {Injectable} from "@angular/core";
 @Injectable()
 export class ExpressionEvaluatorService{
   /** A simple implementation that considers boolean expressions as mere Labels*/
-  isExpressionFulfilled(expression:BooleanExpression, context: Context):boolean{
+  isExpressionFulfilled(expression:BooleanExpressionModel, context: ContextModel):boolean{
+    if(!expression)
+      return true;
+
     for(let i = 0; i < context.capabilities.length; i++){//Check the capabilities
       if(context.capabilities[i].label.isCompatible(expression.expression))
         return true;

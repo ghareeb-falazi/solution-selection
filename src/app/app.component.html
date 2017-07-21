@@ -8,7 +8,7 @@
 <input [(ngModel)]="listOfPatterns" placeholder="comma-separated list of pattern uris" style="width: 50em; margin: 5px;"/>
 </div>
 <div *ngIf="isInitialized">
-<button (click)="search()">Execute Algorithm</button>
+  <button pButton type="button" label="Execute Algorithm" (click)="search()"></button>
 <div *ngIf="paths">
 <div *ngFor="let path of paths">
   {{path.toString()}}

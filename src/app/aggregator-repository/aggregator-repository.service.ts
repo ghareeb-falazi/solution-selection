@@ -4,14 +4,14 @@
 import "rxjs/add/operator/toPromise";
 import {Injectable} from "@angular/core";
 import {Http} from "@angular/http";
-import {AbstractAggregator} from "../data-model/AbstractAggregator";
-import {AggregatorCreator} from "../data-model/AggregatorCreator";
-import {BasicAggregator} from "../data-model/BasicAggregator";
+import {AbstractAggregatorModel} from "../data-model/abstract-aggregator.model";
+import {AggregatorCreatorModel} from "../data-model/aggregator-creator.model";
+import {BasicAggregatorModel} from "../data-model/basic-aggregator.model";
 
 @Injectable()
 export class AggregatorRepositoryService {
 
-  private allAggregators:AbstractAggregator[];
+  private allAggregators:AbstractAggregatorModel[];
 
   constructor(private http: Http) {
   }
@@ -22,9 +22,9 @@ export class AggregatorRepositoryService {
     return this.http.get(url)
       .toPromise()
       .then((response) => {
-          let result: AbstractAggregator[] = [];
-          let originalData: AbstractAggregator[] = response.json().data as AbstractAggregator[];
-          let creator: AggregatorCreator = new AggregatorCreator();
+          let result: AbstractAggregatorModel[] = [];
+          let originalData: AbstractAggregatorModel[] = response.json().data as AbstractAggregatorModel[];
+          let creator: AggregatorCreatorModel = new AggregatorCreatorModel();
 
           for (let i = 0; i < originalData.length; i++) {
             result.push(creator.createNewInstance(originalData[i]));
@@ -38,12 +38,12 @@ export class AggregatorRepositoryService {
       .catch(this.handleError);
   }
 
-  getAggregators(solution1URI: string, solution2URI: string): AbstractAggregator[] {
-    let result:AbstractAggregator[] = [];
+  getAggregators(solution1URI: string, solution2URI: string): AbstractAggregatorModel[] {
+    let result:AbstractAggregatorModel[] = [];
 
     for(let i = 0; i < this.allAggregators.length; i++){
-      if((this.allAggregators[i] as BasicAggregator).concreteSolution1URI.toLowerCase() === solution1URI.toLowerCase() &&
-        (this.allAggregators[i] as BasicAggregator).concreteSolution2URI.toLowerCase() === solution2URI.toLowerCase())
+      if((this.allAggregators[i] as BasicAggregatorModel).concreteSolution1URI.toLowerCase() === solution1URI.toLowerCase() &&
+        (this.allAggregators[i] as BasicAggregatorModel).concreteSolution2URI.toLowerCase() === solution2URI.toLowerCase())
       {
         result.push(this.allAggregators[i]);
       }

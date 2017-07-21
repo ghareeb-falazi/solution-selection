@@ -1,11 +1,11 @@
-import {AbstractAggregator} from "./AbstractAggregator";
-import {ConcreteSolution} from "./ConcreteSolution";
+import {AbstractAggregatorModel} from "./abstract-aggregator.model";
+import {ConcreteSolutionModel} from "./concrete-solution.model";
 /**
  * Created by falazigb on 14-Jul-17.
  */
 
-export class SolutionPathStep{
-  constructor(public aggregators:AbstractAggregator[], public concreteSolution:ConcreteSolution){
+export class SolutionPathStepModel{
+  constructor(public aggregators:AbstractAggregatorModel[], public concreteSolution:ConcreteSolutionModel){
   }
 
   toString():string{

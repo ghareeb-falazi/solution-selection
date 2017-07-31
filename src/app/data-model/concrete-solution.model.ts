@@ -7,7 +7,7 @@ export class ConcreteSolutionModel {
   description: string;
   requirements: RequirementModel[];
   capabilities: CapabilityModel[];
-  metadata:Map<string, string>;
+  properties:Map<string, string>;
   implementedPatternUri:string;
 
   constructor(uri: string, description: string, requirements: RequirementModel[], capabilities: CapabilityModel[],
@@ -17,7 +17,7 @@ export class ConcreteSolutionModel {
     this.description = description;
     this.requirements = requirements;
     this.capabilities = capabilities;
-    this.metadata = metadata;
+    this.properties = metadata;
     this.implementedPatternUri = implementedPattern;
     //this.implementedPatternsList = this.implementedPatternsUris.join(',');
   }
@@ -34,7 +34,7 @@ export class ConcreteSolutionModel {
       reqs.push(RequirementModel.fromData(data.requirements[i]));
     }
 
-    return new ConcreteSolutionModel(data.uri, data.description, reqs, caps, data.metadata, data.implementedPatternUri);
+    return new ConcreteSolutionModel(data.uri, data.description, reqs, caps, data.properties, data.implementedPatternUri);
   }
 
 }

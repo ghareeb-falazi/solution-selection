@@ -2,13 +2,19 @@ import {LabelModel} from "./label.model";
 
 
 export class CapabilityModel{
-  label: LabelModel;
 
-  constructor(label:LabelModel){
-    this.label = label;
+  constructor(public name:LabelModel, public properties:Map<string,string>){
   }
 
   static fromData(data:CapabilityModel):CapabilityModel {
-    return new CapabilityModel(LabelModel.fromData(data.label));
+    const copyProp = new Map<string, string>();
+
+    for(const key of data.properties.keys()){
+      copyProp.set(key, data.properties.get(key));
+    }
+
+    const result:CapabilityModel =  new CapabilityModel(LabelModel.fromData(data.name), copyProp );
+
+    return result;
   }
 }

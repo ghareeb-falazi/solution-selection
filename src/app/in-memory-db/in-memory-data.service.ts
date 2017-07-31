@@ -32,22 +32,22 @@ export class InMemoryDataService implements InMemoryDbService {
 
     //CS1.1
     let cs1_1Reqs: RequirementModel[] = [
-      new RequirementModel(new BooleanExpressionModel(impStatelessLabel)),
-      new RequirementModel(new BooleanExpressionModel(warOnAzurLabel)),
-      new RequirementModel(new BooleanExpressionModel(accessToAzurLabel))
+      new RequirementModel(`name = '${impStatelessLabel}'`),
+      new RequirementModel(`name = '${warOnAzurLabel}'` ),
+      new RequirementModel(`name = '${accessToAzurLabel}'`)
     ];
-    let cs1_1Caps: CapabilityModel[] = [new CapabilityModel(impELBLabel)];
+    let cs1_1Caps: CapabilityModel[] = [new CapabilityModel(impELBLabel, new Map<string, string>())];
     let cs1_1Metadata: Map<string, string> = new Map([['cost', '0']]);
     let cs1_1:ConcreteSolutionModel = new ConcreteSolutionModel('cs1.1', 'Azure-based Elastic Load Balancer Implementation',
       cs1_1Reqs, cs1_1Caps, cs1_1Metadata, 'Elastic Load Balancer');
 
     //CS1.2
     let cs1_2Reqs: RequirementModel[] = [
-      new RequirementModel(new BooleanExpressionModel(impStatelessLabel)),
-      new RequirementModel(new BooleanExpressionModel(warOnEBTLabel)),
-      new RequirementModel(new BooleanExpressionModel(accessToAWSLabel))
+      new RequirementModel(`name = '${impStatelessLabel}'`),
+      new RequirementModel(`name = '${warOnEBTLabel}'`),
+      new RequirementModel(`name = '${accessToAWSLabel}'`)
     ];
-    let cs1_2Caps: CapabilityModel[] = [new CapabilityModel(impELBLabel)];
+    let cs1_2Caps: CapabilityModel[] = [new CapabilityModel(impELBLabel, new Map<string, string>())];
     let cs1_2Metadata: Map<string, string> = new Map([['cost', '0']]);
     let cs1_2:ConcreteSolutionModel = new ConcreteSolutionModel('cs1.2', 'Cloud Formation Template-based Elastic Load Balancer',
       cs1_2Reqs, cs1_2Caps, cs1_2Metadata, 'Elastic Load Balancer');
@@ -55,12 +55,12 @@ export class InMemoryDataService implements InMemoryDbService {
 
     //CS2.1
     let cs2_1Reqs: RequirementModel[] = [
-      new RequirementModel(new BooleanExpressionModel(impBlobStorage)),
-      new RequirementModel(new BooleanExpressionModel(accessToAWSLabel))
+      new RequirementModel(`name = '${impBlobStorage}'`),
+      new RequirementModel(`name = '${accessToAWSLabel}'`)
     ];
     let cs2_1Caps: CapabilityModel[] = [
-      new CapabilityModel(warOnEBTLabel),
-      new CapabilityModel(impStatelessLabel)
+      new CapabilityModel(warOnEBTLabel, new Map<string, string>()),
+      new CapabilityModel(impStatelessLabel, new Map<string, string>())
     ];
     let cs2_1Metadata: Map<string, string> = new Map([['cost', '10']]);
     let cs2_1:ConcreteSolutionModel = new ConcreteSolutionModel('cs2.1', 'Cloud Formation Template-based Stateless Component',
@@ -69,12 +69,12 @@ export class InMemoryDataService implements InMemoryDbService {
 
     //CS2.2
     let cs2_2Reqs: RequirementModel[] = [
-      new RequirementModel(new BooleanExpressionModel(impBlobStorage)),
-      new RequirementModel(new BooleanExpressionModel(accessToAzurLabel))
+      new RequirementModel(`name = '${impBlobStorage}'`),
+      new RequirementModel(`name = '${accessToAzurLabel}'`)
     ];
     let cs2_2Caps: CapabilityModel[] = [
-      new CapabilityModel(impStatelessLabel),
-      new CapabilityModel(warOnAzurLabel)
+      new CapabilityModel(impStatelessLabel, new Map<string, string>()),
+      new CapabilityModel(warOnAzurLabel, new Map<string, string>())
     ];
     let cs2_2Metadata: Map<string, string> = new Map([['cost', '11']]);
     let cs2_2:ConcreteSolutionModel = new ConcreteSolutionModel('cs2.2', 'Azure-based Stateless Component Implementation',
@@ -97,11 +97,11 @@ export class InMemoryDataService implements InMemoryDbService {
 
     //CS3.1
     let cs3_1Reqs: RequirementModel[] = [
-      new RequirementModel(new BooleanExpressionModel(accessToAWSLabel))
+      new RequirementModel(`name = '${accessToAWSLabel}'`)
     ];
     let cs3_1Caps: CapabilityModel[] = [
-      new CapabilityModel(impBlobStorage),
-      new CapabilityModel(ec2Volume)
+      new CapabilityModel(impBlobStorage, new Map<string, string>()),
+      new CapabilityModel(ec2Volume, new Map<string, string>())
     ];
     let cs3_1Metadata: Map<string, string> = new Map([['cost', '5']]);
     let cs3_1:ConcreteSolutionModel = new ConcreteSolutionModel('cs3.1', 'Cloud Formation Template-based Blob Storage',
@@ -109,11 +109,11 @@ export class InMemoryDataService implements InMemoryDbService {
 
     //CS3.2
     let cs3_2Reqs: RequirementModel[] = [
-      new RequirementModel(new BooleanExpressionModel(accessToAWSLabel))
+      new RequirementModel(`name = '${accessToAWSLabel}'`)
     ];
     let cs3_2Caps: CapabilityModel[] = [
-      new CapabilityModel(impBlobStorage),
-      new CapabilityModel(s3OnAWSStorageGateway)
+      new CapabilityModel(impBlobStorage, new Map<string, string>()),
+      new CapabilityModel(s3OnAWSStorageGateway, new Map<string, string>())
     ];
     let cs3_2Metadata: Map<string, string> = new Map([['cost', '15']]);
     let cs3_2:ConcreteSolutionModel = new ConcreteSolutionModel('cs3.2', 'AWS Storage Gateway-based S3 Blob Storage',
@@ -122,11 +122,11 @@ export class InMemoryDataService implements InMemoryDbService {
 
     //CS3.3
     let cs3_3Reqs: RequirementModel[] = [
-      new RequirementModel(new BooleanExpressionModel(accessToAzurLabel))
+      new RequirementModel(`name = '${accessToAzurLabel}'`)
     ];
     let cs3_3Caps: CapabilityModel[] = [
-      new CapabilityModel(impBlobStorage),
-      new CapabilityModel(blobStorageOnAzure)
+      new CapabilityModel(impBlobStorage, new Map<string, string>()),
+      new CapabilityModel(blobStorageOnAzure, new Map<string, string>())
     ];
     let cs3_3Metadata: Map<string, string> = new Map([['cost', '3']]);
     let cs3_3:ConcreteSolutionModel = new ConcreteSolutionModel('cs3.3', 'Azure-based Blob Storage implementation',

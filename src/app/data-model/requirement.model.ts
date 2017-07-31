@@ -1,14 +1,11 @@
 import {BooleanExpressionModel} from "./boolean-expression.model";
 
-export class RequirementModel{
-  expression: BooleanExpressionModel;
-
-  constructor(expression:BooleanExpressionModel){
-    this.expression = expression;
+export class RequirementModel extends BooleanExpressionModel{
+  constructor(expression:string){
+    super(expression);
   }
 
-
   static fromData(data: RequirementModel):RequirementModel {
-    return new RequirementModel(BooleanExpressionModel.fromData(data.expression));
+    return new RequirementModel(data.expression);
   }
 }

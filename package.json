@@ -8,7 +8,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "antlr4ts": "antlr4ts src/assets/SimpleGrammar.g4 -o src/app/expression-evaluator -visitor"
   },
   "private": true,
   "dependencies": {
@@ -23,11 +24,12 @@
     "@angular/router": "^4.0.0",
     "angular-in-memory-web-api": "^0.3.2",
     "core-js": "^2.4.1",
-    "font-awesome": "^4.7.0",
     "primeng": "^4.1.0",
     "rxjs": "^5.1.0",
+    "font-awesome": "^4.7.0",
     "typed-lexer": "^1.0.2",
-    "zone.js": "^0.8.4"
+    "zone.js": "^0.8.4",
+    "antlr4ts": "^0.4.0-alpha.4"
   },
   "devDependencies": {
     "@angular/cli": "1.0.3",
@@ -46,6 +48,7 @@
     "protractor": "~5.1.0",
     "ts-node": "~2.0.0",
     "tslint": "~4.5.0",
-    "typescript": "~2.2.0"
+    "typescript": "~2.2.0",
+    "antlr4ts-cli": "^0.4.0-alpha.4"
   }
 }

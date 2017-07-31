@@ -4,10 +4,7 @@ import {AggregatorRepositoryService} from "./aggregator-repository/aggregator-re
 import {SolutionSelectorService} from "./solution-selector/solution-selector.service";
 import {SolutionPathModel} from "./data-model/solution-path.model";
 import {ExpressionEvaluatorService} from "./expression-evaluator/expression-evaluator.service";
-import {LabelModel} from "./data-model/label.model";
-import {RequirementTokenizerFactory} from "./expression-evaluator/lexer/requirement-tokenizer-factory.helper";
-import {ArithmeticParser} from "./expression-evaluator/parser/arithmetic-parser.helper";
-import {Expression} from "./expression-evaluator/common/expression.helper";
+
 
 @Component({
   selector: 'app-root',
@@ -30,18 +27,19 @@ export class AppComponent implements  OnInit{
   paths: SolutionPathModel[] = null;
 
   constructor(private csService: ConcreteSolutionRepositoryService, private aggService:AggregatorRepositoryService,
-    private selecService:SolutionSelectorService)
+    private selecService:SolutionSelectorService, private expEvalService:ExpressionEvaluatorService)
   {}
   search(): void{
     console.debug('select invoked');
     const patterns:string[] = this.listOfPatterns.split(",");
-    this.paths = this.selecService.selectConcreteSolutions(patterns, [new LabelModel('access to azure')], null);
+    this.paths = this.selecService.selectConcreteSolutions(patterns, new Map<string, string>().set('name', 'access to Azure'), null);
 
 
-    const tokFactory:RequirementTokenizerFactory = new RequirementTokenizerFactory();
-    const lexer = tokFactory.getLexerForString(this.listOfPatterns);
-    const arithParser:ArithmeticParser = new ArithmeticParser(lexer);
-    const root: Expression = arithParser.parse();
-    console.debug(root.toString() + ' = ' + root.evaluate());
+    // const tokFactory:RequirementTokenizerFactory = new RequirementTokenizerFactory();
+    // const lexer = tokFactory.getLexerForString(this.listOfPatterns);
+    // const arithParser:ArithmeticParser = new ArithmeticParser(lexer);
+    // const root: Expression = arithParser.parse();
+    // console.debug(root.toString() + ' = ' + root.evaluate());
+    //console.debug(`final result is ${this.expEvalService.evaluateRequirement(this.listOfPatterns, new Map<string, string>())}`);
   }
 }

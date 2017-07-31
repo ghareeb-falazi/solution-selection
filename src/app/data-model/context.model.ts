@@ -1,23 +1,23 @@
-import {LabelModel} from "./label.model";
 import {CapabilityModel} from "./capability.model";
 
+
 export class ContextModel{
-  initialProperties:LabelModel[];
+  initialProperties:Map<string, string>;
   capabilities:CapabilityModel[];
 
-  constructor(initialProperties:LabelModel[], capabilities:CapabilityModel[])
+  constructor(initialProperties:Map<string, string>, capabilities:CapabilityModel[])
   {
     this.initialProperties = initialProperties;
     this.capabilities = capabilities;
   }
 
   static fromData(data:ContextModel):ContextModel {
-    let initProps:LabelModel[] = [];
+    let initProps:Map<string, string> = new Map<string, string>();
     let caps:CapabilityModel[] = [];
 
-    for(let i = 0; i <data.initialProperties.length;i++)
+    for(let prop of data.initialProperties.keys())
     {
-      initProps.push(LabelModel.fromData(data.initialProperties[i]));
+      initProps.set(prop, data.initialProperties.get(prop));
     }
 
     for(let i = 0; i <data.capabilities.length;i++)

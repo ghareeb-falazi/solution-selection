@@ -1,4 +1,4 @@
-import {LabelModel} from "../data-model/label.model";
+
 import {BooleanExpressionModel} from "../data-model/boolean-expression.model";
 import {SolutionPathModel} from "../data-model/solution-path.model";
 import {ExpressionEvaluatorService} from "../expression-evaluator/expression-evaluator.service";
@@ -11,9 +11,8 @@ import {Injectable} from "@angular/core";
 import {ContextModel} from "../data-model/context.model";
 import {CapabilityModel} from "../data-model/capability.model";
 import {RequirementModel} from "../data-model/requirement.model";
-/**
- * Created by falazigb on 13-Jul-17.
- */
+
+
 
 @Injectable()
 export class SolutionSelectorService {
@@ -23,10 +22,10 @@ export class SolutionSelectorService {
 
   }
 
-  selectConcreteSolutions(patternPath:string[], initialProperties:LabelModel[], generalConditions:BooleanExpressionModel):SolutionPathModel[]{
-    let phas1SolutionPaths:SolutionPathModel[] = this.phase1(patternPath);
+  selectConcreteSolutions(patternPath:string[], initialProperties:Map<string, string>, generalConditions:BooleanExpressionModel):SolutionPathModel[]{
+    let phase1SolutionPaths:SolutionPathModel[] = this.phase1(patternPath);
 
-    return this.phase2(phas1SolutionPaths, initialProperties, generalConditions);
+    return this.phase2(phase1SolutionPaths, initialProperties, generalConditions);
   }
 
   getNextPathSteps(currentSolution:ConcreteSolutionModel, nextPatternUri:string):SolutionPathStepModel[]{
@@ -96,7 +95,7 @@ export class SolutionSelectorService {
     return result;
   }
 
-  phase2(solutionPaths:SolutionPathModel[], initialProperties:LabelModel[], generalConditions:BooleanExpressionModel):SolutionPathModel[]{
+  phase2(solutionPaths:SolutionPathModel[], initialProperties:Map<string, string>, generalConditions:BooleanExpressionModel):SolutionPathModel[]{
     //console.debug(solutionPaths);
     const result:SolutionPathModel[] = [];
 
@@ -109,13 +108,13 @@ export class SolutionSelectorService {
       let isFound = true;
       //console.debug(context);
       //console.debug(requirements);
-      if(this.expressionEvaluator.isExpressionFulfilled(generalConditions, context))//does the context
+      if(this.expressionEvaluator.isGlobalConditionFulilled())//generalConditions, context))//does the context
         // fulfill the general condition?
       {
         console.debug('GC fulfilled');
         for (const requirement of requirements) {//does the context fulfill all requirements?
-          if (!this.expressionEvaluator.isExpressionFulfilled(requirement.expression, context)) {
-            console.debug(`requirement${requirement.expression.expression.value} is not fulfilled`);
+          if (!this.expressionEvaluator.isRequirementFulfilled(requirement, context)) {
+            console.debug(`requirement${requirement.expression} is not fulfilled`);
             isFound = false;
             break;
           }
@@ -143,7 +142,7 @@ export class SolutionSelectorService {
     return requirements;
   }
 
-  static createContext(initialProperties:LabelModel[], solutionPath:SolutionPathModel):ContextModel{
+  static createContext(initialProperties:Map<string, string>, solutionPath:SolutionPathModel):ContextModel{
     const capabilities:CapabilityModel[] = [];
 
     for(const solution of solutionPath.getAllConcreteSolutions()){

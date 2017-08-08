@@ -1,19 +1,23 @@
-import {LabelModel} from "./label.model";
+
+export interface CapabilityInterface{
+  properties: [string,string][];
+}
 
 
 export class CapabilityModel{
 
-  constructor(public name:LabelModel, public properties:Map<string,string>){
+  constructor(public properties:Map<string,string>){
   }
 
-  static fromData(data:CapabilityModel):CapabilityModel {
+
+  static fromData(data:CapabilityInterface):CapabilityModel {
     const copyProp = new Map<string, string>();
 
-    for(const key of data.properties.keys()){
-      copyProp.set(key, data.properties.get(key));
+    for(let pair of data.properties){
+      copyProp.set(pair[0], pair[1]);
     }
 
-    const result:CapabilityModel =  new CapabilityModel(LabelModel.fromData(data.name), copyProp );
+    const result:CapabilityModel =  new CapabilityModel( copyProp );
 
     return result;
   }

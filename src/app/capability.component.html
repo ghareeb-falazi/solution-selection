@@ -1,0 +1,19 @@
+<h4 style="margin-top: 5px;">Properties:</h4>
+
+<div>
+  <input #newLabelInput placeholder="Label" style="width: 100px"/>
+  <input #newValueInput placeholder="Value" style="width: 100px"/>
+  <button pButton type="button" label="Add" (click)="addProperty(newLabelInput.value, newValueInput.value)"></button>
+</div>
+
+<div>
+  <ul *ngIf="properties.length > 0">
+    <li *ngFor="let property of properties" style="margin-top: 10px;">
+      {{property[0]}} : {{property[1]}}
+      <button pButton type="button" label="Remove" (click)="removeProperty(property[0])"></button>
+    </li>
+
+  </ul>
+
+  <label *ngIf="properties.length === 0">No properties...</label>
+</div>

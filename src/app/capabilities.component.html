@@ -1,0 +1,9 @@
+<button pButton type="button" label="Add" (click)="addCapability()"></button>
+<p-accordion>
+  <p-accordionTab *ngFor="let capability of capabilities; let i=index;">
+    <p-header>
+      <span>Capability {{i}}</span> <button pButton style="margin: 0px 0px 0px 10px;" type="button" label="Remove" (click)="removeCapability(i)"></button>
+    </p-header>
+    <capa></capa>
+  </p-accordionTab>
+</p-accordion>

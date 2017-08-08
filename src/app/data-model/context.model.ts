@@ -2,30 +2,26 @@ import {CapabilityModel} from "./capability.model";
 
 
 export class ContextModel{
-  initialProperties:Map<string, string>;
-  capabilities:CapabilityModel[];
+  initialCapabilities:CapabilityModel[];
+  solutionCapabilities:CapabilityModel[];
 
-  constructor(initialProperties:Map<string, string>, capabilities:CapabilityModel[])
+  constructor(initialProperties:CapabilityModel[], capabilities:CapabilityModel[])
   {
-    this.initialProperties = initialProperties;
-    this.capabilities = capabilities;
+    this.initialCapabilities = initialProperties;
+    this.solutionCapabilities = capabilities;
   }
 
-  static fromData(data:ContextModel):ContextModel {
-    let initProps:Map<string, string> = new Map<string, string>();
-    let caps:CapabilityModel[] = [];
+  getAllCapabilities():CapabilityModel[]{
+    const result:CapabilityModel[] = [];
+    result.push(...this.initialCapabilities);
+    result.push(...this.solutionCapabilities);
 
-    for(let prop of data.initialProperties.keys())
-    {
-      initProps.set(prop, data.initialProperties.get(prop));
-    }
+    return result;
 
-    for(let i = 0; i <data.capabilities.length;i++)
-    {
-      caps.push(CapabilityModel.fromData(data.capabilities[i]));
-    }
-
-    return new ContextModel(initProps, caps);
   }
+
+
+
+
 
 }

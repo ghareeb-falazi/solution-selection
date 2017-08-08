@@ -1,0 +1,38 @@
+[
+  {
+    "aggregatorUri":"agg1",
+    "concreteSolution1Uri":"cs1.2",
+    "concreteSolution2Uri":"cs2.1"
+  },
+
+  {
+    "aggregatorUri":"agg2",
+    "concreteSolution1Uri":"cs1.1",
+    "concreteSolution2Uri":"cs2.2"
+  },
+
+  {
+    "aggregatorUri":"agg3",
+    "concreteSolution1Uri":"cs2.1",
+    "concreteSolution2Uri":"cs3.1"
+  },
+
+  {
+    "aggregatorUri":"agg4",
+    "concreteSolution1Uri":"cs2.1",
+    "concreteSolution2Uri":"cs3.2"
+  },
+
+
+  {
+    "aggregatorUri":"agg5",
+    "concreteSolution1Uri":"cs2.2",
+    "concreteSolution2Uri":"cs3.2"
+  },
+
+  {
+    "aggregatorUri":"agg6",
+    "concreteSolution1Uri":"cs2.2",
+    "concreteSolution2Uri":"cs3.3"
+  }
+]

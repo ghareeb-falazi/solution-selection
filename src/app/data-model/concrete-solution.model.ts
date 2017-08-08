@@ -1,40 +1,48 @@
-import {CapabilityModel} from "./capability.model";
+import {CapabilityInterface, CapabilityModel} from "./capability.model";
 import {RequirementModel} from "./requirement.model";
 
+export interface ConcreteSolutionInterface {
+  uri: string;
+  description: string;
+  requirements: RequirementModel[];
+  capabilities: CapabilityInterface[];
+}
 
 export class ConcreteSolutionModel {
   uri: string;
   description: string;
   requirements: RequirementModel[];
   capabilities: CapabilityModel[];
-  properties:Map<string, string>;
-  implementedPatternUri:string;
 
-  constructor(uri: string, description: string, requirements: RequirementModel[], capabilities: CapabilityModel[],
-              metadata:Map<string, string>, implementedPattern:string)
-  {
+  constructor(uri: string, description: string, requirements: RequirementModel[], capabilities: CapabilityModel[]) {
     this.uri = uri;
     this.description = description;
     this.requirements = requirements;
     this.capabilities = capabilities;
-    this.properties = metadata;
-    this.implementedPatternUri = implementedPattern;
     //this.implementedPatternsList = this.implementedPatternsUris.join(',');
   }
 
-  static fromData(data:ConcreteSolutionModel):ConcreteSolutionModel{
-    let reqs:RequirementModel[] = [];
-    let caps:CapabilityModel[] = [];
+  static fromData(data: ConcreteSolutionInterface): ConcreteSolutionModel {
+    let reqs: RequirementModel[] = [];
+    let caps: CapabilityModel[] = [];
 
-    for(let i = 0; i < data.capabilities.length; i++){
+    for (let i = 0; i < data.capabilities.length; i++) {
       caps.push(CapabilityModel.fromData(data.capabilities[i]));
     }
 
-    for(let i = 0; i < data.requirements.length; i++){
+    for (let i = 0; i < data.requirements.length; i++) {
       reqs.push(RequirementModel.fromData(data.requirements[i]));
     }
 
-    return new ConcreteSolutionModel(data.uri, data.description, reqs, caps, data.properties, data.implementedPatternUri);
+    return new ConcreteSolutionModel(data.uri, data.description, reqs, caps);
   }
 
+  getImplementedPattern():string {
+    for(const cap of this.capabilities){
+      if(cap.properties.has("implements"))
+        return cap.properties.get("implements");
+    }
+
+    return null;
+  }
 }

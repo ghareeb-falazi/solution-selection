@@ -1,20 +1,34 @@
 <h1>
   {{title}}
 </h1>
-<div>
-  <div>
-<label>Select solutions based on following patterns: (hint: elastic load balancer,stateless component,blob storage) </label>
-  </div>
-<input [(ngModel)]="listOfPatterns" placeholder="comma-separated list of pattern uris" style="width: 50em; margin: 5px;"/>
-</div>
-<div *ngIf="isInitialized">
-  <button pButton type="button" label="Execute Algorithm" (click)="search()"></button>
-<div *ngIf="paths">
-<div *ngFor="let path of paths">
-  {{path.toString()}}
-</div>
 
-</div>
+
+
+<p-accordion>
+  <p-accordionTab header="Pattern Sequence">
+    <pattern-selector></pattern-selector>
+  </p-accordionTab>
+
+
+  <p-accordionTab header="Global Conditions">
+    <input [(ngModel)]="globalConditionExpression" placeholder="Enter a global condition if necessary"
+           style="width: 400px;"/>
+  </p-accordionTab>
+
+  <p-accordionTab header="Initial Capabilities">
+    <caps></caps>
+  </p-accordionTab>
+
+</p-accordion>
+
+<div *ngIf="isInitialized" style="margin-top: 25px;">
+  <button pButton type="button" label="Execute Algorithm" (click)="search()"></button>
+  <div *ngIf="paths">
+    <div *ngFor="let path of paths">
+      {{path.toString()}}
+    </div>
+
+  </div>
 
 
 </div>

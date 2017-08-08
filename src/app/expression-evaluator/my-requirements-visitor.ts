@@ -1,17 +1,17 @@
 import {AbstractParseTreeVisitor} from "antlr4ts/tree";
-import {SimpleGrammarVisitor} from "./SimpleGrammarVisitor";
+import {SimpleGrammarVisitor} from "./requirements-grammar/SimpleGrammarVisitor";
 import {
   ArithmeticAtomContext, BinaryArithmeticOpContext, StringAtomContext,
   UnaryArithmeticOpContext, UnaryBoolOpContext, BoolAtomContext, StringComparisonContext, ArithmeticComparisonContext,
   BinaryBoolOpContext
-} from "./SimpleGrammarParser";
+} from "./requirements-grammar/SimpleGrammarParser";
 
 
 
-export class MyVisitor extends AbstractParseTreeVisitor<any> implements SimpleGrammarVisitor<any> {
+export class MyRequirementsVisitor extends AbstractParseTreeVisitor<any> implements SimpleGrammarVisitor<any> {
 
 
-  constructor(private variables: Map<string, string>) {
+  constructor(protected variables: Map<string, string>) {
     super();
   }
 

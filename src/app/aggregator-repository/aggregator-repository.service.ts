@@ -17,13 +17,14 @@ export class AggregatorRepositoryService {
   }
 
   initialize():Promise<any> {
-    let url:string = 'api/agg';
+    let url:string = 'assets/aggregators.json';
 
     return this.http.get(url)
       .toPromise()
       .then((response) => {
           let result: AbstractAggregatorModel[] = [];
-          let originalData: AbstractAggregatorModel[] = response.json().data as AbstractAggregatorModel[];
+          console.debug(response.json());
+          let originalData: AbstractAggregatorModel[] = response.json() as AbstractAggregatorModel[];
           let creator: AggregatorCreatorModel = new AggregatorCreatorModel();
 
           for (let i = 0; i < originalData.length; i++) {
@@ -42,8 +43,8 @@ export class AggregatorRepositoryService {
     let result:AbstractAggregatorModel[] = [];
 
     for(let i = 0; i < this.allAggregators.length; i++){
-      if((this.allAggregators[i] as BasicAggregatorModel).concreteSolution1URI.toLowerCase() === solution1URI.toLowerCase() &&
-        (this.allAggregators[i] as BasicAggregatorModel).concreteSolution2URI.toLowerCase() === solution2URI.toLowerCase())
+      if((this.allAggregators[i] as BasicAggregatorModel).concreteSolution1Uri.toLowerCase() === solution1URI.toLowerCase() &&
+        (this.allAggregators[i] as BasicAggregatorModel).concreteSolution2Uri.toLowerCase() === solution2URI.toLowerCase())
       {
         result.push(this.allAggregators[i]);
       }

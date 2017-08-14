@@ -1,21 +1,24 @@
 grammar GlobalConditionsGrammar;
 
 booleanExpression
-    : atom=BOOL_CONSTANT #boolAtom
-    | atom=VARIABLE #boolAtom
-    | func=('exists_value' | 'EXISTS_VALUE') '(' variable=VARIABLE ',' value=(BOOL_CONSTANT|SCIENTIFIC_NUMBER|STRING_LITERAL)')' #booleanFunc
+    : atom=BOOL_CONSTANT #boolConstant
+    | cs=(ALL|INITIAL_CAPABILITY|CS) '.' cap=VARIABLE '.' property=VARIABLE #booleanVariable
+    | EXISTS_CS '(' cs=CS ')' #existsCS
+    | EXISTS_CAP '(' cs=(ANY | INITIAL_CAPABILITY | CS) ',' cap=VARIABLE ')' #existsCap
+    | EXISTS_VAL '(' cs=(ANY | INITIAL_CAPABILITY | CS) ',' cap=VARIABLE ',' property=VARIABLE ','
+                    value=(SCIENTIFIC_NUMBER | STRING_LITERAL | BOOL_CONSTANT) ')' #existsVal
     | op='(' exp=booleanExpression ')' #unaryBoolOp
-    | op=('not'|'NOT')exp=booleanExpression #unaryBoolOp
+    | NOT exp=booleanExpression #unaryBoolOp
     | left=arithmeticExpression op=('<'|'>'|'<='|'>='|'='|'<>') right=arithmeticExpression #arithmeticComparison
     | left=stringValue op=('='|'<>') right=stringValue #stringComparison
-    | left=booleanExpression op=('AND' | 'and') right=booleanExpression #binaryBoolOp
-    | left=booleanExpression op=('OR'|'or') right=booleanExpression #binaryBoolOp
+    | left=booleanExpression op=AND right=booleanExpression #binaryBoolOp
+    | left=booleanExpression op=OR right=booleanExpression #binaryBoolOp
     ;
 
 arithmeticExpression
-    : atom=VARIABLE #arithmeticAtom
-    | atom=SCIENTIFIC_NUMBER #arithmeticAtom
-    | func=('sum' | 'SUM' | 'count' | 'COUNT' | 'avg' | 'AVG') '(' variable=VARIABLE ')' #arithmeticFunc
+    : atom=SCIENTIFIC_NUMBER #arithmeticConstant
+    | cs=(ALL|INITIAL_CAPABILITY|CS) '.' cap=VARIABLE '.' property=VARIABLE #arithmeticVariable
+    | func=(SUM | COUNT | AVG) '(' cap=VARIABLE ',' property=VARIABLE ')' #arithmeticFunc
     | op=('-'|'+') exp=arithmeticExpression #unaryArithmeticOp
     | op='(' exp=arithmeticExpression ')' #unaryArithmeticOp
     | left=arithmeticExpression op=('*'|'/') right=arithmeticExpression #binaryArithmeticOp
@@ -24,10 +27,37 @@ arithmeticExpression
 
 stringValue
     : atom= STRING_LITERAL #stringAtom
-    | atom= VARIABLE #stringAtom
+    | cs=(ALL|INITIAL_CAPABILITY|CS) '.' cap=VARIABLE '.' property=VARIABLE #stringVariable
     ;
 
-
+CS
+    :
+    ('CS'|'cs')'[' STRING_LITERAL ']'
+    ;
+EXISTS_CS
+    :'EXISTS_CS'|'exists_cs';
+EXISTS_CAP
+    :'EXISTS_CAP'|'exists_cap';
+EXISTS_VAL
+    :'EXISTS_VAL'|'exists_val';
+AND
+    :'AND'|'and';
+OR
+    :'OR'|'or';
+NOT
+    :'NOT'|'not';
+ANY
+    :'ANY'|'any';
+ALL
+    :'ALL'|'all';
+SUM
+    :'SUM'|'sum';
+COUNT
+    :'COUNT'|'count';
+AVG
+    :'AVG'|'avg';
+INITIAL_CAPABILITY
+    :'IC'|'ic';
 BOOL_CONSTANT
     :TRUE|FALSE;
 TRUE

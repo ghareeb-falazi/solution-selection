@@ -10,20 +10,20 @@ import {BasicAggregatorModel} from "../data-model/basic-aggregator.model";
 
 @Injectable()
 export class AggregatorRepositoryService {
-
   private allAggregators:AbstractAggregatorModel[];
+  private initialized:Promise<any>;
 
   constructor(private http: Http) {
+    this.initialized = this.initialize();
   }
 
-  initialize():Promise<any> {
+  private initialize():Promise<any> {
     let url:string = 'assets/aggregators.json';
 
     return this.http.get(url)
       .toPromise()
       .then((response) => {
           let result: AbstractAggregatorModel[] = [];
-          console.debug(response.json());
           let originalData: AbstractAggregatorModel[] = response.json() as AbstractAggregatorModel[];
           let creator: AggregatorCreatorModel = new AggregatorCreatorModel();
 
@@ -32,11 +32,16 @@ export class AggregatorRepositoryService {
           }
 
           this.allAggregators = result;
+          console.debug('AggregatorRepositoryService is initialized!');
 
           return result;
         }
       )
       .catch(this.handleError);
+  }
+
+  waitForInitialization():Promise<any>{
+    return this.initialized;
   }
 
   getAggregators(solution1URI: string, solution2URI: string): AbstractAggregatorModel[] {

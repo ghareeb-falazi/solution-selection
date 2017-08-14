@@ -1,12 +1,13 @@
 import {Component, OnInit} from "@angular/core";
 import {ConcreteSolutionRepositoryService} from "./concrete-solution-repository/concrete-solution-repository.service";
+
+
 /**
  * Created by falazigb on 06-Aug-17.
  */
 @Component({
   selector: 'pattern-selector',
-  templateUrl: './pattern-selector.component.html',
-  providers:[ConcreteSolutionRepositoryService]
+  templateUrl: './pattern-selector.component.html'
 })
 
 export class PatternSelectorComponent implements OnInit{
@@ -18,7 +19,7 @@ export class PatternSelectorComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.concreteSolutionService.initialize().then(
+    this.concreteSolutionService.waitForInitialization().then(
       param=>{this.list1 = this.concreteSolutionService.getAllImplementedPatterns();});
 
   }

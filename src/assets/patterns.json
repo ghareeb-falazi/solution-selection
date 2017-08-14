@@ -1,0 +1,50 @@
+[
+  {
+    "name":"Elastic Load Balancer",
+    "imageUrl":"http://www.cloudcomputingpatterns.org/icons/elastic_load_balancer_icon.png",
+    "url":"http://www.cloudcomputingpatterns.org/elastic_load_balancer/",
+    "next":[
+      "Stateful Component",
+      "Stateless Component"
+    ]
+  },
+
+  {
+    "name":"Stateful Component",
+    "imageUrl":"http://www.cloudcomputingpatterns.org/icons/stateful_component_icon.png",
+    "url":"http://www.cloudcomputingpatterns.org/stateful_component",
+    "next":[
+      "Relational Database",
+      "Blob Storage"
+    ]
+  },
+
+  {
+    "name":"Stateless Component",
+    "imageUrl":"http://www.cloudcomputingpatterns.org/icons/stateless_component_icon.png",
+    "url":"http://www.cloudcomputingpatterns.org/stateless_component/",
+    "next":[
+      "Relational Database",
+      "Blob Storage"
+    ]
+  },
+
+
+  {
+    "name":"Relational Database",
+    "imageUrl":"http://www.cloudcomputingpatterns.org/icons/relational_database_icon.png",
+    "url":"http://www.cloudcomputingpatterns.org/relational_database/",
+    "next":[
+
+    ]
+  },
+
+  {
+    "name":"Blob Storage",
+    "imageUrl":"http://www.cloudcomputingpatterns.org/icons/blob_storage_icon.png",
+    "url":"http://www.cloudcomputingpatterns.org/blob_storage/",
+    "next":[
+
+    ]
+  }
+]

@@ -3,16 +3,21 @@
 
 import { ParseTreeListener } from 'antlr4ts/tree/ParseTreeListener';
 
+import { StringVariableContext } from './GlobalConditionsGrammarParser';
 import { StringAtomContext } from './GlobalConditionsGrammarParser';
+import { ArithmeticConstantContext } from './GlobalConditionsGrammarParser';
 import { BinaryArithmeticOpContext } from './GlobalConditionsGrammarParser';
-import { ArithmeticAtomContext } from './GlobalConditionsGrammarParser';
+import { ArithmeticVariableContext } from './GlobalConditionsGrammarParser';
 import { ArithmeticFuncContext } from './GlobalConditionsGrammarParser';
 import { UnaryArithmeticOpContext } from './GlobalConditionsGrammarParser';
 import { UnaryBoolOpContext } from './GlobalConditionsGrammarParser';
 import { StringComparisonContext } from './GlobalConditionsGrammarParser';
-import { BooleanFuncContext } from './GlobalConditionsGrammarParser';
-import { BoolAtomContext } from './GlobalConditionsGrammarParser';
+import { ExistsValContext } from './GlobalConditionsGrammarParser';
+import { ExistsCSContext } from './GlobalConditionsGrammarParser';
+import { ExistsCapContext } from './GlobalConditionsGrammarParser';
+import { BooleanVariableContext } from './GlobalConditionsGrammarParser';
 import { ArithmeticComparisonContext } from './GlobalConditionsGrammarParser';
+import { BoolConstantContext } from './GlobalConditionsGrammarParser';
 import { BinaryBoolOpContext } from './GlobalConditionsGrammarParser';
 import { BooleanExpressionContext } from './GlobalConditionsGrammarParser';
 import { ArithmeticExpressionContext } from './GlobalConditionsGrammarParser';
@@ -25,6 +30,19 @@ import { StringValueContext } from './GlobalConditionsGrammarParser';
  */
 export interface GlobalConditionsGrammarListener extends ParseTreeListener {
 	/**
+	 * Enter a parse tree produced by the `stringVariable`
+	 * labeled alternative in `GlobalConditionsGrammarParser.stringValue`.
+	 * @param ctx the parse tree
+	 */
+	enterStringVariable?: (ctx: StringVariableContext) => void;
+	/**
+	 * Exit a parse tree produced by the `stringVariable`
+	 * labeled alternative in `GlobalConditionsGrammarParser.stringValue`.
+	 * @param ctx the parse tree
+	 */
+	exitStringVariable?: (ctx: StringVariableContext) => void;
+
+	/**
 	 * Enter a parse tree produced by the `stringAtom`
 	 * labeled alternative in `GlobalConditionsGrammarParser.stringValue`.
 	 * @param ctx the parse tree
@@ -36,6 +54,19 @@ export interface GlobalConditionsGrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitStringAtom?: (ctx: StringAtomContext) => void;
+
+	/**
+	 * Enter a parse tree produced by the `arithmeticConstant`
+	 * labeled alternative in `GlobalConditionsGrammarParser.arithmeticExpression`.
+	 * @param ctx the parse tree
+	 */
+	enterArithmeticConstant?: (ctx: ArithmeticConstantContext) => void;
+	/**
+	 * Exit a parse tree produced by the `arithmeticConstant`
+	 * labeled alternative in `GlobalConditionsGrammarParser.arithmeticExpression`.
+	 * @param ctx the parse tree
+	 */
+	exitArithmeticConstant?: (ctx: ArithmeticConstantContext) => void;
 
 	/**
 	 * Enter a parse tree produced by the `binaryArithmeticOp`
@@ -51,17 +82,17 @@ export interface GlobalConditionsGrammarListener extends ParseTreeListener {
 	exitBinaryArithmeticOp?: (ctx: BinaryArithmeticOpContext) => void;
 
 	/**
-	 * Enter a parse tree produced by the `arithmeticAtom`
+	 * Enter a parse tree produced by the `arithmeticVariable`
 	 * labeled alternative in `GlobalConditionsGrammarParser.arithmeticExpression`.
 	 * @param ctx the parse tree
 	 */
-	enterArithmeticAtom?: (ctx: ArithmeticAtomContext) => void;
+	enterArithmeticVariable?: (ctx: ArithmeticVariableContext) => void;
 	/**
-	 * Exit a parse tree produced by the `arithmeticAtom`
+	 * Exit a parse tree produced by the `arithmeticVariable`
 	 * labeled alternative in `GlobalConditionsGrammarParser.arithmeticExpression`.
 	 * @param ctx the parse tree
 	 */
-	exitArithmeticAtom?: (ctx: ArithmeticAtomContext) => void;
+	exitArithmeticVariable?: (ctx: ArithmeticVariableContext) => void;
 
 	/**
 	 * Enter a parse tree produced by the `arithmeticFunc`
@@ -116,30 +147,56 @@ export interface GlobalConditionsGrammarListener extends ParseTreeListener {
 	exitStringComparison?: (ctx: StringComparisonContext) => void;
 
 	/**
-	 * Enter a parse tree produced by the `booleanFunc`
+	 * Enter a parse tree produced by the `existsVal`
 	 * labeled alternative in `GlobalConditionsGrammarParser.booleanExpression`.
 	 * @param ctx the parse tree
 	 */
-	enterBooleanFunc?: (ctx: BooleanFuncContext) => void;
+	enterExistsVal?: (ctx: ExistsValContext) => void;
 	/**
-	 * Exit a parse tree produced by the `booleanFunc`
+	 * Exit a parse tree produced by the `existsVal`
 	 * labeled alternative in `GlobalConditionsGrammarParser.booleanExpression`.
 	 * @param ctx the parse tree
 	 */
-	exitBooleanFunc?: (ctx: BooleanFuncContext) => void;
+	exitExistsVal?: (ctx: ExistsValContext) => void;
 
 	/**
-	 * Enter a parse tree produced by the `boolAtom`
+	 * Enter a parse tree produced by the `existsCS`
 	 * labeled alternative in `GlobalConditionsGrammarParser.booleanExpression`.
 	 * @param ctx the parse tree
 	 */
-	enterBoolAtom?: (ctx: BoolAtomContext) => void;
+	enterExistsCS?: (ctx: ExistsCSContext) => void;
 	/**
-	 * Exit a parse tree produced by the `boolAtom`
+	 * Exit a parse tree produced by the `existsCS`
 	 * labeled alternative in `GlobalConditionsGrammarParser.booleanExpression`.
 	 * @param ctx the parse tree
 	 */
-	exitBoolAtom?: (ctx: BoolAtomContext) => void;
+	exitExistsCS?: (ctx: ExistsCSContext) => void;
+
+	/**
+	 * Enter a parse tree produced by the `existsCap`
+	 * labeled alternative in `GlobalConditionsGrammarParser.booleanExpression`.
+	 * @param ctx the parse tree
+	 */
+	enterExistsCap?: (ctx: ExistsCapContext) => void;
+	/**
+	 * Exit a parse tree produced by the `existsCap`
+	 * labeled alternative in `GlobalConditionsGrammarParser.booleanExpression`.
+	 * @param ctx the parse tree
+	 */
+	exitExistsCap?: (ctx: ExistsCapContext) => void;
+
+	/**
+	 * Enter a parse tree produced by the `booleanVariable`
+	 * labeled alternative in `GlobalConditionsGrammarParser.booleanExpression`.
+	 * @param ctx the parse tree
+	 */
+	enterBooleanVariable?: (ctx: BooleanVariableContext) => void;
+	/**
+	 * Exit a parse tree produced by the `booleanVariable`
+	 * labeled alternative in `GlobalConditionsGrammarParser.booleanExpression`.
+	 * @param ctx the parse tree
+	 */
+	exitBooleanVariable?: (ctx: BooleanVariableContext) => void;
 
 	/**
 	 * Enter a parse tree produced by the `arithmeticComparison`
@@ -153,6 +210,19 @@ export interface GlobalConditionsGrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	exitArithmeticComparison?: (ctx: ArithmeticComparisonContext) => void;
+
+	/**
+	 * Enter a parse tree produced by the `boolConstant`
+	 * labeled alternative in `GlobalConditionsGrammarParser.booleanExpression`.
+	 * @param ctx the parse tree
+	 */
+	enterBoolConstant?: (ctx: BoolConstantContext) => void;
+	/**
+	 * Exit a parse tree produced by the `boolConstant`
+	 * labeled alternative in `GlobalConditionsGrammarParser.booleanExpression`.
+	 * @param ctx the parse tree
+	 */
+	exitBoolConstant?: (ctx: BoolConstantContext) => void;
 
 	/**
 	 * Enter a parse tree produced by the `binaryBoolOp`

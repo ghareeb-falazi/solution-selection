@@ -4,31 +4,27 @@
     "description": "Azure-based Elastic Load Balancer Implementation",
     "requirements": [
       {
-        "expression": "implements = 'Stateless Component'"
+        "expression": "any.implements.value = 'Stateless Component'"
       },
       {
-        "expression": "deployment = 'WAR on Azure'"
+        "expression": "any.deployment.value = 'WAR on Azure'"
       },
       {
-        "expression": "accessTo = 'Azure'"
+        "expression": "any.accessTo.value = 'Azure'"
       }
     ],
     "capabilities": [
       {
-        "properties": [
-          [
-            "implements",
-            "Elastic Load Balancer"
-          ]
-        ]
+        "name": "implements",
+        "properties": {
+          "value": "Elastic Load Balancer"
+        }
       },
       {
-        "properties": [
-          [
-            "cost",
-            "0.0"
-          ]
-        ]
+        "name": "cost",
+        "properties": {
+          "value": "0.0"
+        }
       }
     ]
   },
@@ -37,25 +33,27 @@
     "description": "Cloud Formation Template-based Elastic Load Balancer",
     "requirements": [
       {
-        "expression": "implements = 'Stateless Component'"
+        "expression": "any.implements.value = 'Stateless Component'"
       },
       {
-        "expression": "deployment = 'WAR on Elastic Beanstalk'"
+        "expression": "any.deployment.value = 'WAR on Elastic Beanstalk'"
       },
       {
-        "expression": "accessTo = 'AWS'"
+        "expression": "any.accessTo.value = 'AWS'"
       }
     ],
     "capabilities": [
       {
-        "properties": [
-          ["implements", "Elastic Load Balancer"]
-        ]
+        "name": "implements",
+        "properties": {
+          "value": "Elastic Load Balancer"
+        }
       },
       {
-        "properties": [
-          ["cost", "0.0"]
-        ]
+        "name": "cost",
+        "properties": {
+          "value": "0.0"
+        }
       }
     ]
   },
@@ -64,27 +62,30 @@
     "description": "Cloud Formation Template-based Stateless Component",
     "requirements": [
       {
-        "expression": "implements = 'Blob Storage'"
+        "expression": "any.implements.value = 'Blob Storage'"
       },
       {
-        "expression": "accessTo = 'AWS'"
+        "expression": "any.accessTo.value = 'AWS'"
       }
     ],
     "capabilities": [
       {
-        "properties": [
-          ["deployment", "WAR on Elastic Beanstalk"]
-        ]
+        "name": "deployment",
+        "properties": {
+          "value": "WAR on Elastic Beanstalk"
+        }
       },
       {
-        "properties": [
-          ["implements", "Stateless Component"]
-        ]
+        "name": "implements",
+        "properties": {
+          "value": "Stateless Component"
+        }
       },
       {
-        "properties": [
-          ["cost", "10.0"]
-        ]
+        "name": "cost",
+        "properties": {
+          "value": "10.0"
+        }
       }
     ]
   },
@@ -93,27 +94,30 @@
     "description": "AWS Storage Gateway-based S3 Blob Storage",
     "requirements": [
       {
-        "expression": "implements = 'Blob Storage'"
+        "expression": "any.implements.value = 'Blob Storage'"
       },
       {
-        "expression": "accessTo = 'Azure'"
+        "expression": "any.accessTo.value = 'Azure'"
       }
     ],
     "capabilities": [
       {
-        "properties": [
-          ["deployment", "WAR on Azure"]
-        ]
+        "name": "deployment",
+        "properties": {
+          "value": "WAR on Azure"
+        }
       },
       {
-        "properties": [
-          ["implements", "Stateless Component"]
-        ]
+        "name": "implements",
+        "properties": {
+          "value": "Stateless Component"
+        }
       },
       {
-        "properties": [
-          ["cost", "11.0"]
-        ]
+        "name": "cost",
+        "properties": {
+          "value": "11.0"
+        }
       }
     ]
   },
@@ -122,25 +126,28 @@
     "description": "Cloud Formation Template-based Blob Storage",
     "requirements": [
       {
-        "expression": "accessTo = 'AWS'"
+        "expression": "any.accessTo.value = 'AWS'"
       }
     ],
     "capabilities": [
       {
-        "properties": [
-          ["deployment", "WAR on Elastic Beanstalk"],
-          ["details", "EC2::Volume"]
-        ]
+        "name": "deployment",
+        "properties": {
+          "value": "WAR on Elastic Beanstalk",
+          "details": "EC2::Volume"
+        }
       },
       {
-        "properties": [
-          ["implements", "Blob Storage"]
-        ]
+        "name": "implements",
+        "properties": {
+          "value": "Blob Storage"
+        }
       },
       {
-        "properties": [
-          ["cost", "5.0"]
-        ]
+        "name": "cost",
+        "properties": {
+          "value": "5.0"
+        }
       }
     ]
   },
@@ -149,24 +156,27 @@
     "description": "Cloud Formation Template-based Blob Storage",
     "requirements": [
       {
-        "expression": "accessTo = 'AWS'"
+        "expression": "any.accessTo.value = 'AWS'"
       }
     ],
     "capabilities": [
       {
-        "properties": [
-          ["deployment", "S3 on AWS Storage Gateway"]
-        ]
+        "name": "deployment",
+        "properties": {
+          "value": "S3 on AWS Storage Gateway"
+        }
       },
       {
-        "properties": [
-          ["implements", "Blob Storage"]
-        ]
+        "name": "implements",
+        "properties": {
+          "value": "Blob Storage"
+        }
       },
       {
-        "properties": [
-          ["cost", "15.0"]
-        ]
+        "name": "cost",
+        "properties": {
+          "value": "15.0"
+        }
       }
     ]
   },
@@ -175,24 +185,27 @@
     "description": "Azure-based Blob Storage implementation",
     "requirements": [
       {
-        "expression": "accessTo = 'Azure'"
+        "expression": "any.accessTo.value = 'Azure'"
       }
     ],
     "capabilities": [
       {
-        "properties": [
-          ["deployment", "Blob Storage on Azure"]
-        ]
+        "name": "deployment",
+        "properties": {
+          "value": "Blob Storage on Azure"
+        }
       },
       {
-        "properties": [
-          ["implements", "Blob Storage"]
-        ]
+        "name": "implements",
+        "properties": {
+          "value": "Blob Storage"
+        }
       },
       {
-        "properties": [
-          ["cost", "3.0"]
-        ]
+        "name": "cost",
+        "properties": {
+          "value": "3.0"
+        }
       }
     ]
   }

@@ -1,5 +1,7 @@
-import {Component, Input} from "@angular/core";
+import {Component, Input, OnInit} from "@angular/core";
 import {CapabilityModel} from "./data-model/capability.model";
+import {SuggestionsService} from "./suggestions/suggestions.service";
+
 /**
  * Created by falazigb on 06-Aug-17.
  */
@@ -8,10 +10,44 @@ import {CapabilityModel} from "./data-model/capability.model";
   templateUrl: './capability.component.html'
 })
 
-export class CapabilityComponent {
+export class CapabilityComponent implements OnInit {
+  @Input()
+  name: string;
   properties: [string, string][] = [];
 
-  findLabel(label: string): number {
+  propNameQuery: string;
+  suggestions: any[];
+
+  constructor(private suggestionsService: SuggestionsService) {
+
+  }
+
+  ngOnInit(): void {
+    this.suggestionsService.waitForInitialization()
+      .then();
+
+  }
+
+  searchForSuggestions(): void {
+    this.suggestionsService.getSuggestionsForPropertyName(this.propNameQuery, this.name)
+      .then(result => {
+        this.suggestions = result;
+      });
+  }
+
+  handleDropdown() {
+    //mimic remote call, otherwise the dropdown doesn't show
+    this.suggestionsService.getSuggestionsForPropertyName(null, this.name)
+      .then(result => {
+        setTimeout(() => {
+          this.suggestions = result;
+        }, 100);
+      });
+
+  }
+
+
+  findProperty(label: string): number {
     let counter = 0;
     let index = -1;
     for (let entry of this.properties) {
@@ -26,18 +62,17 @@ export class CapabilityComponent {
   }
 
   addProperty(label: string, value: string): void {
-    let index: number = this.findLabel(label);
+    let index: number = this.findProperty(label);
 
     if (index >= 0)
-      console.error(`The label: ${label} already exists in the current capability!`);
+      console.error(`The property: ${label} already exists in the current capability!`);
     else
       this.properties.push([label, value]);
 
   }
 
   removeProperty(label: string): void {
-    let counter = 0;
-    let index:number = this.findLabel(label);
+    let index: number = this.findProperty(label);
 
     if (index >= 0) {
       this.properties.splice(index, 1);
@@ -47,8 +82,8 @@ export class CapabilityComponent {
     }
   }
 
-  getCapability():CapabilityModel{
-    return new CapabilityModel(new Map<string, string>(this.properties));
+  getCapability(): CapabilityModel {
+    return new CapabilityModel(this.name, new Map<string, string>(this.properties));
   }
 
 }

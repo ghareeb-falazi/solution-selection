@@ -1,9 +1,24 @@
-<button pButton type="button" label="Add" (click)="addCapability()"></button>
+<div>
+  <p-autoComplete [(ngModel)]="capNameQuery" [suggestions]="suggestions"
+                  (completeMethod)="searchForSuggestions($event)"
+                  placeholder="Choose the name of the capability"
+                  [minLength] = "1" [size] = "30"
+                  [dropdown]="true" (onDropdownClick)="handleDropdown($event)">
+    <ng-template let-capName pTemplate="item">
+      <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
+        <div style="font-size:18px;float:right;margin:10px 10px 0 0">{{capName}}</div>
+      </div>
+    </ng-template>
+  </p-autoComplete>
+
+  <button pButton type="button" label="Add" (click)="addCapability(capNameQuery)"></button>
+</div>
+
 <p-accordion>
   <p-accordionTab *ngFor="let capability of capabilities; let i=index;">
     <p-header>
-      <span>Capability {{i}}</span> <button pButton style="margin: 0px 0px 0px 10px;" type="button" label="Remove" (click)="removeCapability(i)"></button>
+      <span>{{capability}}</span> <button pButton style="margin: 0px 0px 0px 10px;" type="button" label="Remove" (click)="removeCapability(i)"></button>
     </p-header>
-    <capa></capa>
+    <capa [name]="capability"></capa>
   </p-accordionTab>
 </p-accordion>

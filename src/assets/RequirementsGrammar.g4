@@ -1,33 +1,46 @@
-grammar SimpleGrammar;
+grammar RequirementsGrammar;
 
 booleanExpression
-    : atom=BOOL_CONSTANT #boolAtom
-    | atom=VARIABLE #boolAtom
+    : atom=BOOL_CONSTANT #boolConstant
+    | cs=(ANY | INITIAL_CAPABILITY | PREVIOUS | NEXT | CS ) '.' capability=VARIABLE '.' property=VARIABLE #boolVariable
     | op='(' exp=booleanExpression ')' #unaryBoolOp
-    | op=('not'|'NOT')exp=booleanExpression #unaryBoolOp
+    | op=NOT exp=booleanExpression #unaryBoolOp
     | left=arithmeticExpression op=('<'|'>'|'<='|'>='|'='|'<>') right=arithmeticExpression #arithmeticComparison
     | left=stringValue op=('='|'<>') right=stringValue #stringComparison
-    | left=booleanExpression op=('AND' | 'and') right=booleanExpression #binaryBoolOp
-    | left=booleanExpression op=('OR'|'or') right=booleanExpression #binaryBoolOp
-
-
+    | left=booleanExpression op=AND right=booleanExpression #binaryBoolOp
+    | left=booleanExpression op=OR right=booleanExpression #binaryBoolOp
     ;
 
 arithmeticExpression
-    : atom=VARIABLE #arithmeticAtom
-    | atom=SCIENTIFIC_NUMBER #arithmeticAtom
-    | op=('-'|'+') exp=arithmeticExpression #unaryArithmeticOp
+    : atom=SCIENTIFIC_NUMBER #arithmeticConstant
+    | cs=(ANY | INITIAL_CAPABILITY | PREVIOUS | NEXT | CS) '.' capability=VARIABLE '.' property=VARIABLE #arithmeticVariable
     | op='(' exp=arithmeticExpression ')' #unaryArithmeticOp
+    | op=('-'|'+') exp=arithmeticExpression #unaryArithmeticOp
     | left=arithmeticExpression op=('*'|'/') right=arithmeticExpression #binaryArithmeticOp
     | left=arithmeticExpression op=('+'|'-') right=arithmeticExpression #binaryArithmeticOp
     ;
 
 stringValue
-    : atom= STRING_LITERAL #stringAtom
-    | atom= VARIABLE #stringAtom
+    : atom= STRING_LITERAL #stringConstant
+    | cs=(ANY | INITIAL_CAPABILITY | PREVIOUS | NEXT | CS) '.' capability=VARIABLE '.' property=VARIABLE #stringVariable
     ;
 
-
+CS
+    :('CS'|'cs')'[' STRING_LITERAL ']';
+AND
+    :'AND'|'and';
+OR
+    :'OR'|'or';
+NOT
+    :'NOT'|'not';
+ANY
+    :'ANY'|'any';
+INITIAL_CAPABILITY
+    :'IC'|'ic';
+PREVIOUS
+    :'PREV'|'prev';
+NEXT
+    :'NEXT'|'next';
 BOOL_CONSTANT
     :TRUE|FALSE;
 TRUE

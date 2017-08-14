@@ -39,8 +39,8 @@ export class ConcreteSolutionModel {
 
   getImplementedPattern():string {
     for(const cap of this.capabilities){
-      if(cap.properties.has("implements"))
-        return cap.properties.get("implements");
+      if(cap.name==="implements")
+        return cap.properties.get("value");
     }
 
     return null;

@@ -1,5 +1,5 @@
 import {RecognitionException, Recognizer, ANTLRErrorListener} from "antlr4ts";
-import {MyParsingError} from "./my-parsing-error";
+import {MyParsingError} from "./my-parsing.error";
 
 export class MySyntaxErrorHandler implements ANTLRErrorListener<any> {
   /**

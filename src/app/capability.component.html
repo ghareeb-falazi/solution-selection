@@ -1,9 +1,19 @@
 <h4 style="margin-top: 5px;">Properties:</h4>
 
 <div>
-  <input #newLabelInput placeholder="Label" style="width: 100px"/>
+  <p-autoComplete [(ngModel)]="propNameQuery" [suggestions]="suggestions"
+                  (completeMethod)="searchForSuggestions($event)"
+                  placeholder="Label"
+                  [minLength] = "1" [size] = "30"
+                  [dropdown]="true" (onDropdownClick)="handleDropdown($event)">
+    <ng-template let-propName pTemplate="item">
+      <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
+        <div style="font-size:18px;float:right;margin:10px 10px 0 0">{{propName}}</div>
+      </div>
+    </ng-template>
+  </p-autoComplete>
   <input #newValueInput placeholder="Value" style="width: 100px"/>
-  <button pButton type="button" label="Add" (click)="addProperty(newLabelInput.value, newValueInput.value)"></button>
+  <button pButton type="button" label="Add" (click)="addProperty(propNameQuery, newValueInput.value)"></button>
 </div>
 
 <div>

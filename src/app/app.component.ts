@@ -9,7 +9,6 @@ import {PatternSelectorComponent} from "./pattern-selector.component";
 import {ExpressionEvaluatorService} from "./expression-evaluator/expression-evaluator.service";
 import {CapabilitiesComponent} from "./capabilities.component";
 import {PatternRepositoryService} from "./pattern-repository/pattern-repository.service";
-import {PatternModel} from "./data-model/pattern.model";
 import {CommunicationService} from "./communication.service";
 
 
@@ -27,56 +26,14 @@ export class AppComponent implements OnInit {
       .csService.waitForInitialization()
       .then(() => this.aggService.waitForInitialization())
       .then(()=> this.patternService.waitForInitialization())
-      .then(() => this.buildGraph(this.patternService.allPatterns))
       .then(()=>{
-      this.communicationService.nodes = this.nodes;
-      this.communicationService.links = this.links;
       this.isInitialized = true;
     });
   }
 
 
 
-buildGraph(patterns: PatternModel[]) {
-  const myNodes:any = [];
-  const myLinks:any = [];
 
-  let currentNode: any;
-  let currentLink: any;
-  let counter = 0;
-
-  for (const pattern of patterns) {
-    currentNode = {
-      id: counter.toString(),
-      label: pattern.name,
-      color: 'red'
-    };
-    myNodes.push(currentNode);
-    counter++;
-  }
-
-  for (const pattern of patterns) {
-    const startNode=myNodes.find(param=>param.label === pattern.name);
-
-    for (const nextPattern of pattern.nextPatterns) {
-      const endNode=myNodes.find(param=>param.label === nextPattern.name);
-      currentLink = {
-        source: startNode.id,
-        target: endNode.id,
-        label: 'next'
-      };
-
-      myLinks.push(currentLink);
-    }
-  }
-  console.debug(myNodes);
-  console.debug(myLinks);
-  this.links = myLinks;
-  this.nodes = myNodes;
-
-  console.debug('finished buildGraph');
-
-}
 
   @ViewChild(PatternSelectorComponent)
   private patternSelector: PatternSelectorComponent;
@@ -88,12 +45,9 @@ buildGraph(patterns: PatternModel[]) {
   isInitialized: boolean = false;//Used for UI
   globalConditionExpression: string;
   paths: SolutionPathModel[] = null;
-  links:any[];
-  nodes:any[];
 
   constructor(private csService: ConcreteSolutionRepositoryService, private aggService: AggregatorRepositoryService,
-              private selecService: SolutionSelectorService, private patternService:PatternRepositoryService,
-              private communicationService:CommunicationService) {
+              private selectService: SolutionSelectorService, private patternService:PatternRepositoryService) {
   }
 
   search(): void {
@@ -104,7 +58,7 @@ buildGraph(patterns: PatternModel[]) {
     const initialCaps: CapabilityModel[] = this.initialCapabilities.getCapabilities();
     console.debug(initialCaps);
     if (patterns)
-      this.paths = this.selecService.selectConcreteSolutions(patterns, initialCaps, globalCondition);
+      this.paths = this.selectService.selectConcreteSolutions(patterns, initialCaps, globalCondition);
 
 
   }

@@ -20,15 +20,15 @@
 
 </p-accordion>
 
+<div>
+  <pattern-graph>
 
+  </pattern-graph>
+</div>
 
 <div *ngIf="isInitialized" style="margin-top: 25px;">
 
-  <div>
-    <pattern-graph>
 
-    </pattern-graph>
-  </div>
   <button pButton type="button" label="Execute Algorithm" (click)="search()"></button>
   <div *ngIf="paths">
     <div *ngFor="let path of paths">

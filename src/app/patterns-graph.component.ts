@@ -1,75 +1,77 @@
 
 import {Component} from "@angular/core";
-import * as shape from 'd3-shape';
 import {PatternModel} from "./data-model/pattern.model";
 import {PatternRepositoryService} from "./pattern-repository/pattern-repository.service";
+import {AbstractGraphComponent, GraphLink, GraphNode} from "./abstract-graph.component";
+
+class PatternGraphNode extends GraphNode{
+  static readonly FILL_COLOR: string = '#edebec';
+  static readonly STROKE_COLOR: string = 'black';
+  static readonly  HIGHLIGHTED_STROKE_COLOR = 'blue';
+
+  constructor(id: string, public label: string, public imageUrl:string ){
+    super(id, PatternGraphNode.FILL_COLOR, PatternGraphNode.STROKE_COLOR, PatternGraphNode.HIGHLIGHTED_STROKE_COLOR);
+  }
+
+}
+
 
 @Component({
   selector: 'pattern-graph',
   templateUrl: './patterns-graph.component.html'
 })
 
-export class PatternsGraphComponent{
-  myNodes: any[] = [];
-  myLinks: any[] = [];
-  curve: any = shape.curveLinear;
-  width: number = 700;
-  height: number = 500;
-  view: any[] = [this.width, this.height];
-  // options
-  showLegend = false;
-  orientation: string = 'LR'; // LR, RL, TB, BT
-
-  static readonly BASE_COLOR: string = 'red';
+export class PatternsGraphComponent extends  AbstractGraphComponent{
 
   constructor(private patternRepoService:PatternRepositoryService) {
+
+    super();
+    this.height=350;
+    this.applyDimensions();
+
     this.patternRepoService.waitForInitialization().then(
       ()=>this.buildGraph(this.patternRepoService.allPatterns)
     )
   }
 
+  createNode(id:any, item: any): GraphNode {
+    const pattern:PatternModel = <PatternModel>item;
 
-  buildGraph(patterns: PatternModel[]) {
-    const myNodes:any = [];
-    const myLinks:any = [];
+    return new PatternGraphNode(id, pattern.name, pattern.imageUrl);
+  }
 
-    let currentNode: any;
-    let currentLink: any;
-    let counter = 0;
+  createLink(sourceNode: GraphNode, targetNode: GraphNode, sourceItem: any, targetItem: any): GraphLink {
+    return new GraphLink(sourceNode.id, targetNode.id);
+  }
 
-    for (const pattern of patterns) {
-      currentNode = {
-        id: counter.toString(),
-        label: pattern.name,
-        color: 'red'
-      };
-      myNodes.push(currentNode);
-      counter++;
-    }
+  isNodeEqualsItem(node: GraphNode, item: any): boolean {
+    const pattern:PatternModel = <PatternModel>item;
+    const myNode:PatternGraphNode = <PatternGraphNode> node;
 
-    for (const pattern of patterns) {
-      const startNode=myNodes.find(param=>param.label === pattern.name);
+    return pattern.name === myNode.label;
+  }
 
-      for (const nextPattern of pattern.nextPatterns) {
-        const endNode=myNodes.find(param=>param.label === nextPattern.name);
-        currentLink = {
-          source: startNode.id,
-          target: endNode.id,
-          label: 'next'
-        };
+  getNextItems(currentItem: any): any[] {
+    const pattern:PatternModel = <PatternModel>currentItem;
 
-        myLinks.push(currentLink);
-      }
-    }
-    //console.debug(myNodes);
-    //console.debug(myLinks);
-    this.myLinks = myLinks;
-    this.myNodes = myNodes;
+    return pattern.nextPatterns;
+  }
 
-    console.debug('finished buildGraph');
+  onNodeDoubleClicked(node:GraphNode):void{
+
+    this.highlightNodes([node], !node.isHighlighted);
+  }
+
+  highlightPatterns(patternNames:string[], isHighlighted: boolean):void{
+    const nodes:GraphNode[] = this.myNodes.filter(item=> patternNames.indexOf((<PatternGraphNode>item).label) >= 0);
+    this.highlightNodes(nodes, isHighlighted);
 
   }
 
+
+  getPatternNameOfNode(node:GraphNode):string{
+    return (<PatternGraphNode>node).label;
+  }
 
 
 }

@@ -39,7 +39,7 @@ export class SolutionSelectorService {
 
     if(currentSolution) {//current solution is provided so we are not looking for the starting myNodes
       for (let i = 0; i < allNextSols.length; i++) {
-        aggregators = this.aggregatorsRepository.getAggregators(currentSolution.uri, allNextSols[i].uri);
+        aggregators = this.aggregatorsRepository.getSuitableAggregators(currentSolution.uri, allNextSols[i].uri);
 
         if (aggregators.length > 0) {
           result.push(new SolutionPathStepModel(aggregators, allNextSols[i]));

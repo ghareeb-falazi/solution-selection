@@ -1,5 +1,6 @@
 import {ConcreteSolutionModel} from "./concrete-solution.model";
 import {SolutionPathStepModel} from "./solution-path-step.model";
+import {AbstractAggregatorModel} from "./abstract-aggregator.model";
 
 /**
  * Created by falazigb on 13-Jul-17.
@@ -26,6 +27,16 @@ export class SolutionPathModel {
 
     for (const pathStep of this.path) {
       result.push(pathStep.concreteSolution);
+    }
+
+    return result;
+  }
+
+  getAllAggregators(): AbstractAggregatorModel[][]{
+    const result: AbstractAggregatorModel[][] = [];
+
+    for(const step of this.path){
+      result.push(step.aggregators);
     }
 
     return result;

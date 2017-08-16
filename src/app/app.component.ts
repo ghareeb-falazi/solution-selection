@@ -9,7 +9,11 @@ import {PatternSelectorComponent} from "./pattern-selector.component";
 import {ExpressionEvaluatorService} from "./expression-evaluator/expression-evaluator.service";
 import {CapabilitiesComponent} from "./capabilities.component";
 import {PatternRepositoryService} from "./pattern-repository/pattern-repository.service";
-import {CommunicationService} from "./communication.service";
+import {GraphNode} from "./abstract-graph.component";
+import {ConcreteSolutionGraphComponent} from "./concrete-solution-graph.componen";
+import {PatternsGraphComponent} from "./patterns-graph.component";
+import {ConcreteSolutionModel} from "./data-model/concrete-solution.model";
+import {SelectItem} from 'primeng/primeng';
 
 
 @Component({
@@ -18,21 +22,18 @@ import {CommunicationService} from "./communication.service";
   styleUrls: ['./app.component.css'
 
   ],
-  providers: [ConcreteSolutionRepositoryService, AggregatorRepositoryService, SolutionSelectorService, ExpressionEvaluatorService, PatternRepositoryService, CommunicationService]
+  providers: [ConcreteSolutionRepositoryService, AggregatorRepositoryService, SolutionSelectorService, ExpressionEvaluatorService, PatternRepositoryService]
 })
 export class AppComponent implements OnInit {
   ngOnInit(): void {
     this
       .csService.waitForInitialization()
       .then(() => this.aggService.waitForInitialization())
-      .then(()=> this.patternService.waitForInitialization())
-      .then(()=>{
-      this.isInitialized = true;
-    });
+      .then(() => this.patternService.waitForInitialization())
+      .then(() => {
+        this.isInitialized = true;
+      });
   }
-
-
-
 
 
   @ViewChild(PatternSelectorComponent)
@@ -41,25 +42,71 @@ export class AppComponent implements OnInit {
   @ViewChild(CapabilitiesComponent)
   private initialCapabilities: CapabilitiesComponent;
 
+  @ViewChild(ConcreteSolutionGraphComponent)
+  private csGraphComponent: ConcreteSolutionGraphComponent;
+
+  @ViewChild(PatternsGraphComponent)
+  private patternGraphComponent: PatternsGraphComponent;
+
   title = 'Solution Selection';
   isInitialized: boolean = false;//Used for UI
   globalConditionExpression: string;
-  paths: SolutionPathModel[] = null;
+  paths: SelectItem[] = null;
+  _selectedPath: SolutionPathModel;
+
+  set selectedPath(path: SolutionPathModel){
+    this._selectedPath = path;
+    //console.debug('selectedPath is called ' + path);
+    this.csGraphComponent.selectPath(path);
+  }
+  get selectedPath():SolutionPathModel{
+    return this._selectedPath;
+  }
 
   constructor(private csService: ConcreteSolutionRepositoryService, private aggService: AggregatorRepositoryService,
-              private selectService: SolutionSelectorService, private patternService:PatternRepositoryService) {
+              private selectService: SolutionSelectorService, private patternService: PatternRepositoryService) {
   }
 
   search(): void {
-    console.debug('select invoked');
     const patterns: string[] = this.patternSelector.list2;
-    console.debug(this.globalConditionExpression);
     const globalCondition: GlobalConditionModel = new GlobalConditionModel(this.globalConditionExpression);
     const initialCaps: CapabilityModel[] = this.initialCapabilities.getCapabilities();
-    console.debug(initialCaps);
-    if (patterns)
-      this.paths = this.selectService.selectConcreteSolutions(patterns, initialCaps, globalCondition);
+    if (patterns) {
+      const myPaths:SolutionPathModel[] =this.selectService.selectConcreteSolutions(patterns, initialCaps, globalCondition);
+      this.paths = [];
+      myPaths.forEach(p=>this.paths.push({label:p.toString(),value:p}));
+    }
 
+  }
 
+  //Ensures consistency between the views when a pattern is chosen
+  private highlightPatterns(patternNames:string[], isHighlighted:boolean):void{
+    const solutions:ConcreteSolutionModel[] = [];
+    const solutionUris:string[] = [];
+    for(const patternName of patternNames){
+      solutions.push(...this.csService.getConcreteSolutionsOfPattern(patternName));
+    }
+
+    solutions.forEach(sol=>solutionUris.push(sol.uri));
+
+    this.csGraphComponent.highlightSolutions(solutionUris, isHighlighted);
+    this.patternGraphComponent.highlightPatterns(patternNames, isHighlighted);
+    this.patternSelector.selectPatterns(patternNames, isHighlighted);
+
+  }
+
+  //this event originates from the PatternsGraphComponent
+  patternDoubleClicked(node: GraphNode) {
+    const patternName:string = this.patternGraphComponent.getPatternNameOfNode(node);
+    this.highlightPatterns([patternName], node.isHighlighted);
+  }
+
+  //this event originates from the PatternSelectorComponent
+  patternsSelected(patternNames:string[]){
+    this.highlightPatterns(patternNames, true);
+  }
+
+  patternsUnselected(patternNames:string[]){
+    this.highlightPatterns(patternNames, false);
   }
 }

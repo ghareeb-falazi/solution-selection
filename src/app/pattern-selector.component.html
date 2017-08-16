@@ -1,4 +1,5 @@
-<p-pickList [source]="list1" [target]="list2"  dragdrop="true" sourceHeader="All Patterns" targetHeader="Pattern Sequence">
+<p-pickList [source]="list1" [target]="list2"  dragdrop="true" sourceHeader="All Patterns" targetHeader="Pattern Sequence"
+(onMoveToTarget)="onPatternsMovedRight($event)" (onMoveToSource)="onPatternsMovedLeft($event)">
   <ng-template let-pattern pTemplate="item">
     <div class="ui-helper-clearfix">
       <div style="font-size:14px;float:right;margin:15px 5px 0 0">{{pattern}}</div>

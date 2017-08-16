@@ -1,45 +1,56 @@
 <h1>
   {{title}}
 </h1>
-
-
-<p-accordion>
-  <p-accordionTab header="Pattern Sequence">
-    <pattern-selector></pattern-selector>
-  </p-accordionTab>
-
-
-  <p-accordionTab header="Global Conditions">
-    <input [(ngModel)]="globalConditionExpression" placeholder="Enter a global condition if necessary"
-           style="width: 400px;"/>
-  </p-accordionTab>
-
-  <p-accordionTab header="Initial Capabilities">
-    <caps></caps>
-  </p-accordionTab>
-
-</p-accordion>
-
 <div>
-  <pattern-graph>
+  <div id="options">
+    <p-accordion>
+      <p-accordionTab header="Pattern Sequence">
+        <pattern-selector (patternsSelectedEvent)="patternsSelected($event)" (patternsUnselectedEvent)="patternsUnselected($event)"></pattern-selector>
+      </p-accordionTab>
 
-  </pattern-graph>
-</div>
 
-<div *ngIf="isInitialized" style="margin-top: 25px;">
+      <p-accordionTab header="Global Conditions">
+        <input [(ngModel)]="globalConditionExpression" placeholder="Enter a global condition if necessary"
+               style="width: 400px;"/>
+      </p-accordionTab>
+
+      <p-accordionTab header="Initial Capabilities">
+        <caps></caps>
+      </p-accordionTab>
+
+    </p-accordion>
+
+    <div *ngIf="isInitialized" style="margin-top: 25px;">
 
 
-  <button pButton type="button" label="Execute Algorithm" (click)="search()"></button>
-  <div *ngIf="paths">
-    <div *ngFor="let path of paths">
-      {{path.toString()}}
+      <button pButton type="button" label="Execute Algorithm" (click)="search()"></button>
+      <div *ngIf="paths" >
+        <h3 style="margin-top: 10px; margin-bottom: 5px;">Results:</h3>
+        <p-listbox [options]="paths" [(ngModel)]="selectedPath" [style] = "{'width':'100%'}">
+
+        </p-listbox>
+
+      </div>
+
+
+    </div>
+
+    <div *ngIf="!isInitialized">
+      Initializing Services...
     </div>
 
   </div>
 
+  <div id="graphs">
+    <p-panel header="Graph Representation" [toggleable]="true">
+      <pattern-graph (onNodeDoubleClickedEvent)="patternDoubleClicked($event)">
 
+      </pattern-graph>
+
+      <solutions-graph >
+
+      </solutions-graph>
+    </p-panel>
+  </div>
 </div>
 
-<div *ngIf="!isInitialized">
-  Initializing Services...
-</div>

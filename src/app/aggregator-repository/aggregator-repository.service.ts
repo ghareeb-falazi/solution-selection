@@ -10,7 +10,7 @@ import {BasicAggregatorModel} from "../data-model/basic-aggregator.model";
 
 @Injectable()
 export class AggregatorRepositoryService {
-  private allAggregators:AbstractAggregatorModel[];
+  allAggregators:AbstractAggregatorModel[];
   private initialized:Promise<any>;
 
   constructor(private http: Http) {
@@ -44,8 +44,8 @@ export class AggregatorRepositoryService {
     return this.initialized;
   }
 
-  getAggregators(solution1URI: string, solution2URI: string): AbstractAggregatorModel[] {
-    let result:AbstractAggregatorModel[] = [];
+  getSuitableAggregators(solution1URI: string, solution2URI: string): AbstractAggregatorModel[] {
+    const result:AbstractAggregatorModel[] = [];
 
     for(let i = 0; i < this.allAggregators.length; i++){
       if((this.allAggregators[i] as BasicAggregatorModel).concreteSolution1Uri.toLowerCase() === solution1URI.toLowerCase() &&
@@ -56,6 +56,10 @@ export class AggregatorRepositoryService {
     }
 
     return result;
+  }
+
+  getOutgoingAggregators(startSolutionURI:string): AbstractAggregatorModel[]{
+    return this.allAggregators.filter(item=>(item as BasicAggregatorModel).concreteSolution1Uri.toLowerCase() === startSolutionURI.toLowerCase());
   }
 
   private handleError(error: any): Promise<any> {

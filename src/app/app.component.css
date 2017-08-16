@@ -1,0 +1,19 @@
+#graphs{
+
+  float: right;
+  width: 750px;
+  height: 600px;
+}
+
+#options{
+  float: left;
+  width: calc(100% - 755px);
+  height: 600px;
+  padding-right:5px;
+}
+
+#myListBoxClass{
+  width:300px;
+  background-color: aqua;
+}
+

@@ -14,7 +14,7 @@ import {CapabilityModel} from "../data-model/capability.model";
 
 @Injectable()
 export class ConcreteSolutionRepositoryService {
-  private allSolutions: ConcreteSolutionModel[];
+  allSolutions: ConcreteSolutionModel[];
   private initialized:Promise<any>;
 
   constructor(private http: Http) {

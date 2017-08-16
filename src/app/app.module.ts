@@ -5,13 +5,17 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import {ButtonModule, PickListModule, AccordionModule, AutoCompleteModule} from 'primeng/primeng';
+import {
+  ButtonModule, PickListModule, AccordionModule, AutoCompleteModule, PanelModule,
+  ListboxModule
+} from 'primeng/primeng';
 import {NgxChartsDagModule} from '@swimlane/ngx-charts-dag';
 
 import {PatternSelectorComponent} from "./pattern-selector.component";
 import {CapabilityComponent} from "./capability.component";
 import {CapabilitiesComponent} from "./capabilities.component";
 import {PatternsGraphComponent} from "./patterns-graph.component";
+import {ConcreteSolutionGraphComponent} from "./concrete-solution-graph.componen";
 
 
 @NgModule({
@@ -20,7 +24,8 @@ import {PatternsGraphComponent} from "./patterns-graph.component";
     PatternSelectorComponent,
     CapabilityComponent,
     CapabilitiesComponent,
-    PatternsGraphComponent
+    PatternsGraphComponent,
+    ConcreteSolutionGraphComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -31,7 +36,9 @@ import {PatternsGraphComponent} from "./patterns-graph.component";
     AccordionModule,
     PickListModule,
     AutoCompleteModule,
-    NgxChartsDagModule
+    NgxChartsDagModule,
+    PanelModule,
+    ListboxModule
   ],
   bootstrap: [AppComponent]
 })

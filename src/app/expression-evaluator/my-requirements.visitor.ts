@@ -68,6 +68,7 @@ export class MyRequirementsVisitor extends AbstractParseTreeVisitor<any> impleme
       concreteSolutionName = ContextModel.INITIAL_CAPABILITIES_KEY;
     else //specific solution is specified
       concreteSolutionName = this.extractConcreteSolutionUri(ctx._cs.text);
+    //TODO specifically check if the solution does not exist
 
     return Boolean(this.getVariableValue(concreteSolutionName, ctx._capability.text, ctx._property.text));
 

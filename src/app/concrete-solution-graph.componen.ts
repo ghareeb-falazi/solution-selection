@@ -156,4 +156,8 @@ export class ConcreteSolutionGraphComponent extends AbstractGraphComponent {
     }
 
   }
+
+  getConcreteSolutionUriOfNode(node:GraphNode):string{
+    return (<ConcreteSolutionGraphNode>node).label;
+  }
 }

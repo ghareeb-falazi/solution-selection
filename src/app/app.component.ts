@@ -53,6 +53,8 @@ export class AppComponent implements OnInit {
   globalConditionExpression: string;
   paths: SelectItem[] = null;
   _selectedPath: SolutionPathModel;
+  display:boolean = false;
+  selectedConcreteSolution:ConcreteSolutionModel = null;
 
   set selectedPath(path: SolutionPathModel){
     this._selectedPath = path;
@@ -108,5 +110,12 @@ export class AppComponent implements OnInit {
 
   patternsUnselected(patternNames:string[]){
     this.highlightPatterns(patternNames, false);
+  }
+
+
+  concreteSolutionDoubleClicked(node:GraphNode){
+    const uri = this.csGraphComponent.getConcreteSolutionUriOfNode(node);
+    this.selectedConcreteSolution = this.csService.getConcreteSolutionByUri(uri);
+    this.display = true;
   }
 }

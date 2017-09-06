@@ -12,8 +12,8 @@
       </div>
     </ng-template>
   </p-autoComplete>
-  <input #newValueInput placeholder="Value" style="width: 100px"/>
-  <button pButton type="button" label="Add" (click)="addProperty(propNameQuery, newValueInput.value)"></button>
+  <input [(ngModel)]="newValueInput" placeholder="Value" style="width: 100px"/>
+  <button pButton type="button" label="Add" (click)="addProperty(propNameQuery, newValueInput)"></button>
 </div>
 
 <div>

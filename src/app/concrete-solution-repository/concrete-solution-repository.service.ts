@@ -62,6 +62,19 @@ export class ConcreteSolutionRepositoryService {
     return result;
   }
 
+  getConcreteSolutionByUri(csUri: string):ConcreteSolutionModel{
+    let result:ConcreteSolutionModel = null;
+
+    for(const sol of this.allSolutions){
+      if(sol.uri === csUri){
+        result = sol;
+        break;
+      }
+    }
+
+    return result;
+  }
+
   getAllImplementedPatterns(): string[] {
     const result: string[] = [];
     let currentPattern: string;

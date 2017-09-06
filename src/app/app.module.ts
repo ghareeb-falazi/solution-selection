@@ -7,7 +7,7 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import {
   ButtonModule, PickListModule, AccordionModule, AutoCompleteModule, PanelModule,
-  ListboxModule
+  ListboxModule, InputTextareaModule, FileUploadModule, DialogModule
 } from 'primeng/primeng';
 import {NgxChartsDagModule} from '@swimlane/ngx-charts-dag';
 
@@ -38,7 +38,10 @@ import {ConcreteSolutionGraphComponent} from "./concrete-solution-graph.componen
     AutoCompleteModule,
     NgxChartsDagModule,
     PanelModule,
-    ListboxModule
+    ListboxModule,
+    InputTextareaModule,
+    FileUploadModule,
+    DialogModule
   ],
   bootstrap: [AppComponent]
 })

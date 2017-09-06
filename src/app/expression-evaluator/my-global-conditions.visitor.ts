@@ -3,17 +3,22 @@ import {AbstractParseTreeVisitor} from "antlr4ts/tree";
 import {
   ArithmeticConstantContext, ArithmeticComparisonContext, ArithmeticFuncContext, BinaryArithmeticOpContext,
   BinaryBoolOpContext, BoolConstantContext,
-
   StringAtomContext,
   StringComparisonContext,
-  UnaryArithmeticOpContext, UnaryBoolOpContext, BooleanVariableContext, ExistsCSContext, ExistsCapContext,
-  ExistsValContext, ArithmeticVariableContext, StringVariableContext
+  UnaryArithmeticOpContext, UnaryBoolOpContext, ExistsCSContext, ExistsCapContext,
+  ExistsValContext, ArithmeticVariableContext, StringVariableContext, LeftMVVArithCompContext, RightMVVArithCompContext,
+  LeftMVVStringCompContext, RightMVVStringCompContext, MvvContext, FArithmeticComparisonContext,
+  FStringComparisonContext, FBinaryBoolOpContext, FBinaryArithmeticOpContext, FUnaryBoolOpContext,
+  FUnaryArithmeticOpContext, FArithmeticConstantContext, FStringAtomContext, FBoolConstantContext,
+  FArithmeticVariableContext, FStringVariableContext, FBooleanExpressionContext, BoolVariableContext,
+  FBoolVariableContext, BoolMVVContext
 } from "./global-conditions-grammar/GlobalConditionsGrammarParser";
 import {ContextModel} from "../data-model/context.model";
 
 import {VariableTypeError} from "./variable-type.error";
 import {isNumeric} from "rxjs/util/isNumeric";
 import {VariableNotFoundError} from "./variable-not-found.error";
+import {isNullOrUndefined} from "util";
 
 /**
  * Created by falazigb on 04-Aug-17.
@@ -26,8 +31,8 @@ enum LITERAL_TYPE {
 }
 
 export class MyGlobalConditionsVisitor extends AbstractParseTreeVisitor<any> implements GlobalConditionsGrammarVisitor<any> {
-
-  constructor(private context: ContextModel, private currentSolutionUri: string) {
+  private currentCSId: string;
+  constructor(private context: ContextModel) {
     super();
   }
 
@@ -36,7 +41,7 @@ export class MyGlobalConditionsVisitor extends AbstractParseTreeVisitor<any> imp
   }
 
   /*Helper Methods*/
-  extractConcreteSolutionUri(val:string):string{
+  static extractConcreteSolutionUri(val:string):string{
     const splits:string[] = val.split("'");
 
     if(splits.length != 3)
@@ -48,7 +53,7 @@ export class MyGlobalConditionsVisitor extends AbstractParseTreeVisitor<any> imp
 
   getVariableValue(concreteSolutionName: string, capabilityName: string, propertyName: string): any {
     const caps = this.context.getCapabilitiesOfSolution(concreteSolutionName);
-    //console.debug(caps);
+    console.debug(caps);
     if (caps) {//else cs is not in path
       for (const cap of caps) {
         if (cap.name === capabilityName && cap.properties.has(propertyName)) {
@@ -60,18 +65,20 @@ export class MyGlobalConditionsVisitor extends AbstractParseTreeVisitor<any> imp
     return null;
   }
 
-  isPropertyValueEqualsValue(propertyValue: string, value: any, type: LITERAL_TYPE): boolean {
+  static isPropertyValueEqualsValue(propertyValue: string, value: any, type: LITERAL_TYPE): boolean {
     switch (type) {
       case LITERAL_TYPE.BOOLEAN:
         if (propertyValue.toLowerCase() === "false" || propertyValue.toLowerCase() === "true") {
           return Boolean(propertyValue) === Boolean(value);
         }
+        break;
       case LITERAL_TYPE.NUMERIC:
         if (isNumeric(propertyValue)) {
           return Number(propertyValue) === Number(value);
         }
+        break;
       case LITERAL_TYPE.STRING:
-        return propertyValue === this.parseStringLiteral(value);
+        return propertyValue === MyGlobalConditionsVisitor.parseStringLiteral(value);
     }
 
     return false;
@@ -84,17 +91,17 @@ export class MyGlobalConditionsVisitor extends AbstractParseTreeVisitor<any> imp
       if (caps) {//otherwise the solution is not found or has no caps
         for (const cap of caps) {
           if (cap.name === capabilityName && cap.properties.has(propertyName)) {
-            if (this.isPropertyValueEqualsValue(cap.properties.get(propertyName), value, type))
+            if (MyGlobalConditionsVisitor.isPropertyValueEqualsValue(cap.properties.get(propertyName), value, type))
               return true;
           }
         }
       }
     }
-    else {//no concrete solution is specified
+    else {//no concrete solution is specified (ANY)
       for (const sol of this.context.getAllCapabilities().values()) {
         for (const cap of sol) {
           if (cap.name === capabilityName && cap.properties.has(propertyName))
-            if (this.isPropertyValueEqualsValue(cap.properties.get(propertyName), value, type))
+            if (MyGlobalConditionsVisitor.isPropertyValueEqualsValue(cap.properties.get(propertyName), value, type))
               return true;
         }
       }
@@ -114,7 +121,7 @@ export class MyGlobalConditionsVisitor extends AbstractParseTreeVisitor<any> imp
         }
       }
     }
-    else {//we need to look through solutions
+    else {//we need to look through solutions (ANY)
       for (const caps of this.context.getAllCapabilities().values()) {
         for (const cap of caps) {
           if (cap.name === capabilityName)
@@ -133,7 +140,6 @@ export class MyGlobalConditionsVisitor extends AbstractParseTreeVisitor<any> imp
   countVariable(capabilityName: string, propertyName: string): number {
     console.debug(`Counting variable ${capabilityName}.${propertyName}`);
     let count: number = 0.0;
-    let currentValue: number;
 
     for (const caps of this.context.getAllCapabilities().values()) {
       for (const cap of caps) {
@@ -190,43 +196,51 @@ export class MyGlobalConditionsVisitor extends AbstractParseTreeVisitor<any> imp
 
   }
 
-  parseStringLiteral(literalText: string): string {
+  static parseStringLiteral(literalText: string): string {
     return literalText.substr(1, literalText.length - 2);
   }
 
+  static checkArithmeticComparison(leftValue:number, rightValue:number, operator:string){
 
-  /* Comparison */
-  visitArithmeticComparison(ctx: ArithmeticComparisonContext): boolean {
-    //console.debug('visitArithmeticComparison');
-    const leftValue = this.visit(ctx._left);
-    const rightValue = this.visit(ctx._right);
-
-    switch (ctx._op.text) {
+    if(isNullOrUndefined(leftValue) || isNullOrUndefined(rightValue))
+      return false;//if one of the values does not exist, return false;
+    let result:boolean;
+    switch (operator) {
       case '<':
-        return leftValue < rightValue;
+        result =  leftValue < rightValue;
+        break;
       case '<=':
-        return leftValue <= rightValue;
+        result = leftValue <= rightValue;
+        break;
       case '>':
-        return leftValue > rightValue;
+        result = leftValue > rightValue;
+        break;
       case '>=':
-        return leftValue >= rightValue;
+        result = leftValue >= rightValue;
+        break;
       case '=':
-        return leftValue === rightValue;
+        result = leftValue === rightValue;
+        break;
 
       case '<>':
-        return leftValue !== rightValue;
+        result = leftValue !== rightValue;
+        break;
 
       default:
-        console.error('unsupported arithmetic comparison ' + ctx._op);
+        console.error('unsupported arithmetic comparison ' + operator);
     }
+
+    console.debug(`${leftValue} ${operator} ${rightValue}  = ${result}`);
+
+    return result;
   }
 
-  visitStringComparison(ctx: StringComparisonContext): boolean {
-    const leftValue = this.visit(ctx._left);
-    const rightValue = this.visit(ctx._right);
-
-    let result = false;
-    switch (ctx._op.text) {
+  static checkStringComparison(leftValue:string, rightValue:string, operator:string) {
+    if (isNullOrUndefined(leftValue) || isNullOrUndefined(rightValue)){
+      return false;//if one of the values does not exist, return false;
+    }
+    let result:boolean = false;
+    switch (operator) {
       case '=':
         result = leftValue === rightValue;
         break;
@@ -235,27 +249,168 @@ export class MyGlobalConditionsVisitor extends AbstractParseTreeVisitor<any> imp
         break;
 
       default:
-        console.error('unsupported string comparison ' + ctx._op);
+        console.error('unsupported string comparison ' + operator);
     }
-    //console.debug(`visitStringComparison: ${leftValue} ${ctx._op.text} ${rightValue} = ${result}`);
+
+    console.debug(`${leftValue} ${operator} ${rightValue}  = ${result}`);
+
     return result;
   }
 
+  filter(csUris:string[], filterContext:FBooleanExpressionContext):string[]{
+    const result:string[] = [];
+    for(const csUri of csUris){
+      this.currentCSId = csUri;
+      try {
+        if(this.visit(filterContext)){//this item is valid
+          result.push(this.currentCSId);
+        }
+      }catch (e) {
+        if(!(e instanceof VariableNotFoundError))//otherwise I do not care
+          throw e;
+      }
+    }
+
+    this.currentCSId = null;
+
+    return result;
+  }
+
+  /* Comparison */
+  visitArithmeticComparison(ctx: ArithmeticComparisonContext): boolean {
+    //console.debug('visitArithmeticComparison');
+    console.debug('I am in visitArithmeticComparison');
+    const leftValue = this.visit(ctx._left);
+    const rightValue = this.visit(ctx._right);
+
+    return MyGlobalConditionsVisitor.checkArithmeticComparison(leftValue, rightValue, ctx._op.text);
+  }
+
+  visitLeftMVVArithComp(ctx: LeftMVVArithCompContext): boolean {
+    console.debug('I am in visitLeftMVVArithComp');
+    const leftValues: any[] = this.visit(ctx._left);
+    console.debug(leftValues);
+    const rightValue: number = this.visit(ctx._right);
+
+    if (ctx._left.text.toLowerCase().indexOf('any') === 0) {//one is enough
+      console.debug('I have detected any');
+      for (const leftValue of leftValues) {
+        if (!isNullOrUndefined(leftValue)) {
+          if (MyGlobalConditionsVisitor.checkArithmeticComparison(Number(leftValue), rightValue, ctx._op.text)) {
+            return true;
+          }
+        }
+      }
+
+      return false;
+    } else {//ALL or filtered ALL
+      console.debug(`I have not detected any in ${ctx._left.text}`);
+      for(const leftValue of leftValues) {
+        if (!isNullOrUndefined(leftValue)) {//skip null values
+          if (!MyGlobalConditionsVisitor.checkArithmeticComparison(Number(leftValue), rightValue, ctx._op.text))
+            return false;//if one is false, everything is false
+        }
+      }
+
+      return true;
+    }
+
+  }
+
+  visitRightMVVArithComp(ctx: RightMVVArithCompContext): boolean{
+    const leftValue: number = this.visit(ctx._left);
+    const rightValues: any[] = this.visit(ctx._right);//null might be within
+
+    if (ctx._right.text.toLowerCase().indexOf('any') === 0) {//any or any[filter] : one is enough
+      for (const rightValue of rightValues) {
+        if (!isNullOrUndefined(rightValue)) {
+          if (MyGlobalConditionsVisitor.checkArithmeticComparison(leftValue, Number(rightValue), ctx._op.text))
+            return true;
+        }
+      }
+
+      return false;
+    } else {//ALL or filtered ALL
+      for (const rightValue of rightValues) {
+        if(!isNullOrUndefined(rightValue)) {//if we have null values, skip them
+          if (!MyGlobalConditionsVisitor.checkArithmeticComparison(leftValue, Number(rightValue), ctx._op.text))
+            return false;//if one is false, everything is false
+
+        }
+      }
+
+      return true;
+    }
+  }
+
+  visitStringComparison(ctx: StringComparisonContext): boolean {
+    const leftValue = this.visit(ctx._left);
+    const rightValue = this.visit(ctx._right);
+    //console.debug(`visitStringComparison: ${leftValue} ${ctx._op.text} ${rightValue} = ${result}`);
+    return MyGlobalConditionsVisitor.checkStringComparison(leftValue, rightValue, ctx._op.text);
+  }
+
+  visitLeftMVVStringComp(ctx: LeftMVVStringCompContext): boolean {
+    const leftValues: any[] = this.visit(ctx._left);
+    const rightValue: string = this.visit(ctx._right);
+
+    if (ctx._left.text.toLowerCase().indexOf('any') === 0) {//one is enough
+      for (const leftValue of leftValues) {
+        if (!isNullOrUndefined(leftValue)) {
+          if (MyGlobalConditionsVisitor.checkStringComparison(leftValue, rightValue, ctx._op.text))
+            return true;
+        }
+      }
+
+      return false;
+    } else {//ALL or filtered ALL
+      for(const leftValue of leftValues) {
+        if (!isNullOrUndefined(leftValue)) {//skip null values
+          if (!MyGlobalConditionsVisitor.checkStringComparison(leftValue, rightValue, ctx._op.text))
+            return false;//if one is false, everything is false
+        }
+      }
+
+      return true;
+    }
+
+  }
+
+  visitRightMVVStringComp(ctx: RightMVVStringCompContext): boolean{
+    const leftValue: string = this.visit(ctx._left);
+    const rightValues: any[] = this.visit(ctx._right);
+
+    if (ctx._right.text.toLowerCase().indexOf('any') === 0) {//one is enough
+      for (const rightValue of rightValues) {
+        if (!isNullOrUndefined(rightValue)) {
+          if (MyGlobalConditionsVisitor.checkStringComparison(leftValue, rightValue, ctx._op.text))
+            return true;
+        }
+      }
+
+      return false;
+    } else {//ALL or filtered ALL
+      for (const rightValue of rightValues) {
+        if (!isNullOrUndefined(rightValue)) {//skip null values
+          if (!MyGlobalConditionsVisitor.checkStringComparison(leftValue, rightValue, ctx._op.text))
+            return false;//if one is false, everything is false
+        }
+      }
+      return true;
+    }
+  }
 
 
   /* Exists Functions*/
   visitExistsCS(ctx: ExistsCSContext): boolean {
-    return this.checkIfSolutionExists(this.extractConcreteSolutionUri(ctx._cs.text));
+    return this.checkIfSolutionExists(MyGlobalConditionsVisitor.extractConcreteSolutionUri(ctx._cs.text));
   }
 
   visitExistsCap(ctx: ExistsCapContext): boolean {
     if (ctx.ANY())
       return this.checkIfCapabilityExists(ctx._cap.text);
 
-    if (ctx.INITIAL_CAPABILITY())
-      return this.checkIfCapabilityExists(ctx._cap.text, ContextModel.INITIAL_CAPABILITIES_KEY);
-
-    return this.checkIfCapabilityExists(ctx._cap.text, this.extractConcreteSolutionUri(ctx._cs.text));
+    return this.checkIfCapabilityExists(ctx._cap.text, MyGlobalConditionsVisitor.extractConcreteSolutionUri(ctx._cs.text));
   }
 
   visitExistsVal(ctx: ExistsValContext): boolean {
@@ -270,10 +425,7 @@ export class MyGlobalConditionsVisitor extends AbstractParseTreeVisitor<any> imp
     if (ctx.ANY())
       return this.checkIfValueExists(ctx._cap.text, ctx._property.text, ctx._value.text, type);
 
-    if (ctx.INITIAL_CAPABILITY())
-      return this.checkIfValueExists(ctx._cap.text, ctx._property.text, ctx._value.text, type, ContextModel.INITIAL_CAPABILITIES_KEY);
-
-    return this.checkIfValueExists(ctx._cap.text, ctx._property.text, ctx._value.text, type, this.extractConcreteSolutionUri(ctx._cs.text));
+    return this.checkIfValueExists(ctx._cap.text, ctx._property.text, ctx._value.text, type, MyGlobalConditionsVisitor.extractConcreteSolutionUri(ctx._cs.text));
   }
 
 
@@ -365,7 +517,7 @@ export class MyGlobalConditionsVisitor extends AbstractParseTreeVisitor<any> imp
   }
 
   visitStringAtom(ctx: StringAtomContext): string {
-    return this.parseStringLiteral(ctx._atom.text);
+    return MyGlobalConditionsVisitor.parseStringLiteral(ctx._atom.text);
   }
 
   visitBoolConstant(ctx: BoolConstantContext): boolean {
@@ -375,39 +527,50 @@ export class MyGlobalConditionsVisitor extends AbstractParseTreeVisitor<any> imp
 
 
   /*Variables*/
-  visitBooleanVariable(ctx: BooleanVariableContext): boolean {
-    let concreteSolutionUri: string;
-    if (ctx.ALL())
-      concreteSolutionUri = this.currentSolutionUri;
-    else if (ctx.INITIAL_CAPABILITY())
-      concreteSolutionUri = ContextModel.INITIAL_CAPABILITIES_KEY;
-    else
-      concreteSolutionUri = this.extractConcreteSolutionUri(ctx._cs.text);
+  visitBoolMVV(ctx: BoolMVVContext){
+    const values:any[] = this.visit(ctx.multiValueVariable());
+    console.debug(values);
+
+    if(ctx.multiValueVariable().text.toLowerCase().indexOf('any') >= 0){
+      for(const item of values){
+        if(!isNullOrUndefined(item)){//ignore nulls
+          if(item.toLowerCase() === 'true')
+            return true;
+        }
+      }
+
+      return false;
+    }else{//all or all[filter]
+      for(const item of values){
+        if(!isNullOrUndefined(item)){//skip nulls
+          if(item.toLowerCase() !== 'true'){
+            return false;
+          }
+        }
+      }
+      return true;
+    }
+
+  }
+  visitBoolVariable(ctx: BoolVariableContext):boolean{
+    let concreteSolutionUri: string = MyGlobalConditionsVisitor.extractConcreteSolutionUri(ctx.CS().text);
 
     let result = this.getVariableValue(concreteSolutionUri, ctx._cap.text, ctx._property.text);
 
-    if(result === null && ctx.ALL())//this is fine! just skip the current concrete solution
-      throw new VariableNotFoundError(null, `Variable ${ctx._cap.text}.${ctx._property.text} not found in capability ${concreteSolutionUri}`);
+    if(result === null){
+      throw new Error(`Variable ${concreteSolutionUri}.${ctx._cap.text}.${ctx._property.text} not found`);
+    }
 
     return Boolean(result);
   }
 
   visitArithmeticVariable(ctx: ArithmeticVariableContext): number {
-    let concreteSolutionUri: string;
-    if (ctx.ALL())
-      concreteSolutionUri = this.currentSolutionUri;
-    else if (ctx.INITIAL_CAPABILITY())
-      concreteSolutionUri = ContextModel.INITIAL_CAPABILITIES_KEY;
-    else
-      concreteSolutionUri = this.extractConcreteSolutionUri(ctx._cs.text);
+    let concreteSolutionUri: string = MyGlobalConditionsVisitor.extractConcreteSolutionUri(ctx.CS().text);
 
     let result = this.getVariableValue(concreteSolutionUri, ctx._cap.text, ctx._property.text);
     //console.debug(`returned result ${result}`);
 
     if(result === null){
-      if(ctx.ALL())//this is fine! just skip the current concrete solution
-        throw new VariableNotFoundError(null, `Variable ${concreteSolutionUri}.${ctx._cap.text}.${ctx._property.text} not found`);
-      else
         throw new Error(`Variable ${concreteSolutionUri}.${ctx._cap.text}.${ctx._property.text} not found`);
     }
 
@@ -415,19 +578,169 @@ export class MyGlobalConditionsVisitor extends AbstractParseTreeVisitor<any> imp
   }
 
   visitStringVariable(ctx: StringVariableContext): string {
-    let concreteSolutionUri: string;
-    if (ctx.ALL())
-      concreteSolutionUri = this.currentSolutionUri;
-    else if (ctx.INITIAL_CAPABILITY())
-      concreteSolutionUri = ContextModel.INITIAL_CAPABILITIES_KEY;
-    else
-      concreteSolutionUri = this.extractConcreteSolutionUri(ctx._cs.text);
+    let concreteSolutionUri: string = MyGlobalConditionsVisitor.extractConcreteSolutionUri(ctx.CS().text);
 
     let result = this.getVariableValue(concreteSolutionUri, ctx._cap.text, ctx._property.text);
 
-    if(result === null && ctx.ALL())//this is fine! just skip the current concrete solution
-      throw new VariableNotFoundError(null, `Variable ${ctx._cap.text}.${ctx._property.text} not found in capability ${concreteSolutionUri}`);
+    if(result === null){
+      throw new Error(`Variable ${concreteSolutionUri}.${ctx._cap.text}.${ctx._property.text} not found`);
+    }
 
     return result;
   }
+
+  /**
+   * gets the array of all concrete solutions, filters it if necessary
+   * and then gets the values of the specified capability.
+   * */
+  visitMvv(ctx:MvvContext):any[]{
+    //console.debug('I am here!');
+    let solutions:string[] = this.context.getAllConcreteSolutionsUris();
+
+    if(ctx.fBooleanExpression()){// ALL[fBooleanExpression].cap.val
+      solutions = this.filter(solutions, ctx.fBooleanExpression());
+    }
+    const result:any[] = [];
+    let value:any;
+    for(const cs of solutions){
+      value = this.getVariableValue(cs, ctx._capability.text, ctx._property.text);
+      //console.debug(`value for cs=${cs} is ${value}`);
+      result.push(value);
+    }
+
+    return result;
+  }
+
+
+  /* Filter Expressions */
+  /* Filter Comparisons */
+  visitFArithmeticComparison(ctx:FArithmeticComparisonContext):boolean{
+    const leftValue = this.visit(ctx._left);
+    const rightValue = this.visit(ctx._right);
+
+    return MyGlobalConditionsVisitor.checkArithmeticComparison(leftValue, rightValue, ctx._op.text);
+  }
+
+  visitFStringComparison(ctx:FStringComparisonContext):boolean{
+    const leftValue = this.visit(ctx._left);
+    const rightValue = this.visit(ctx._right);
+    //console.debug(`visitStringComparison: ${leftValue} ${ctx._op.text} ${rightValue} = ${result}`);
+    return MyGlobalConditionsVisitor.checkStringComparison(leftValue, rightValue, ctx._op.text);
+  }
+
+  /*Filter Binary Operators*/
+  visitFBinaryBoolOp(ctx: FBinaryBoolOpContext): boolean {
+    //console.debug('visitBinaryBoolOp');
+    if (ctx.OR())
+      return this.visit(ctx._left) || this.visit(ctx._right);
+    if (ctx.AND())
+      return this.visit(ctx._left) && this.visit(ctx._right);
+
+    console.error('unsupported binary boolean expression ' + ctx._op);
+
+
+  }
+
+  visitFBinaryArithmeticOp(ctx: FBinaryArithmeticOpContext): number {
+    //console.debug('visitBinaryArithmeticOp');
+
+    switch (ctx._op.text) {
+      case '+':
+        return this.visit(ctx._left) + this.visit(ctx._right);
+      case '-':
+        return this.visit(ctx._left) - this.visit(ctx._right);
+      case '*':
+        return this.visit(ctx._left) * this.visit(ctx._right);
+      case '/':
+        return this.visit(ctx._left) / this.visit(ctx._right);
+      default:
+        console.error('unsupported binary arithmetic operation ' + ctx._op);
+    }
+  }
+
+
+  /*Filter Unary Operators*/
+  visitFUnaryBoolOp(ctx: FUnaryBoolOpContext): boolean {
+    //console.debug('visitUnaryBoolOp');
+
+    if (ctx.NOT())
+      return !this.visit(ctx._exp);
+
+    if (ctx._op.text === '(')
+      return this.visit(ctx._exp);
+
+    console.error('unsupported unary boolean expression ' + ctx._op);
+  }
+
+  visitFUnaryArithmeticOp(ctx: FUnaryArithmeticOpContext): number {
+    //console.debug('visitUnaryArithmeticOp');
+    switch (ctx._op.text) {
+      case '+':
+      case '(':
+        return this.visit(ctx._exp);
+      case '-':
+        return -this.visit(ctx._exp);
+      default:
+        console.error('unsupported unary arithmetic operation ' + ctx._op);
+    }
+  }
+
+
+
+  /*Filter Constants*/
+  visitFArithmeticConstant(ctx: FArithmeticConstantContext): number {
+    return Number(ctx._atom.text);
+  }
+
+  visitFStringAtom(ctx: FStringAtomContext): string {
+    return MyGlobalConditionsVisitor.parseStringLiteral(ctx._atom.text);
+  }
+
+  visitFBoolConstant(ctx: FBoolConstantContext): boolean {
+    return ctx.text.toLowerCase() === 'true';
+  }
+
+
+
+  /*Filter Variables*/
+
+  visitFBoolVariable(ctx: FBoolVariableContext): boolean {
+    let concreteSolutionUri: string = this.currentCSId;
+
+    let result = this.getVariableValue(concreteSolutionUri, ctx._cap.text, ctx._property.text);
+    //console.debug(`returned result ${result}`);
+
+    if(result === null){//this is acceptable, just skip the CS
+      throw new VariableNotFoundError(null, `Variable ${concreteSolutionUri}.${ctx._cap.text}.${ctx._property.text} not found`);
+    }
+
+    return Boolean(result);
+  }
+
+  visitFArithmeticVariable(ctx: FArithmeticVariableContext): number {
+    let concreteSolutionUri: string = this.currentCSId;
+
+    let result = this.getVariableValue(concreteSolutionUri, ctx._cap.text, ctx._property.text);
+    //console.debug(`returned result ${result}`);
+
+    if(result === null){//this is acceptable, just skip the CS
+      throw new VariableNotFoundError(null, `Variable ${concreteSolutionUri}.${ctx._cap.text}.${ctx._property.text} not found`);
+    }
+
+    return Number(result);
+  }
+
+  visitFStringVariable(ctx: FStringVariableContext): string {
+    let concreteSolutionUri: string = this.currentCSId;
+
+    let result = this.getVariableValue(concreteSolutionUri, ctx._cap.text, ctx._property.text);
+
+    if(result === null){
+      throw new VariableNotFoundError(null, `Variable ${concreteSolutionUri}.${ctx._cap.text}.${ctx._property.text} not found`);
+    }
+
+    return result;
+  }
+
+
 }

@@ -4,13 +4,17 @@ import {ConcreteSolutionModel} from "./concrete-solution.model";
 
 
 export class ContextModel {
-  static readonly INITIAL_CAPABILITIES_KEY: string = 'IC';
+  private static readonly INITIAL_CAPABILITIES_KEY: string = 'IC';
 
   private allCapabilities: Map<string, CapabilityModel[]>;//quick access
 
   constructor(private initialCapabilities: CapabilityModel[], private solutionPath: SolutionPathModel) {
     this.allCapabilities = new Map();
-    this.allCapabilities.set(ContextModel.INITIAL_CAPABILITIES_KEY, this.initialCapabilities);
+    let index:number = 0;
+    for(const ic of initialCapabilities){
+      this.allCapabilities.set(`${ContextModel.INITIAL_CAPABILITIES_KEY}_${index}`, [ic]);
+      index++;
+    }
     this.solutionPath.getAllConcreteSolutions().forEach((solution) => this.allCapabilities.set(solution.uri, solution.capabilities));
   }
 
@@ -19,9 +23,6 @@ export class ContextModel {
   }
 
   getCapabilitiesOfSolution(solutionUri):CapabilityModel[]{
-    if(solutionUri.toUpperCase() === ContextModel.INITIAL_CAPABILITIES_KEY)
-      solutionUri = solutionUri.toUpperCase();
-
     const all = this.getAllCapabilities();
 
     if(all.has(solutionUri))
@@ -38,9 +39,9 @@ export class ContextModel {
   }
 
   getAllConcreteSolutionsUris(): string[] {
-    let result: string[] = [ContextModel.INITIAL_CAPABILITIES_KEY];
-    this.solutionPath.getAllConcreteSolutions().forEach(solution => result.push(solution.uri));
-
+    let result: string[] = [];
+    this.allCapabilities.forEach((val,key)=>{result.push(key);});
+    console.debug(result);
     return result;
   }
 

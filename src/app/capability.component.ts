@@ -11,12 +11,13 @@ import {SuggestionsService} from "./suggestions/suggestions.service";
 })
 
 export class CapabilityComponent implements OnInit {
-  @Input()
-  name: string;
-  properties: [string, string][] = [];
-
   propNameQuery: string;
+  newValueInput: string;
   suggestions: any[];
+  properties:[string, string][] = [];
+
+  @Input()
+  capability: CapabilityModel;
 
   constructor(private suggestionsService: SuggestionsService) {
 
@@ -26,18 +27,34 @@ export class CapabilityComponent implements OnInit {
     this.suggestionsService.waitForInitialization()
       .then();
 
+    this.properties = Array.from(this.capability.properties.entries());
+
   }
 
   searchForSuggestions(): void {
-    this.suggestionsService.getSuggestionsForPropertyName(this.propNameQuery, this.name)
+    console.debug(`inside search for suggestions ${this.propNameQuery},${this.capability.name}`);
+    this.suggestionsService.getSuggestionsForPropertyName(this.propNameQuery, this.capability.name)
       .then(result => {
         this.suggestions = result;
       });
   }
 
+  private findPropertyByLabel(label:string):number{
+    let index:number = -1;
+
+    for(let i = 0; i < this.properties.length; i++){
+      if(this.properties[i][0] === label){
+        index = i;
+        break;
+      }
+
+      return index;
+    }
+  }
+
   handleDropdown() {
     //mimic remote call, otherwise the dropdown doesn't show
-    this.suggestionsService.getSuggestionsForPropertyName(null, this.name)
+    this.suggestionsService.getSuggestionsForPropertyName(null, this.capability.name)
       .then(result => {
         setTimeout(() => {
           this.suggestions = result;
@@ -47,34 +64,25 @@ export class CapabilityComponent implements OnInit {
   }
 
 
-  findProperty(label: string): number {
-    let counter = 0;
-    let index = -1;
-    for (let entry of this.properties) {
-      if (entry[0] === label) {
-        index = counter;
-        break;
-      }
-      counter++;
-    }
-
-    return index;
-  }
 
   addProperty(label: string, value: string): void {
-    let index: number = this.findProperty(label);
-
-    if (index >= 0)
+    if (this.capability.properties.has(label))
       console.error(`The property: ${label} already exists in the current capability!`);
-    else
+    else {
+      this.capability.properties.set(label, value);
       this.properties.push([label, value]);
+
+      this.newValueInput = '';
+      this.propNameQuery = '';
+    }
+
 
   }
 
   removeProperty(label: string): void {
-    let index: number = this.findProperty(label);
-
-    if (index >= 0) {
+    if (this.capability.properties.has(label)){
+      this.capability.properties.delete(label);
+      const index = this.findPropertyByLabel(label);
       this.properties.splice(index, 1);
     }
     else {
@@ -83,7 +91,8 @@ export class CapabilityComponent implements OnInit {
   }
 
   getCapability(): CapabilityModel {
-    return new CapabilityModel(this.name, new Map<string, string>(this.properties));
+    this.capability.properties = new Map(this.properties);
+    return this.capability;
   }
 
 }

@@ -7,7 +7,7 @@
         "expression": "any.implements.value = 'Stateless Component'"
       },
       {
-        "expression": "any.deployment.value = 'WAR on Azure'"
+        "expression": "any[deploymentFormat.value='WAR'].deployedOn.value = 'Azure'"
       },
       {
         "expression": "any.accessTo.value = 'Azure'"
@@ -25,6 +25,18 @@
         "properties": {
           "value": "0.0"
         }
+      },
+      {
+        "name": "minComponents",
+        "properties": {
+          "value": "4"
+        }
+      },
+      {
+        "name": "deployedOn",
+        "properties": {
+          "value": "Azure"
+        }
       }
     ]
   },
@@ -36,7 +48,7 @@
         "expression": "any.implements.value = 'Stateless Component'"
       },
       {
-        "expression": "any.deployment.value = 'WAR on Elastic Beanstalk'"
+        "expression": "any[deploymentFormat.value = 'WAR'].deployedOn.value = 'Elastic Beanstalk'"
       },
       {
         "expression": "any.accessTo.value = 'AWS'"
@@ -54,6 +66,18 @@
         "properties": {
           "value": "0.0"
         }
+      },
+      {
+        "name": "minComponents",
+        "properties": {
+          "value": "6"
+        }
+      },
+      {
+        "name": "deployedOn",
+        "properties": {
+          "value": "Elastic Beanstalk"
+        }
       }
     ]
   },
@@ -70,9 +94,21 @@
     ],
     "capabilities": [
       {
-        "name": "deployment",
+        "name": "deployedOn",
         "properties": {
-          "value": "WAR on Elastic Beanstalk"
+          "value": "Elastic Beanstalk"
+        }
+      },
+      {
+        "name": "deploymentFormat",
+        "properties": {
+          "value": "WAR"
+        }
+      },
+      {
+        "name":"location",
+        "properties": {
+          "value": "US"
         }
       },
       {
@@ -91,7 +127,7 @@
   },
   {
     "uri": "cs2.2",
-    "description": "AWS Storage Gateway-based S3 Blob Storage",
+    "description": "Azure-based Stateless Component",
     "requirements": [
       {
         "expression": "any.implements.value = 'Blob Storage'"
@@ -102,9 +138,21 @@
     ],
     "capabilities": [
       {
-        "name": "deployment",
+        "name": "deployedOn",
         "properties": {
-          "value": "WAR on Azure"
+          "value": "Azure"
+        }
+      },
+      {
+        "name": "deploymentFormat",
+        "properties": {
+          "value": "WAR"
+        }
+      },
+      {
+        "name":"location",
+        "properties": {
+          "value": "US"
         }
       },
       {
@@ -131,10 +179,21 @@
     ],
     "capabilities": [
       {
-        "name": "deployment",
+        "name": "deployedOn",
         "properties": {
-          "value": "WAR on Elastic Beanstalk",
-          "details": "EC2::Volume"
+          "value": "Elastic Beanstalk"
+        }
+      },
+      {
+        "name": "deploymentFormat",
+        "properties": {
+          "value": "EC2::Volume"
+        }
+      },
+      {
+        "name":"location",
+        "properties": {
+          "value": "US"
         }
       },
       {
@@ -161,9 +220,21 @@
     ],
     "capabilities": [
       {
-        "name": "deployment",
+        "name": "deployedOn",
         "properties": {
-          "value": "S3 on AWS Storage Gateway"
+          "value": "AWS Storage Gateway"
+        }
+      },
+      {
+        "name": "deploymentFormat",
+        "properties": {
+          "value": "S3"
+        }
+      },
+      {
+        "name":"location",
+        "properties": {
+          "value": "US"
         }
       },
       {
@@ -190,9 +261,21 @@
     ],
     "capabilities": [
       {
-        "name": "deployment",
+        "name": "deployedOn",
         "properties": {
-          "value": "Blob Storage on Azure"
+          "value": "Azure"
+        }
+      },
+      {
+        "name": "deploymentFormat",
+        "properties": {
+          "value": "Blob Storage"
+        }
+      },
+      {
+        "name":"location",
+        "properties": {
+          "value": "US"
         }
       },
       {

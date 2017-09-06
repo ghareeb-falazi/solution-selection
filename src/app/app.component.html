@@ -5,28 +5,57 @@
   <div id="options">
     <p-accordion>
       <p-accordionTab header="Pattern Sequence">
-        <pattern-selector (patternsSelectedEvent)="patternsSelected($event)" (patternsUnselectedEvent)="patternsUnselected($event)"></pattern-selector>
-      </p-accordionTab>
-
-
-      <p-accordionTab header="Global Conditions">
-        <input [(ngModel)]="globalConditionExpression" placeholder="Enter a global condition if necessary"
-               style="width: 400px;"/>
+        <pattern-selector (patternsSelectedEvent)="patternsSelected($event)"
+                          (patternsUnselectedEvent)="patternsUnselected($event)"></pattern-selector>
       </p-accordionTab>
 
       <p-accordionTab header="Initial Capabilities">
         <caps></caps>
       </p-accordionTab>
 
+      <p-accordionTab header="User Query">
+        <textarea rows="5" cols="40" pInputTextarea autoResize="autoResize" [(ngModel)]="globalConditionExpression"
+                  placeholder="Enter a global condition if necessary"></textarea>
+      </p-accordionTab>
+
+
     </p-accordion>
 
     <div *ngIf="isInitialized" style="margin-top: 25px;">
+      <p-dialog *ngIf="selectedConcreteSolution" header="Concrete Solution Details" [(visible)]="display" modal="modal"
+                width="600" [responsive]="true">
+        <p style="line-height: 200%;margin-top: 0px;">
+          <b>Concrete Solution ID: </b> <span>{{selectedConcreteSolution.uri}}</span><br/>
+          <b>Description: </b> <span>{{selectedConcreteSolution.description}}</span><br/>
+        </p>
+        <p-panel header="Requirements" [toggleable]="true" >
+          <ul style="margin-top: -5px; margin-left: -20px;margin-bottom: 5px;">
+            <li *ngFor="let requirement of selectedConcreteSolution.requirements" style="margin-bottom: 5px;">
+            <span>
+              {{requirement.expression}}
+            </span><br/>
+            </li>
+          </ul>
+        </p-panel>
+        <p></p>
+        <p-panel header="Capabilities" [toggleable]="true">
+          <ul style="margin-top: -5px; margin-left: -20px;margin-bottom: 5px;">
+            <li *ngFor="let capability of selectedConcreteSolution.capabilities" style="margin-bottom: 5px;">
+              <b>{{capability.name}}: </b>
+              <span>{{capability.propertiesAsString()}} </span>
+            </li>
+          </ul>
+        </p-panel>
 
+        <p-footer>
+          <button type="button" pButton icon="fa-check" (click)="display=false" label="Close"></button>
+        </p-footer>
+      </p-dialog>
 
       <button pButton type="button" label="Execute Algorithm" (click)="search()"></button>
-      <div *ngIf="paths" >
+      <div *ngIf="paths">
         <h3 style="margin-top: 10px; margin-bottom: 5px;">Results:</h3>
-        <p-listbox [options]="paths" [(ngModel)]="selectedPath" [style] = "{'width':'100%'}">
+        <p-listbox [options]="paths" [(ngModel)]="selectedPath" [style]="{'width':'100%'}">
 
         </p-listbox>
 
@@ -47,7 +76,7 @@
 
       </pattern-graph>
 
-      <solutions-graph >
+      <solutions-graph (onNodeDoubleClickedEvent)="concreteSolutionDoubleClicked($event)">
 
       </solutions-graph>
     </p-panel>

@@ -16,8 +16,7 @@ import {GlobalConditionModel} from "../data-model/global-condition.model";
 
 @Injectable()
 export class SolutionSelectorService {
-  constructor(private expressionEvaluator:ExpressionEvaluatorService,
-              private concreteSolutionRepository:ConcreteSolutionRepositoryService,
+  constructor(private concreteSolutionRepository:ConcreteSolutionRepositoryService,
               private aggregatorsRepository:AggregatorRepositoryService){
 
   }
@@ -111,13 +110,13 @@ export class SolutionSelectorService {
       let isFound = true;
       //console.debug(context);
       //console.debug(requirements);
-      if(this.expressionEvaluator.isGlobalConditionFulfilled(globalConditions, context))//generalConditions, context))//does the context
+      if(ExpressionEvaluatorService.isGlobalConditionFulfilled(globalConditions, context))//generalConditions, context))//does the context
         // fulfill the general condition?
       {
         console.debug('GC fulfilled');
         for (const solution of solutions) {//does the context fulfill all requirements?
           for (const requirement of solution.requirements) {
-            if (!this.expressionEvaluator.isRequirementFulfilled(requirement, solution.uri, context)) {
+            if (!ExpressionEvaluatorService.isRequirementFulfilled(requirement, solution.uri, context)) {
               console.debug(`requirement ${requirement.expression} is not fulfilled`);
               isFound = false;
               break;

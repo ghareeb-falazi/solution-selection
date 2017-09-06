@@ -3,13 +3,14 @@ import {ConcreteSolutionRepositoryService} from "../concrete-solution-repository
 import {ExpressionEvaluatorService} from "../expression-evaluator/expression-evaluator.service";
 import {RequirementModel} from "../data-model/requirement.model";
 import {CapabilityModel} from "../data-model/capability.model";
+import {isNullOrUndefined} from "util";
 
 @Injectable()
 export class SuggestionsService{
   private labels:Map<string, string[]>;
   private initialized:Promise<any>;
 
-  constructor(private repoService:ConcreteSolutionRepositoryService, private evalService:ExpressionEvaluatorService){
+  constructor(private repoService:ConcreteSolutionRepositoryService){
     this.initialized = this.initialize();
   }
   private initialize():Promise<any>{
@@ -32,9 +33,13 @@ export class SuggestionsService{
   fillSuggestionsOfRequirements(requirements:RequirementModel[]){
     this.labels = new Map();
     let currentLabels:Map<string, string[]>;
+    let expression:string = '';
 
+    requirements.map(item=>expression += item + " AND ");
+    expression += "TRUE";
+    console.debug(`expression is ${expression}`);
     for(const req of requirements){
-      currentLabels = this.evalService.getLabelsOfRequirement(req);
+      currentLabels = ExpressionEvaluatorService.getLabelsOfRequirement(req);
       for(const entry of currentLabels.entries()){
         if(!this.labels.has(entry[0])){//the capability name is new
           this.labels.set(entry[0], entry[1]);
@@ -84,9 +89,12 @@ export class SuggestionsService{
   getSuggestionsForPropertyName(query: string, capabilityName:string): Promise<string[]>{
     return new Promise<string[]>(resolve =>
     {
-      const allPropNames:string[] = [];
-      allPropNames.push(...this.labels.get(capabilityName));
-      const result:string[] = SuggestionsService.filterNames(allPropNames, query);
+      const allPropNames:string[] = this.labels.get(capabilityName);
+      let result:string[];
+      if(isNullOrUndefined(allPropNames) || allPropNames.length === 0)
+        result = [];
+      else
+        result = SuggestionsService.filterNames(allPropNames, query);
       resolve(result);
     });
   }

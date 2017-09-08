@@ -1,5 +1,5 @@
 
-import {Component} from "@angular/core";
+import {ChangeDetectorRef, Component} from "@angular/core";
 import {PatternModel} from "./data-model/pattern.model";
 import {PatternRepositoryService} from "./pattern-repository/pattern-repository.service";
 import {AbstractGraphComponent, GraphLink, GraphNode} from "./abstract-graph.component";
@@ -24,7 +24,6 @@ class PatternGraphNode extends GraphNode{
 export class PatternsGraphComponent extends  AbstractGraphComponent{
 
   constructor(private patternRepoService:PatternRepositoryService) {
-
     super();
     this.height=350;
     this.applyDimensions();
@@ -57,10 +56,19 @@ export class PatternsGraphComponent extends  AbstractGraphComponent{
     return pattern.nextPatterns;
   }
 
-  onNodeDoubleClicked(node:GraphNode):void{
-
+  onNodeDoubleClicked=(node:GraphNode)=>{
     this.highlightNodes([node], !node.isHighlighted);
   }
+
+  onMouseOver= (node:GraphNode)=> {
+    this.changeNodesOpacity([node], GraphNode.lowOpacityValue, false);
+  };
+
+  onMouseOut= (node:GraphNode)=> {
+    console.debug('inside onMouseOut');
+    this.changeNodesOpacity([node], GraphNode.highOpacityValue, false);
+  };
+
 
   highlightPatterns(patternNames:string[], isHighlighted: boolean):void{
     const nodes:GraphNode[] = this.myNodes.filter(item=> patternNames.indexOf((<PatternGraphNode>item).label) >= 0);

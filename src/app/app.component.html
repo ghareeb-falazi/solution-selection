@@ -72,7 +72,7 @@
 
   <div id="graphs">
     <p-panel header="Graph Representation" [toggleable]="true">
-      <pattern-graph (onNodeDoubleClickedEvent)="patternDoubleClicked($event)">
+      <pattern-graph (onNodeDoubleClickedEvent)="patternDoubleClicked($event)" (onMouseOverNodeEvent)="mouseOnPattern($event)" (onMouseOutNodeEvent)="mouseOutPattern($event)">
 
       </pattern-graph>
 

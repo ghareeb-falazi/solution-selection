@@ -16,9 +16,9 @@
   </ng-template>
 
   <ng-template #nodeTemplate let-node >
-    <svg:g class="node" (dblclick)="onDoubleClick(node)">
-      <svg:rect [attr.width]="node.width" [attr.height]="node.height + 3" [attr.fill]="node.fillColor" [attr.stroke-width]="3"
-      [attr.stroke]="node.strokeColor" [attr.stroke-opacity]="0.6"/>
+    <svg:g class="node" (dblclick)="handleDoubleClick(node)" (mouseover)="handleMouseOver(node)" (mouseout)="handleMouseOut(node)" [attr.opacity]="node.opacity">
+      <svg:rect  [attr.width]="node.width" [attr.height]="node.height + 3" [attr.fill]="node.fillColor" [attr.stroke-width]="3"
+      [attr.stroke]="node.strokeColor" [attr.stroke-opacity]="1"/>
       <svg:text alignment-baseline="hanging" [attr.stroke]="node.strokeColor" style="text-anchor:middle;"[attr.x]="node.width/2" [attr.y]="5">{{node.label}}</svg:text>
       <svg:image alignment-baseline="baseline" [attr.width]="40" [attr.height]="40" [attr.xlink:href]="node.imageUrl" [attr.x]="node.width / 2 - 20" [attr.y]="23" ></svg:image>
     </svg:g>

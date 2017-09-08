@@ -1,7 +1,7 @@
 import {AbstractGraphComponent, GraphLink, GraphNode} from "./abstract-graph.component";
 import {ConcreteSolutionModel} from "./data-model/concrete-solution.model";
 import {BasicAggregatorModel} from "./data-model/basic-aggregator.model";
-import {Component} from "@angular/core";
+import {ChangeDetectorRef, Component} from "@angular/core";
 import {ConcreteSolutionRepositoryService} from "./concrete-solution-repository/concrete-solution-repository.service";
 import {AggregatorRepositoryService} from "./aggregator-repository/aggregator-repository.service";
 import {SolutionPathModel} from "./data-model/solution-path.model";
@@ -46,7 +46,6 @@ export class ConcreteSolutionGraphComponent extends AbstractGraphComponent {
 
   constructor(private csRepoService: ConcreteSolutionRepositoryService, private aggRepoService: AggregatorRepositoryService) {
     super();
-
 
     this.csRepoService.waitForInitialization()
       .then(() => this.aggRepoService.waitForInitialization())
@@ -108,9 +107,12 @@ export class ConcreteSolutionGraphComponent extends AbstractGraphComponent {
 
   }
 
-  onNodeDoubleClicked(node:GraphNode){
-    //we do nothing in this case
+  setSolutionsOpacity(solutionUris:string[], isHighOpacity:boolean):void{
+    const newValue:number = isHighOpacity?GraphNode.highOpacityValue:GraphNode.lowOpacityValue;
+    const nodes:GraphNode[] = this.myNodes.filter(item=> (item instanceof ConcreteSolutionGraphNode)&& solutionUris.indexOf((<ConcreteSolutionGraphNode>item).cs.uri) >= 0);
+    this.changeNodesOpacity(nodes, newValue, true);
   }
+
 
   selectPath(path:SolutionPathModel):void{
     this.resetSelections();

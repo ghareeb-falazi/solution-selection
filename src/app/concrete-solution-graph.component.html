@@ -9,6 +9,7 @@
   [nodeHeight]="nodeSide"
   [nodeWidth]="nodeSide"
   [zoomLevel]="0.7"
+
 >
 
   <ng-template #defsTemplate>
@@ -18,14 +19,14 @@
   </ng-template>
 
   <ng-template #nodeTemplate let-node >
-    <svg:g *ngIf="node.nodeType === 'CS'" class="node" (dblclick)="onDoubleClick(node)">
+    <svg:g *ngIf="node.nodeType === 'CS'" class="node" (dblclick)="handleDoubleClick(node)" [attr.opacity]="node.opacity">
       <svg:polygon [attr.width]="node.width" [attr.height]="node.height" [attr.fill]="node.fillColor" [attr.stroke-width]="3" [attr.stroke]="node.strokeColor" [attr.stroke-opacity]="0.6" [attr.points] = "getPolygonPoints(node.width, node.height)">
       </svg:polygon>
 
       <svg:text alignment-baseline="middle" [attr.stroke]="node.strokeColor" style="text-anchor: middle;" [attr.x]="node.width/2" [attr.y]="node.height/2">{{node.label}}</svg:text>
     </svg:g>
 
-    <svg:g *ngIf="node.nodeType === 'Agg'" class="node" (dblclick)="onDoubleClick(node)">
+    <svg:g *ngIf="node.nodeType === 'Agg'" class="node" (dblclick)="handleDoubleClick(node)">
       <svg:circle [attr.cx]="node.width / 2" [attr.cy]="node.height / 2" [attr.r]="(node.width - 15) / 2" [attr.stroke]="node.strokeColor" [attr.stroke-width]="3" [attr.fill]="node.fillColor" />
       <svg:line [attr.x1]="(node.width)/ 2" [attr.y1] = "15" [attr.x2] = "(node.width)/2" [attr.y2]="node.height - 15" [attr.stroke]="node.strokeColor" [attr.stroke-width]="3"/>
       <svg:line [attr.x1]="15" [attr.y1] = "node.height/2" [attr.x2] = "node.width - 15" [attr.y2]="node.height/2" [attr.stroke]="node.strokeColor" [attr.stroke-width]="3"/>

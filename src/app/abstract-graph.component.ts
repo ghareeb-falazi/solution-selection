@@ -1,9 +1,13 @@
 import * as shape from 'd3-shape';
-import {Output, EventEmitter} from "@angular/core";
+import {Output, EventEmitter, ChangeDetectorRef} from "@angular/core";
+import {isNullOrUndefined} from "util";
 
 export class GraphNode {
   isHighlighted: boolean = false;
   readonly normalStrokeColor: string;
+  opacity: number = 1.0;
+  static readonly highOpacityValue:number = 1.0;
+  static readonly lowOpacityValue:number = 0.5;
 
   constructor(public id: string, public fillColor: string, public strokeColor: string, public readonly highlightedStrokeColor) {
     this.normalStrokeColor = strokeColor;
@@ -27,11 +31,13 @@ export abstract class AbstractGraphComponent {
   width: number = 730;
   height: number = 300;
   view: any[] = [this.width, this.height];
+  orientation:string='LR';
   // options
   showLegend = false;
-  orientation: string = 'LR'; // LR, RL, TB, BT
   arrowHeadColor: string = 'black';
   @Output() onNodeDoubleClickedEvent = new EventEmitter<GraphNode>();
+  @Output() onMouseOverNodeEvent = new EventEmitter<GraphNode>();
+  @Output() onMouseOutNodeEvent = new EventEmitter<GraphNode>();
 
 
   abstract createNode(id: any, item: any): GraphNode;
@@ -46,7 +52,14 @@ export abstract class AbstractGraphComponent {
    * Called when a node is double clicked, right before the event is raised
    * @param {GraphNode} node the node that was double-clicked
    */
-  abstract onNodeDoubleClicked(node: GraphNode): void;
+  onNodeDoubleClicked?: (node: GraphNode)=> void;
+
+  //optional to implement
+  onMouseOver?: (node: GraphNode) => void;
+
+  //optional to implement
+  onMouseOut?: (node: GraphNode) => void;
+
 
   buildGraph(items: any[]) {
     const myNodes: GraphNode[] = [];
@@ -87,12 +100,49 @@ export abstract class AbstractGraphComponent {
     this.view = [this.width, this.height];
   }
 
-  onDoubleClick(node: GraphNode) {
+  handleDoubleClick(node: GraphNode) {
     //node here is a gui-internal copy of the node in the myNodes list
     //we should get a reference to the one in the myNodes list instead!
     const myNode: GraphNode = this.myNodes.find(item => item.id === node.id);
-    this.onNodeDoubleClicked(myNode);
+
+    if(!isNullOrUndefined(this.onNodeDoubleClicked)) {
+      this.onNodeDoubleClicked(myNode);
+    }
     this.onNodeDoubleClickedEvent.emit(myNode);
+  }
+
+  handleMouseOver(node: GraphNode){
+    if(!isNullOrUndefined(this.onMouseOver)){
+      this.onMouseOver(node);
+    }
+
+    const myNode: GraphNode = this.myNodes.find(item => item.id === node.id);
+    this.onMouseOverNodeEvent.emit(myNode);
+  }
+
+  handleMouseOut(node: GraphNode){
+    console.debug(`inside handleMouseOut node=${node.id}` );
+    if(!isNullOrUndefined(this.onMouseOut)){
+      this.onMouseOut(node);
+    }
+
+    const myNode: GraphNode = this.myNodes.find(item => item.id === node.id);
+    this.onMouseOutNodeEvent.emit(myNode);
+  }
+
+  public changeNodesOpacity(nodes: GraphNode[], value:number, refreshNodes:boolean):void{
+    let anyChanges: boolean = false;
+
+    for (const node of nodes) {
+      if (value != node.opacity) {//only if there's a need to highlight
+        anyChanges = true;
+        node.opacity = value;
+      }
+    }
+
+    if(anyChanges && refreshNodes)
+      this.myNodes = [...this.myNodes];//otherwise the change is not bound
+
   }
 
   /**

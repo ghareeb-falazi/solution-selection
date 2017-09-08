@@ -103,6 +103,20 @@ export class AppComponent implements OnInit {
     this.highlightPatterns([patternName], node.isHighlighted);
   }
 
+  mouseOnPattern(node:GraphNode){
+    const patternName:string = this.patternGraphComponent.getPatternNameOfNode(node);
+    const solutions:ConcreteSolutionModel[] = this.csService.getConcreteSolutionsOfPattern(patternName);
+    const uris:string[] = solutions.map(item=>item.uri);
+    this.csGraphComponent.setSolutionsOpacity(uris, false);
+  }
+
+  mouseOutPattern(node:GraphNode){
+    const patternName:string = this.patternGraphComponent.getPatternNameOfNode(node);
+    const solutions:ConcreteSolutionModel[] = this.csService.getConcreteSolutionsOfPattern(patternName);
+    const uris:string[] = solutions.map(item=>item.uri);
+    this.csGraphComponent.setSolutionsOpacity(uris, true);
+  }
+
   //this event originates from the PatternSelectorComponent
   patternsSelected(patternNames:string[]){
     this.highlightPatterns(patternNames, true);

@@ -185,12 +185,6 @@
         }
       },
       {
-        "name": "deploymentFormat",
-        "properties": {
-          "value": "EC2::Volume"
-        }
-      },
-      {
         "name":"location",
         "properties": {
           "value": "US"
@@ -222,13 +216,7 @@
       {
         "name": "deployedOn",
         "properties": {
-          "value": "AWS Storage Gateway"
-        }
-      },
-      {
-        "name": "deploymentFormat",
-        "properties": {
-          "value": "S3"
+          "value": "EC2"
         }
       },
       {
@@ -264,12 +252,6 @@
         "name": "deployedOn",
         "properties": {
           "value": "Azure"
-        }
-      },
-      {
-        "name": "deploymentFormat",
-        "properties": {
-          "value": "Blob Storage"
         }
       },
       {

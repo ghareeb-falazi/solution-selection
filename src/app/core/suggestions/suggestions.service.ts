@@ -1,8 +1,8 @@
 import {Injectable} from "@angular/core";
 import {ConcreteSolutionRepositoryService} from "../concrete-solution-repository/concrete-solution-repository.service";
 import {ExpressionEvaluatorService} from "../expression-evaluation/expression-evaluator.service";
-import {RequirementModel} from "../data-model/requirement.model";
-import {CapabilityModel} from "../data-model/capability.model";
+import {RequirementModel} from "../../data-model/requirement.model";
+import {CapabilityModel} from "../../data-model/capability.model";
 import {isNullOrUndefined} from "util";
 
 @Injectable()

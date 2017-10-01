@@ -4,9 +4,9 @@
 import "rxjs/add/operator/toPromise";
 import {Injectable} from "@angular/core";
 import {Http} from "@angular/http";
-import {AbstractAggregatorModel} from "../data-model/abstract-aggregator.model";
-import {AggregatorCreatorModel} from "../data-model/aggregator-creator.model";
-import {BasicAggregatorModel} from "../data-model/basic-aggregator.model";
+import {AbstractAggregatorModel} from "../../data-model/abstract-aggregator.model";
+import {AggregatorCreatorModel} from "../../data-model/aggregator-creator.model";
+import {BasicAggregatorModel} from "../../data-model/basic-aggregator.model";
 
 @Injectable()
 export class AggregatorRepositoryService {

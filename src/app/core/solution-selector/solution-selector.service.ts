@@ -1,16 +1,16 @@
 
-import {BooleanExpressionModel} from "../data-model/boolean-expression.model";
-import {SolutionPathModel} from "../data-model/solution-path.model";
+import {BooleanExpressionModel} from "../../data-model/boolean-expression.model";
+import {SolutionPathModel} from "../../data-model/solution-path.model";
 import {ExpressionEvaluatorService} from "../expression-evaluation/expression-evaluator.service";
 import {ConcreteSolutionRepositoryService} from "../concrete-solution-repository/concrete-solution-repository.service";
 import {AggregatorRepositoryService} from "../aggregator-repository/aggregator-repository.service";
-import {ConcreteSolutionModel} from "../data-model/concrete-solution.model";
-import {AbstractAggregatorModel} from "../data-model/abstract-aggregator.model";
+import {ConcreteSolutionModel} from "../../data-model/concrete-solution.model";
+import {AbstractAggregatorModel} from "../../data-model/abstract-aggregator.model";
 import {SolutionPathStepModel} from "app/data-model/solution-path-step.model";
 import {Injectable} from "@angular/core";
-import {ContextModel} from "../data-model/context.model";
-import {CapabilityModel} from "../data-model/capability.model";
-import {GlobalConditionModel} from "../data-model/global-condition.model";
+import {ContextModel} from "../../data-model/context.model";
+import {CapabilityModel} from "../../data-model/capability.model";
+import {GlobalConditionModel} from "../../data-model/global-condition.model";
 
 
 

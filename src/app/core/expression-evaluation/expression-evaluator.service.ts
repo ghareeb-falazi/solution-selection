@@ -1,11 +1,11 @@
-import {ContextModel} from "../data-model/context.model";
+import {ContextModel} from "../../data-model/context.model";
 import {Injectable} from "@angular/core";
 import {ANTLRInputStream, CommonTokenStream} from 'antlr4ts';
 import {MySyntaxErrorHandler} from "./my-syntax-error.handler";
 
 import {MyRequirementsVisitor} from "./my-requirements.visitor";
-import {RequirementModel} from "../data-model/requirement.model";
-import {GlobalConditionModel} from "../data-model/global-condition.model";
+import {RequirementModel} from "../../data-model/requirement.model";
+import {GlobalConditionModel} from "../../data-model/global-condition.model";
 import {GlobalConditionsGrammarLexer} from "./global-conditions-grammar/GlobalConditionsGrammarLexer";
 import {GlobalConditionsGrammarParser} from "./global-conditions-grammar/GlobalConditionsGrammarParser";
 import {MyGlobalConditionsVisitor} from "./my-global-conditions.visitor";

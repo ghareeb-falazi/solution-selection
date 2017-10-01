@@ -6,42 +6,34 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import {
-  ButtonModule, PickListModule, AccordionModule, AutoCompleteModule, PanelModule,
-  ListboxModule, InputTextareaModule, FileUploadModule, DialogModule
+  ButtonModule, AccordionModule, PanelModule,
+  ListboxModule, InputTextareaModule, DialogModule
 } from 'primeng/primeng';
-import {NgxChartsDagModule} from '@swimlane/ngx-charts-dag';
-
-import {PatternSelectorComponent} from "./pattern-selector.component";
-import {CapabilityComponent} from "./capability.component";
-import {CapabilitiesComponent} from "./capabilities.component";
-import {PatternsGraphComponent} from "./patterns-graph.component";
-import {ConcreteSolutionGraphComponent} from "./concrete-solution-graph.componen";
+import {CoreModule} from "./core/core.module";
+import {InitialPropertiesModule} from "./initial-properties/initial-properties.module";
+import {GraphingModule} from "./graphing/graphing.module";
+import  {PatternSelectionModule} from "./pattern-selection/pattern-selection.module"
 
 
 @NgModule({
   declarations: [
-    AppComponent,
-    PatternSelectorComponent,
-    CapabilityComponent,
-    CapabilitiesComponent,
-    PatternsGraphComponent,
-    ConcreteSolutionGraphComponent
+    AppComponent
   ],
   imports: [
+    CoreModule,
     BrowserAnimationsModule,
     BrowserModule,
     FormsModule,
     HttpModule,
     ButtonModule,
     AccordionModule,
-    PickListModule,
-    AutoCompleteModule,
-    NgxChartsDagModule,
     PanelModule,
     ListboxModule,
     InputTextareaModule,
-    FileUploadModule,
-    DialogModule
+    DialogModule,
+    InitialPropertiesModule,
+    GraphingModule,
+    PatternSelectionModule
   ],
   bootstrap: [AppComponent]
 })

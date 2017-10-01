@@ -1,26 +1,25 @@
 import {Component, OnInit, QueryList, ViewChildren} from "@angular/core";
-import {CapabilityInterface, CapabilityModel} from "./data-model/capability.model";
-import {CapabilityComponent} from "app/capability.component";
+import {CapabilityInterface, CapabilityModel} from "../data-model/capability.model";
+import {InitialPropertyComponent} from "app/initial-properties/initial-property/initial-component.component";
 import {isNullOrUndefined} from "util";
-import {SuggestionsService} from "./suggestions/suggestions.service";
+import {SuggestionsService} from "../core/suggestions/suggestions.service";
 
 /**
  * Created by falazigb on 08-Aug-17.
  */
 @Component({
   selector: 'caps',
-  templateUrl: './capabilities.component.html',
-  providers: [SuggestionsService]
+  templateUrl: './initial-properties.component.html'
 })
 
-export class CapabilitiesComponent implements OnInit{
+export class InitialPropertiesComponent implements OnInit{
   ngOnInit(): void {
     this.suggestionsService.waitForInitialization()
       .then();
   }
 
-  @ViewChildren(CapabilityComponent)
-  capabilityComponents:QueryList<CapabilityComponent>;
+  @ViewChildren(InitialPropertyComponent)
+  capabilityComponents:QueryList<InitialPropertyComponent>;
   capabilities:CapabilityModel[] = [];
 
   capNameQuery:string;

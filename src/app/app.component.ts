@@ -1,17 +1,16 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {ConcreteSolutionRepositoryService} from './concrete-solution-repository/concrete-solution-repository.service';
-import {AggregatorRepositoryService} from "./aggregator-repository/aggregator-repository.service";
-import {SolutionSelectorService} from "./solution-selector/solution-selector.service";
+import {ConcreteSolutionRepositoryService} from './core/concrete-solution-repository/concrete-solution-repository.service';
+import {AggregatorRepositoryService} from "./core/aggregator-repository/aggregator-repository.service";
+import {SolutionSelectorService} from "./core/solution-selector/solution-selector.service";
 import {SolutionPathModel} from "./data-model/solution-path.model";
 import {CapabilityModel} from "./data-model/capability.model";
 import {GlobalConditionModel} from "./data-model/global-condition.model";
-import {PatternSelectorComponent} from "./pattern-selector.component";
-import {ExpressionEvaluatorService} from "./expression-evaluation/expression-evaluator.service";
-import {CapabilitiesComponent} from "./capabilities.component";
-import {PatternRepositoryService} from "./pattern-repository/pattern-repository.service";
-import {GraphNode} from "./abstract-graph.component";
-import {ConcreteSolutionGraphComponent} from "./concrete-solution-graph.componen";
-import {PatternsGraphComponent} from "./patterns-graph.component";
+import {PatternSelectorComponent} from "./pattern-selection/pattern-selector.component";
+import {InitialPropertiesComponent} from "./initial-properties/initial-properties.component";
+import {PatternRepositoryService} from "./core/pattern-repository/pattern-repository.service";
+import {GraphNode} from "./graphing/abstract-graph.component";
+import {ConcreteSolutionGraphComponent} from "./graphing/concrete-solution-graph.componen";
+import {PatternsGraphComponent} from "./graphing/patterns-graph.component";
 import {ConcreteSolutionModel} from "./data-model/concrete-solution.model";
 import {SelectItem} from 'primeng/primeng';
 
@@ -21,8 +20,8 @@ import {SelectItem} from 'primeng/primeng';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'
 
-  ],
-  providers: [ConcreteSolutionRepositoryService, AggregatorRepositoryService, SolutionSelectorService, ExpressionEvaluatorService, PatternRepositoryService]
+  ]
+
 })
 export class AppComponent implements OnInit {
   ngOnInit(): void {
@@ -35,12 +34,11 @@ export class AppComponent implements OnInit {
       });
   }
 
-
   @ViewChild(PatternSelectorComponent)
   private patternSelector: PatternSelectorComponent;
 
-  @ViewChild(CapabilitiesComponent)
-  private initialCapabilities: CapabilitiesComponent;
+  @ViewChild(InitialPropertiesComponent)
+  private initialCapabilities: InitialPropertiesComponent;
 
   @ViewChild(ConcreteSolutionGraphComponent)
   private csGraphComponent: ConcreteSolutionGraphComponent;
@@ -81,10 +79,15 @@ export class AppComponent implements OnInit {
 
   }
 
-  //Ensures consistency between the views when a pattern is chosen
+  /**
+   * Ensures consistency between the views when a pattern is chosen
+   * @param {string[]} patternNames
+   * @param {boolean} isHighlighted
+   */
   private highlightPatterns(patternNames:string[], isHighlighted:boolean):void{
     const solutions:ConcreteSolutionModel[] = [];
     const solutionUris:string[] = [];
+
     for(const patternName of patternNames){
       solutions.push(...this.csService.getConcreteSolutionsOfPattern(patternName));
     }
@@ -94,7 +97,6 @@ export class AppComponent implements OnInit {
     this.csGraphComponent.highlightSolutions(solutionUris, isHighlighted);
     this.patternGraphComponent.highlightPatterns(patternNames, isHighlighted);
     this.patternSelector.selectPatterns(patternNames, isHighlighted);
-
   }
 
   //this event originates from the PatternsGraphComponent
@@ -117,7 +119,10 @@ export class AppComponent implements OnInit {
     this.csGraphComponent.setSolutionsOpacity(uris, true);
   }
 
-  //this event originates from the PatternSelectorComponent
+  /**
+   * This event originates from the PatternSelectorComponent
+   * @param {string[]} patternNames list of patterns that have been selected.
+   */
   patternsSelected(patternNames:string[]){
     this.highlightPatterns(patternNames, true);
   }
@@ -125,7 +130,6 @@ export class AppComponent implements OnInit {
   patternsUnselected(patternNames:string[]){
     this.highlightPatterns(patternNames, false);
   }
-
 
   concreteSolutionDoubleClicked(node:GraphNode){
     const uri = this.csGraphComponent.getConcreteSolutionUriOfNode(node);

@@ -1,11 +1,11 @@
 import {AbstractGraphComponent, GraphLink, GraphNode} from "./abstract-graph.component";
-import {ConcreteSolutionModel} from "./data-model/concrete-solution.model";
-import {BasicAggregatorModel} from "./data-model/basic-aggregator.model";
+import {ConcreteSolutionModel} from "../data-model/concrete-solution.model";
+import {BasicAggregatorModel} from "../data-model/basic-aggregator.model";
 import {ChangeDetectorRef, Component} from "@angular/core";
-import {ConcreteSolutionRepositoryService} from "./concrete-solution-repository/concrete-solution-repository.service";
-import {AggregatorRepositoryService} from "./aggregator-repository/aggregator-repository.service";
-import {SolutionPathModel} from "./data-model/solution-path.model";
-import {AbstractAggregatorModel} from "./data-model/abstract-aggregator.model";
+import {ConcreteSolutionRepositoryService} from "../core/concrete-solution-repository/concrete-solution-repository.service";
+import {AggregatorRepositoryService} from "../core/aggregator-repository/aggregator-repository.service";
+import {SolutionPathModel} from "../data-model/solution-path.model";
+import {AbstractAggregatorModel} from "../data-model/abstract-aggregator.model";
 
 class ConcreteSolutionGraphNode extends GraphNode {
   static readonly FILL_COLOR: string = '#fff4e6';

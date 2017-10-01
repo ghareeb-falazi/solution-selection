@@ -1,7 +1,7 @@
 
 import {ChangeDetectorRef, Component} from "@angular/core";
-import {PatternModel} from "./data-model/pattern.model";
-import {PatternRepositoryService} from "./pattern-repository/pattern-repository.service";
+import {PatternModel} from "../data-model/pattern.model";
+import {PatternRepositoryService} from "../core/pattern-repository/pattern-repository.service";
 import {AbstractGraphComponent, GraphLink, GraphNode} from "./abstract-graph.component";
 
 class PatternGraphNode extends GraphNode{

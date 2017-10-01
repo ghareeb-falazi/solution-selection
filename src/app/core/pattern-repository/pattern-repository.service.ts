@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {Http} from "@angular/http";
-import {PatternModel} from "../data-model/pattern.model";
+import {PatternModel} from "../../data-model/pattern.model";
 
 @Injectable()
 export class PatternRepositoryService {

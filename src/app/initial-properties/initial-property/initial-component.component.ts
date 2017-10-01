@@ -1,16 +1,16 @@
 import {Component, Input, OnInit} from "@angular/core";
-import {CapabilityModel} from "./data-model/capability.model";
-import {SuggestionsService} from "./suggestions/suggestions.service";
+import {CapabilityModel} from "../../data-model/capability.model";
+import {SuggestionsService} from "../../core/suggestions/suggestions.service";
 
 /**
  * Created by falazigb on 06-Aug-17.
  */
 @Component({
   selector: 'capa',
-  templateUrl: './capability.component.html'
+  templateUrl: './initial-property.component.html'
 })
 
-export class CapabilityComponent implements OnInit {
+export class InitialPropertyComponent implements OnInit {
   propNameQuery: string;
   newValueInput: string;
   suggestions: any[];

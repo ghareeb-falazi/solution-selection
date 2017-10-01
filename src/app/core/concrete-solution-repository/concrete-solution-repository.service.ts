@@ -5,11 +5,11 @@ import {Injectable} from "@angular/core";
 import {Http} from "@angular/http";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
-import {ConcreteSolutionInterface, ConcreteSolutionModel} from "../data-model/concrete-solution.model";
+import {ConcreteSolutionInterface, ConcreteSolutionModel} from "../../data-model/concrete-solution.model";
 import {getCurrentDebugContext} from "@angular/core/src/view/services";
 import {isNullOrUndefined} from "util";
-import {RequirementModel} from "../data-model/requirement.model";
-import {CapabilityModel} from "../data-model/capability.model";
+import {RequirementModel} from "../../data-model/requirement.model";
+import {CapabilityModel} from "../../data-model/capability.model";
 
 
 @Injectable()

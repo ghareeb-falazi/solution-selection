@@ -1,7 +1,7 @@
 
 import {BooleanExpressionModel} from "../data-model/boolean-expression.model";
 import {SolutionPathModel} from "../data-model/solution-path.model";
-import {ExpressionEvaluatorService} from "../expression-evaluator/expression-evaluator.service";
+import {ExpressionEvaluatorService} from "../expression-evaluation/expression-evaluator.service";
 import {ConcreteSolutionRepositoryService} from "../concrete-solution-repository/concrete-solution-repository.service";
 import {AggregatorRepositoryService} from "../aggregator-repository/aggregator-repository.service";
 import {ConcreteSolutionModel} from "../data-model/concrete-solution.model";
@@ -122,6 +122,9 @@ export class SolutionSelectorService {
               break;
             }
           }
+
+          if(!isFound)
+            break;
         }
       }
       else {

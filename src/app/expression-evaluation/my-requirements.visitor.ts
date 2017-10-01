@@ -28,6 +28,7 @@ enum LITERAL_TYPE {
 
 export class MyRequirementsVisitor extends AbstractParseTreeVisitor<any> implements RequirementsGrammarVisitor<any> {
   private currentCSId: string;
+
   constructor(private context: ContextModel, private solutionUriOfRequirement: string) {
     super();
   }
@@ -37,10 +38,10 @@ export class MyRequirementsVisitor extends AbstractParseTreeVisitor<any> impleme
   }
 
   /*Helper Methods*/
-  static extractConcreteSolutionUri(val:string):string{
-    const splits:string[] = val.split("'");
+  static extractConcreteSolutionUri(val: string): string {
+    const splits: string[] = val.split("'");
 
-    if(splits.length != 3)
+    if (splits.length != 3)
       throw new Error(`concrete solution identifier is not well-formatted (${val})`);
 
     console.debug(`extracted concrete solution ${splits[1]}`);
@@ -196,14 +197,14 @@ export class MyRequirementsVisitor extends AbstractParseTreeVisitor<any> impleme
     return literalText.substr(1, literalText.length - 2);
   }
 
-  static checkArithmeticComparison(leftValue:number, rightValue:number, operator:string){
+  static checkArithmeticComparison(leftValue: number, rightValue: number, operator: string) {
 
-    if(isNullOrUndefined(leftValue) || isNullOrUndefined(rightValue))
+    if (isNullOrUndefined(leftValue) || isNullOrUndefined(rightValue))
       return false;//if one of the values does not exist, return false;
-    let result:boolean;
+    let result: boolean;
     switch (operator) {
       case '<':
-        result =  leftValue < rightValue;
+        result = leftValue < rightValue;
         break;
       case '<=':
         result = leftValue <= rightValue;
@@ -231,11 +232,11 @@ export class MyRequirementsVisitor extends AbstractParseTreeVisitor<any> impleme
     return result;
   }
 
-  static checkStringComparison(leftValue:string, rightValue:string, operator:string) {
-    if (isNullOrUndefined(leftValue) || isNullOrUndefined(rightValue)){
+  static checkStringComparison(leftValue: string, rightValue: string, operator: string) {
+    if (isNullOrUndefined(leftValue) || isNullOrUndefined(rightValue)) {
       return false;//if one of the values does not exist, return false;
     }
-    let result:boolean = false;
+    let result: boolean = false;
     switch (operator) {
       case '=':
         result = leftValue === rightValue;
@@ -253,16 +254,16 @@ export class MyRequirementsVisitor extends AbstractParseTreeVisitor<any> impleme
     return result;
   }
 
-  filter(csUris:string[], filterContext:FBooleanExpressionContext):string[]{
-    const result:string[] = [];
-    for(const csUri of csUris){
+  filter(csUris: string[], filterContext: FBooleanExpressionContext): string[] {
+    const result: string[] = [];
+    for (const csUri of csUris) {
       this.currentCSId = csUri;
       try {
-        if(this.visit(filterContext)){//this item is valid
+        if (this.visit(filterContext)) {//this item is valid
           result.push(this.currentCSId);
         }
-      }catch (e) {
-        if(!(e instanceof VariableNotFoundError))//otherwise I do not care
+      } catch (e) {
+        if (!(e instanceof VariableNotFoundError))//otherwise I do not care
           throw e;
       }
     }
@@ -287,9 +288,9 @@ export class MyRequirementsVisitor extends AbstractParseTreeVisitor<any> impleme
     const leftValues: any[] = this.visit(ctx._left);
     console.debug(leftValues);
     const rightValue: number = this.visit(ctx._right);
-    const accessorText:string = ctx._left.text.toLowerCase();
+    const accessorText: string = ctx._left.text.toLowerCase();
 
-    if(accessorText.indexOf('any') >= 0 || accessorText.indexOf('neighbor') >= 0){ //one is enough
+    if (accessorText.indexOf('any') >= 0 || accessorText.indexOf('neighbor') >= 0) { //one is enough
       console.debug('I have detected any');
       for (const leftValue of leftValues) {
         if (!isNullOrUndefined(leftValue)) {
@@ -302,7 +303,7 @@ export class MyRequirementsVisitor extends AbstractParseTreeVisitor<any> impleme
       return false;
     } else {//ALL or filtered ALL
       console.debug(`I have not detected any in ${ctx._left.text}`);
-      for(const leftValue of leftValues) {
+      for (const leftValue of leftValues) {
         if (!isNullOrUndefined(leftValue)) {//skip null values
           if (!MyRequirementsVisitor.checkArithmeticComparison(Number(leftValue), rightValue, ctx._op.text))
             return false;//if one is false, everything is false
@@ -314,12 +315,12 @@ export class MyRequirementsVisitor extends AbstractParseTreeVisitor<any> impleme
 
   }
 
-  visitRightMVVArithComp(ctx: RightMVVArithCompContext): boolean{
+  visitRightMVVArithComp(ctx: RightMVVArithCompContext): boolean {
     const leftValue: number = this.visit(ctx._left);
     const rightValues: any[] = this.visit(ctx._right);//null might be within
-    const accessorText:string = ctx._right.text.toLowerCase();
+    const accessorText: string = ctx._right.text.toLowerCase();
 
-    if(accessorText.indexOf('any') >= 0 || accessorText.indexOf('neighbor') >= 0){//any or any[filter] : one is enough
+    if (accessorText.indexOf('any') >= 0 || accessorText.indexOf('neighbor') >= 0) {//any or any[filter] : one is enough
       for (const rightValue of rightValues) {
         if (!isNullOrUndefined(rightValue)) {
           if (MyRequirementsVisitor.checkArithmeticComparison(leftValue, Number(rightValue), ctx._op.text))
@@ -330,7 +331,7 @@ export class MyRequirementsVisitor extends AbstractParseTreeVisitor<any> impleme
       return false;
     } else {//ALL or filtered ALL
       for (const rightValue of rightValues) {
-        if(!isNullOrUndefined(rightValue)) {//if we have null values, skip them
+        if (!isNullOrUndefined(rightValue)) {//if we have null values, skip them
           if (!MyRequirementsVisitor.checkArithmeticComparison(leftValue, Number(rightValue), ctx._op.text))
             return false;//if one is false, everything is false
 
@@ -351,9 +352,9 @@ export class MyRequirementsVisitor extends AbstractParseTreeVisitor<any> impleme
   visitLeftMVVStringComp(ctx: LeftMVVStringCompContext): boolean {
     const leftValues: any[] = this.visit(ctx._left);
     const rightValue: string = this.visit(ctx._right);
-    const accessorText:string = ctx._left.text.toLowerCase();
+    const accessorText: string = ctx._left.text.toLowerCase();
 
-    if(accessorText.indexOf('any') >= 0 || accessorText.indexOf('neighbor') >= 0){//one is enough
+    if (accessorText.indexOf('any') >= 0 || accessorText.indexOf('neighbor') >= 0) {//one is enough
       for (const leftValue of leftValues) {
         if (!isNullOrUndefined(leftValue)) {
           if (MyRequirementsVisitor.checkStringComparison(leftValue, rightValue, ctx._op.text))
@@ -363,7 +364,7 @@ export class MyRequirementsVisitor extends AbstractParseTreeVisitor<any> impleme
 
       return false;
     } else {//ALL or filtered ALL
-      for(const leftValue of leftValues) {
+      for (const leftValue of leftValues) {
         if (!isNullOrUndefined(leftValue)) {//skip null values
           if (!MyRequirementsVisitor.checkStringComparison(leftValue, rightValue, ctx._op.text))
             return false;//if one is false, everything is false
@@ -375,12 +376,12 @@ export class MyRequirementsVisitor extends AbstractParseTreeVisitor<any> impleme
 
   }
 
-  visitRightMVVStringComp(ctx: RightMVVStringCompContext): boolean{
+  visitRightMVVStringComp(ctx: RightMVVStringCompContext): boolean {
     const leftValue: string = this.visit(ctx._left);
     const rightValues: any[] = this.visit(ctx._right);
-    const accessorText:string = ctx._right.text.toLowerCase();
+    const accessorText: string = ctx._right.text.toLowerCase();
 
-    if(accessorText.indexOf('any') >= 0 || accessorText.indexOf('neighbor') >= 0){//one is enough
+    if (accessorText.indexOf('any') >= 0 || accessorText.indexOf('neighbor') >= 0) {//one is enough
       for (const rightValue of rightValues) {
         if (!isNullOrUndefined(rightValue)) {
           if (MyRequirementsVisitor.checkStringComparison(leftValue, rightValue, ctx._op.text))
@@ -429,7 +430,6 @@ export class MyRequirementsVisitor extends AbstractParseTreeVisitor<any> impleme
   }
 
 
-
   /* Arithmetic Functions*/
   visitArithmeticFunc(ctx: ArithmeticFuncContext): any {
 
@@ -448,7 +448,6 @@ export class MyRequirementsVisitor extends AbstractParseTreeVisitor<any> impleme
     console.error('unsupported arithmetic aggregation function ' + ctx._func.text);
 
   }
-
 
 
   /*Binary Operators*/
@@ -482,7 +481,6 @@ export class MyRequirementsVisitor extends AbstractParseTreeVisitor<any> impleme
   }
 
 
-
   /*Unary Operators*/
   visitUnaryBoolOp(ctx: UnaryBoolOpContext): boolean {
     //console.debug('visitUnaryBoolOp');
@@ -510,7 +508,6 @@ export class MyRequirementsVisitor extends AbstractParseTreeVisitor<any> impleme
   }
 
 
-
   /*Constants*/
   visitArithmeticConstant(ctx: ArithmeticConstantContext): number {
     return Number(ctx._atom.text);
@@ -525,25 +522,24 @@ export class MyRequirementsVisitor extends AbstractParseTreeVisitor<any> impleme
   }
 
 
-
   /*Variables*/
-  visitBoolMVV(ctx: BoolMVVContext){
-    const values:any[] = this.visit(ctx.multiValueVariable());
+  visitBoolMVV(ctx: BoolMVVContext) {
+    const values: any[] = this.visit(ctx.multiValueVariable());
     console.debug(values);
-    const accessorText:string = ctx.multiValueVariable().text.toLowerCase();
-    if(accessorText.indexOf('any') >= 0 || accessorText.indexOf('neighbor') >= 0){
-      for(const item of values){
-        if(!isNullOrUndefined(item)){//ignore nulls
-          if(item.toLowerCase() === 'true')
+    const accessorText: string = ctx.multiValueVariable().text.toLowerCase();
+    if (accessorText.indexOf('any') >= 0 || accessorText.indexOf('neighbor') >= 0) {
+      for (const item of values) {
+        if (!isNullOrUndefined(item)) {//ignore nulls
+          if (item.toLowerCase() === 'true')
             return true;
         }
       }
 
       return false;
-    }else{//all or all[filter]
-      for(const item of values){
-        if(!isNullOrUndefined(item)){//skip nulls
-          if(item.toLowerCase() !== 'true'){
+    } else {//all or all[filter]
+      for (const item of values) {
+        if (!isNullOrUndefined(item)) {//skip nulls
+          if (item.toLowerCase() !== 'true') {
             return false;
           }
         }
@@ -552,12 +548,13 @@ export class MyRequirementsVisitor extends AbstractParseTreeVisitor<any> impleme
     }
 
   }
-  visitBoolVariable(ctx: BoolVariableContext):boolean{
+
+  visitBoolVariable(ctx: BoolVariableContext): boolean {
     let concreteSolutionUri: string = MyRequirementsVisitor.extractConcreteSolutionUri(ctx.CS().text);
 
     let result = this.getVariableValue(concreteSolutionUri, ctx._cap.text, ctx._property.text);
 
-    if(result === null){
+    if (result === null) {
       throw new Error(`Variable ${concreteSolutionUri}.${ctx._cap.text}.${ctx._property.text} not found`);
     }
 
@@ -570,7 +567,7 @@ export class MyRequirementsVisitor extends AbstractParseTreeVisitor<any> impleme
     let result = this.getVariableValue(concreteSolutionUri, ctx._cap.text, ctx._property.text);
     //console.debug(`returned result ${result}`);
 
-    if(result === null){
+    if (result === null) {
       throw new Error(`Variable ${concreteSolutionUri}.${ctx._cap.text}.${ctx._property.text} not found`);
     }
 
@@ -582,7 +579,7 @@ export class MyRequirementsVisitor extends AbstractParseTreeVisitor<any> impleme
 
     let result = this.getVariableValue(concreteSolutionUri, ctx._cap.text, ctx._property.text);
 
-    if(result === null){
+    if (result === null) {
       throw new Error(`Variable ${concreteSolutionUri}.${ctx._cap.text}.${ctx._property.text} not found`);
     }
 
@@ -593,31 +590,31 @@ export class MyRequirementsVisitor extends AbstractParseTreeVisitor<any> impleme
    * gets the array of all concrete solutions, filters it if necessary
    * and then gets the values of the specified capability.
    * */
-  visitMvv(ctx:MvvContext):any[]{
+  visitMvv(ctx: MvvContext): any[] {
 
-    let solutions:string[];
-    if(ctx.NEIGHBOR()) {
+    let solutions: string[];
+    if (ctx.NEIGHBOR()) {
       let n1 = this.context.getPreviousSolution(this.solutionUriOfRequirement);
       let n2 = this.context.getNextSolution(this.solutionUriOfRequirement);
 
       solutions = [];
 
-      if(!isNullOrUndefined(n1)) {
+      if (!isNullOrUndefined(n1)) {
         solutions.push(n1.uri);
       }
 
-      if(!isNullOrUndefined(n2)){
+      if (!isNullOrUndefined(n2)) {
         solutions.push(n2.uri);
       }
-    }else {
+    } else {
       solutions = this.context.getAllConcreteSolutionsUris();
     }
-    if(ctx.fBooleanExpression()){// ALL[fBooleanExpression].cap.val
+    if (ctx.fBooleanExpression()) {// ALL[fBooleanExpression].cap.val
       solutions = this.filter(solutions, ctx.fBooleanExpression());
     }
-    const result:any[] = [];
-    let value:any;
-    for(const cs of solutions){
+    const result: any[] = [];
+    let value: any;
+    for (const cs of solutions) {
       value = this.getVariableValue(cs, ctx._capability.text, ctx._property.text);
       //console.debug(`value for cs=${cs} is ${value}`);
       result.push(value);
@@ -628,15 +625,16 @@ export class MyRequirementsVisitor extends AbstractParseTreeVisitor<any> impleme
 
 
   /* Filter Expressions */
+
   /* Filter Comparisons */
-  visitFArithmeticComparison(ctx:FArithmeticComparisonContext):boolean{
+  visitFArithmeticComparison(ctx: FArithmeticComparisonContext): boolean {
     const leftValue = this.visit(ctx._left);
     const rightValue = this.visit(ctx._right);
 
     return MyRequirementsVisitor.checkArithmeticComparison(leftValue, rightValue, ctx._op.text);
   }
 
-  visitFStringComparison(ctx:FStringComparisonContext):boolean{
+  visitFStringComparison(ctx: FStringComparisonContext): boolean {
     const leftValue = this.visit(ctx._left);
     const rightValue = this.visit(ctx._right);
     //console.debug(`visitStringComparison: ${leftValue} ${ctx._op.text} ${rightValue} = ${result}`);
@@ -701,7 +699,6 @@ export class MyRequirementsVisitor extends AbstractParseTreeVisitor<any> impleme
   }
 
 
-
   /*Filter Constants*/
   visitFArithmeticConstant(ctx: FArithmeticConstantContext): number {
     return Number(ctx._atom.text);
@@ -716,7 +713,6 @@ export class MyRequirementsVisitor extends AbstractParseTreeVisitor<any> impleme
   }
 
 
-
   /*Filter Variables*/
 
   visitFBoolVariable(ctx: FBoolVariableContext): boolean {
@@ -725,7 +721,7 @@ export class MyRequirementsVisitor extends AbstractParseTreeVisitor<any> impleme
     let result = this.getVariableValue(concreteSolutionUri, ctx._cap.text, ctx._property.text);
     //console.debug(`returned result ${result}`);
 
-    if(result === null){//this is acceptable, just skip the CS
+    if (result === null) {//this is acceptable, just skip the CS
       throw new VariableNotFoundError(null, `Variable ${concreteSolutionUri}.${ctx._cap.text}.${ctx._property.text} not found`);
     }
 
@@ -738,7 +734,7 @@ export class MyRequirementsVisitor extends AbstractParseTreeVisitor<any> impleme
     let result = this.getVariableValue(concreteSolutionUri, ctx._cap.text, ctx._property.text);
     //console.debug(`returned result ${result}`);
 
-    if(result === null){//this is acceptable, just skip the CS
+    if (result === null) {//this is acceptable, just skip the CS
       throw new VariableNotFoundError(null, `Variable ${concreteSolutionUri}.${ctx._cap.text}.${ctx._property.text} not found`);
     }
 
@@ -750,7 +746,7 @@ export class MyRequirementsVisitor extends AbstractParseTreeVisitor<any> impleme
 
     let result = this.getVariableValue(concreteSolutionUri, ctx._cap.text, ctx._property.text);
 
-    if(result === null){
+    if (result === null) {
       throw new VariableNotFoundError(null, `Variable ${concreteSolutionUri}.${ctx._cap.text}.${ctx._property.text} not found`);
     }
 

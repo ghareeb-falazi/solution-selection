@@ -6,7 +6,7 @@ import {SolutionPathModel} from "./data-model/solution-path.model";
 import {CapabilityModel} from "./data-model/capability.model";
 import {GlobalConditionModel} from "./data-model/global-condition.model";
 import {PatternSelectorComponent} from "./pattern-selector.component";
-import {ExpressionEvaluatorService} from "./expression-evaluator/expression-evaluator.service";
+import {ExpressionEvaluatorService} from "./expression-evaluation/expression-evaluator.service";
 import {CapabilitiesComponent} from "./capabilities.component";
 import {PatternRepositoryService} from "./pattern-repository/pattern-repository.service";
 import {GraphNode} from "./abstract-graph.component";

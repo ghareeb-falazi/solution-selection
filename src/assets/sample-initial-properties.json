@@ -1,0 +1,14 @@
+[
+  {
+    "name": "accessTo",
+    "properties": {
+      "value": "AWS"
+    }
+  },
+  {
+    "name": "accessTo",
+    "properties": {
+      "value": "Azure"
+    }
+  }
+]

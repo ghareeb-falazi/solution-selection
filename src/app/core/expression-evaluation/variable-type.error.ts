@@ -1,5 +1,5 @@
 /**
- * Created by falazigb on 05-Aug-17.
+ * A custom error types for mismatching variable types
  */
 export class VariableTypeError extends Error {
   constructor(public inner:Error, message:string) {

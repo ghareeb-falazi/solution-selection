@@ -1,9 +1,12 @@
 
-import {ChangeDetectorRef, Component} from "@angular/core";
+import {Component} from "@angular/core";
 import {PatternModel} from "../data-model/pattern.model";
 import {PatternRepositoryService} from "../core/pattern-repository/pattern-repository.service";
 import {AbstractGraphComponent, GraphLink, GraphNode} from "./abstract-graph.component";
 
+/**
+ * An implementation of graph node suitable for patterns
+ */
 class PatternGraphNode extends GraphNode{
   static readonly FILL_COLOR: string = '#edebec';
   static readonly STROKE_COLOR: string = 'black';
@@ -15,14 +18,14 @@ class PatternGraphNode extends GraphNode{
 
 }
 
-
+/**
+ * Represents the graph that shows the Pattern Language as a graph
+ */
 @Component({
   selector: 'pattern-graph',
   templateUrl: './patterns-graph.component.html'
 })
-
 export class PatternsGraphComponent extends  AbstractGraphComponent{
-
   constructor(private patternRepoService:PatternRepositoryService) {
     super();
     this.height=350;
@@ -56,28 +59,30 @@ export class PatternsGraphComponent extends  AbstractGraphComponent{
     return pattern.nextPatterns;
   }
 
-  onNodeDoubleClicked=(node:GraphNode)=>{
+  onNodeDoubleClicked =(node:GraphNode)=>{
     this.highlightNodes([node], !node.isHighlighted);
-  }
+  };
 
   onMouseOver= (node:GraphNode)=> {
     this.changeNodesOpacity([node], GraphNode.lowOpacityValue, false);
   };
 
-  onMouseOut= (node:GraphNode)=> {
-    console.debug('inside onMouseOut');
+  onMouseOut = (node:GraphNode)=> {
     this.changeNodesOpacity([node], GraphNode.highOpacityValue, false);
   };
 
-
+  /**
+   * Changes the border color of the nodes representing the given patterns
+   * @param {string[]} patternNames
+   * @param {boolean} isHighlighted
+   */
   highlightPatterns(patternNames:string[], isHighlighted: boolean):void{
     const nodes:GraphNode[] = this.myNodes.filter(item=> patternNames.indexOf((<PatternGraphNode>item).label) >= 0);
     this.highlightNodes(nodes, isHighlighted);
-
   }
 
 
-  getPatternNameOfNode(node:GraphNode):string{
+  static getPatternNameOfNode(node:GraphNode):string{
     return (<PatternGraphNode>node).label;
   }
 

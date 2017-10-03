@@ -5,10 +5,10 @@ import {MySyntaxErrorHandler} from "./my-syntax-error.handler";
 
 import {MyRequirementsVisitor} from "./my-requirements.visitor";
 import {RequirementModel} from "../../data-model/requirement.model";
-import {GlobalConditionModel} from "../../data-model/global-condition.model";
-import {GlobalConditionsGrammarLexer} from "./global-conditions-grammar/GlobalConditionsGrammarLexer";
-import {GlobalConditionsGrammarParser} from "./global-conditions-grammar/GlobalConditionsGrammarParser";
-import {MyGlobalConditionsVisitor} from "./my-global-conditions.visitor";
+import {UserQueryModel} from "../../data-model/user-query.model";
+import {UserQueryGrammarLexer} from "./user-query-grammar/UserQueryGrammarLexer";
+import {UserQueryGrammarParser} from "./user-query-grammar/UserQueryGrammarParser";
+import {MyUserQueryVisitor} from "./my-user-query.visitor";
 
 import {RequirementsGrammarLexer} from "./requirements-grammar/RequirementsGrammarLexer";
 import {RequirementsGrammarParser} from "./requirements-grammar/RequirementsGrammarParser";
@@ -16,39 +16,43 @@ import {LabelCollectorListener} from "./label-collector.listener";
 import {ParseTreeWalker} from "antlr4ts/tree";
 
 /**
- * Created by falazigb on 13-Jul-17.
+ * Evaluates boolean expressions in a scope of a context
  */
-
 @Injectable()
 export class ExpressionEvaluatorService {
 
 
-  /* For the global condition, none of the capabilities should contradict with it**/
-  public static isGlobalConditionFulfilled(globalCondition: GlobalConditionModel, context: ContextModel): boolean {
-    if (!globalCondition || !globalCondition.expression)
+  /**
+   * Checks whether a user query evaluates to true (is fulfilled) based on the given context
+   * @param {UserQueryModel} userQuery
+   * @param {ContextModel} context
+   * @returns {boolean}
+   */
+  public static isUserQueryFulfilled(userQuery: UserQueryModel, context: ContextModel): boolean {
+    //If no user query is given, then it is fulfilled
+    if (!userQuery || !userQuery.expression)
       return true;
 
-
     try {
-      let inputStream = new ANTLRInputStream(globalCondition.expression);
+      //Create a lexer
+      const inputStream = new ANTLRInputStream(userQuery.expression);
+      const lexer = new UserQueryGrammarLexer(inputStream);
+      //Use a custom error listener that throws an exception when finding an error
       const myErrorListener = MySyntaxErrorHandler.INSTANCE;
-
-      let lexer = new GlobalConditionsGrammarLexer(inputStream);
       lexer.removeErrorListeners();
       lexer.addErrorListener(myErrorListener);
-      let tokenStream = new CommonTokenStream(lexer);
-      //console.debug(tokenStream);
-      let parser = new GlobalConditionsGrammarParser(tokenStream);
+      //Create parser
+      const tokenStream = new CommonTokenStream(lexer);
+      const parser = new UserQueryGrammarParser(tokenStream);
       parser.removeErrorListeners();
       parser.addErrorListener(myErrorListener);
 
-// Parse the input, where `compilationUnit` is whatever entry point you defined
+      //create a parse tree (at this point we know syntax errors if present)
+      const result = parser.booleanExpression();
+      //visit the parse tree and evaluate the expression (interpretation)
+      const visitor = new MyUserQueryVisitor(context);
 
-      let result = parser.booleanExpression();
-      const visitor = new MyGlobalConditionsVisitor(context);
-      //console.debug('parsing finished!');
       return visitor.visit(result)
-
     }
     catch (e) {
       console.error(e);
@@ -56,9 +60,16 @@ export class ExpressionEvaluatorService {
     }
   }
 
-  /* For a requirement, it is enough that one capability fulfills it**/
+  /**
+   * Checks whether a concrete solution requirement evaluates to true
+   * @param {RequirementModel} expression the requirement to evaluate
+   * @param {string} requirementSolutionUri the uri of the concrete solution that the requirement belongs to (useful for
+   * evaluating the NEIGHBOR wildcard)
+   * @param {ContextModel} context the context to provide a scope for the requirement
+   * @returns {boolean}
+   */
   public static isRequirementFulfilled(expression: RequirementModel, requirementSolutionUri: string, context: ContextModel): boolean {
-    //console.debug(`Evaluating requirement: ${expression.expression}...`);
+    //if no requirement is provided it is considered to be fulfilled
     if (!expression)
       return true;
     try {
@@ -72,10 +83,9 @@ export class ExpressionEvaluatorService {
       let parser = new RequirementsGrammarParser(tokenStream);
       parser.removeErrorListeners();
       parser.addErrorListener(myErrorListener);
-
-      // Parse the input, where `compilationUnit` is whatever entry point you defined
-
       let result = parser.booleanExpression();
+
+      //visit the resulting parse tree
       const visitor = new MyRequirementsVisitor(context, requirementSolutionUri);
 
       return visitor.visit(result)
@@ -86,29 +96,32 @@ export class ExpressionEvaluatorService {
     }
   }
 
-
+  /**
+   * Analyzes a given concrete solution requirement and extracts capability names and property names used by it.
+   * @param {RequirementModel} requirement
+   * @returns {Map<string, string[]>}
+   */
   static getLabelsOfRequirement(requirement: RequirementModel): Map<string, string[]> {
     try {
-// Create the lexer and parser
+      // Create the lexer and parser
       let inputStream = new ANTLRInputStream(requirement.expression);
       const myErrorListener = MySyntaxErrorHandler.INSTANCE;
-
       const lexer = new RequirementsGrammarLexer(inputStream);
       lexer.removeErrorListeners();
       lexer.addErrorListener(myErrorListener);
       const tokenStream = new CommonTokenStream(lexer);
-      //console.debug(tokenStream);
       const parser = new RequirementsGrammarParser(tokenStream);
       parser.removeErrorListeners();
       parser.addErrorListener(myErrorListener);
       const root = parser.booleanExpression();
+
+      //Travers all nodes of the parse tree and listen to events
       const labelListener: LabelCollectorListener = new LabelCollectorListener();
       ParseTreeWalker.DEFAULT.walk(labelListener, root);
 
       return labelListener.propertiesOfLabels;
     }
     catch (e) {
-      console.debug('ExpressionEvaluator.getLabelsOfRequirement() method');
       console.debug(e);
       return null;
     }

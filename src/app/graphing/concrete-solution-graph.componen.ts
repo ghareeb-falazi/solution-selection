@@ -1,12 +1,15 @@
 import {AbstractGraphComponent, GraphLink, GraphNode} from "./abstract-graph.component";
 import {ConcreteSolutionModel} from "../data-model/concrete-solution.model";
 import {BasicAggregatorModel} from "../data-model/basic-aggregator.model";
-import {ChangeDetectorRef, Component} from "@angular/core";
+import {Component} from "@angular/core";
 import {ConcreteSolutionRepositoryService} from "../core/concrete-solution-repository/concrete-solution-repository.service";
 import {AggregatorRepositoryService} from "../core/aggregator-repository/aggregator-repository.service";
-import {SolutionPathModel} from "../data-model/solution-path.model";
+import {ConcreteSolutionPathModel} from "../data-model/concrete-solution-path.model";
 import {AbstractAggregatorModel} from "../data-model/abstract-aggregator.model";
 
+/**
+ * An implementation of graph node suitable for concrete solutions
+ */
 class ConcreteSolutionGraphNode extends GraphNode {
   static readonly FILL_COLOR: string = '#fff4e6';
   static readonly STROKE_COLOR: string = 'black';
@@ -20,6 +23,9 @@ class ConcreteSolutionGraphNode extends GraphNode {
   }
 }
 
+/**
+ * An implementation of graph node suitable for aggregators
+ */
 class AggregatorGraphNode extends GraphNode {
   static readonly FILL_COLOR: string = 'white';
   static readonly STROKE_COLOR: string = 'black';
@@ -27,20 +33,25 @@ class AggregatorGraphNode extends GraphNode {
   nodeType:string = "Agg";
   label: string;
 
-
   constructor(id: string, public aggregator: BasicAggregatorModel) {
     super(id, AggregatorGraphNode.FILL_COLOR, AggregatorGraphNode.STROKE_COLOR, AggregatorGraphNode.HIGHLIGHTED_STROKE_COLOR);
     this.label = this.aggregator.aggregatorUri;
   }
 }
 
-
+/**
+ * Represents the graph that shows the Solution Language as a graph
+ */
 @Component({
   selector: 'solutions-graph',
   templateUrl: './concrete-solution-graph.component.html'
 })
 export class ConcreteSolutionGraphComponent extends AbstractGraphComponent {
 
+  /**
+   * The length of one side of a node
+   * @type {number}
+   */
   readonly nodeSide:number = 60;
   static readonly SELECTION_COLOR = '#38e686';
 
@@ -90,7 +101,12 @@ export class ConcreteSolutionGraphComponent extends AbstractGraphComponent {
     }
   }
 
-
+  /**
+   * Helps in drawing the polygon that represents a concrete solution
+   * @param {number} nodeWidth
+   * @param {number} nodeHeight
+   * @returns {string}
+   */
   getPolygonPoints(nodeWidth:number, nodeHeight:number):string{
     //nodeWidth += 10;
     //nodeHeight += 10;
@@ -101,12 +117,22 @@ export class ConcreteSolutionGraphComponent extends AbstractGraphComponent {
     return `0,${nodeHeight/2} ${nodeWidth/2},0 ${nodeWidth},${nodeHeight/2} ${nodeWidth/2},${nodeHeight}`;
   }
 
+  /**
+   * Changes the border color of nodes representing given CSs
+   * @param {string[]} solutionUris
+   * @param {boolean} isHighlighted
+   */
   highlightSolutions(solutionUris:string[], isHighlighted:boolean):void{
     const nodes:GraphNode[] = this.myNodes.filter(item=> (item instanceof ConcreteSolutionGraphNode)&& solutionUris.indexOf((<ConcreteSolutionGraphNode>item).cs.uri) >= 0);
     this.highlightNodes(nodes, isHighlighted);
 
   }
 
+  /**
+   * Changes the opacity of nodes representing given CSs
+   * @param {string[]} solutionUris
+   * @param {boolean} isHighOpacity
+   */
   setSolutionsOpacity(solutionUris:string[], isHighOpacity:boolean):void{
     const newValue:number = isHighOpacity?GraphNode.highOpacityValue:GraphNode.lowOpacityValue;
     const nodes:GraphNode[] = this.myNodes.filter(item=> (item instanceof ConcreteSolutionGraphNode)&& solutionUris.indexOf((<ConcreteSolutionGraphNode>item).cs.uri) >= 0);
@@ -114,7 +140,11 @@ export class ConcreteSolutionGraphComponent extends AbstractGraphComponent {
   }
 
 
-  selectPath(path:SolutionPathModel):void{
+  /**
+   * Changes the fill-color of a concrete solution path
+   * @param {ConcreteSolutionPathModel} path
+   */
+  selectPath(path:ConcreteSolutionPathModel):void{
     this.resetSelections();
 
     //Change color of concrete solutions
@@ -148,6 +178,9 @@ export class ConcreteSolutionGraphComponent extends AbstractGraphComponent {
     this.myNodes = [...this.myNodes];
   }
 
+  /**
+   * Restores the default fill color of all nodes
+   */
   resetSelections():void{
     for(const node of this.myNodes){
       if(node instanceof AggregatorGraphNode){
@@ -159,7 +192,8 @@ export class ConcreteSolutionGraphComponent extends AbstractGraphComponent {
 
   }
 
-  getConcreteSolutionUriOfNode(node:GraphNode):string{
+  static getConcreteSolutionUriOfNode(node:GraphNode):string{
     return (<ConcreteSolutionGraphNode>node).label;
   }
+
 }

@@ -1,5 +1,5 @@
 /**
- * Created by falazigb on 24-Jul-17.
+ * A custom error type for parsing errors.
  */
 export class MyParsingError extends Error {
   constructor(public inner:Error, message:string) {

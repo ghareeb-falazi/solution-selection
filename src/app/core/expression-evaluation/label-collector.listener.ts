@@ -5,8 +5,16 @@ import {
   StringVariableContext
 } from "./requirements-grammar/RequirementsGrammarParser";
 
-
+/**
+ * Event listener that collects capability names and property names of a requirement parse tree.
+ * Only certain parts of the tree can contain capability names, and for those only a method is provided.
+ */
 export class LabelCollectorListener implements RequirementsGrammarListener {
+
+  /**
+   * Maps collected capability names to their collected property names
+   * @type {Map<any, any>}
+   */
   propertiesOfLabels: Map<string, string[]> = new Map();
 
   enterStringVariable(ctx: StringVariableContext): void {

@@ -3,7 +3,7 @@ import {PatternRepositoryService} from "../core/pattern-repository/pattern-repos
 
 
 /**
- * Created by falazigb on 06-Aug-17.
+ * The component used to pick patterns for the solution path from a list of all potential patterns
  */
 @Component({
   selector: 'pattern-selector',
@@ -11,7 +11,15 @@ import {PatternRepositoryService} from "../core/pattern-repository/pattern-repos
 })
 
 export class PatternSelectorComponent implements OnInit{
+  /**
+   * The list of all not-yet-selected pattern names
+   * @type {Array}
+   */
   public list1:string[] = [];
+  /**
+   * The list of all selected pattern names
+   * @type {Array}
+   */
   public list2:string[] = [];
   @Output() patternsSelectedEvent:EventEmitter<string[]> = new EventEmitter();
   @Output() patternsUnselectedEvent:EventEmitter<string[]> = new EventEmitter();
@@ -41,22 +49,12 @@ export class PatternSelectorComponent implements OnInit{
     }
   }
 
-  isPatternSelected(patternName:string):boolean{
-    console.debug(`checking if ${patternName} i in list2`);
-    console.debug(this.list2);
-    console.debug(this.list1);
-    return this.list2.indexOf(patternName) >= 0;
-  }
 
-  onPatternsMovedRight(event){
-    console.debug('onPatternsMovedRight');
-    console.debug(event);
+  onPatternsMovedRight(event){;
     this.patternsSelectedEvent.emit(event.items);
   }
 
   onPatternsMovedLeft(event){
-    console.debug('onPattersnMovedLeft');
-    console.debug(event);
     this.patternsUnselectedEvent.emit(event.items);
   }
 

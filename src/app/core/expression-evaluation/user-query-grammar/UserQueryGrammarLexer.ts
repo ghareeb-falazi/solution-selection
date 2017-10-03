@@ -1,4 +1,4 @@
-// Generated from src/assets/grammars/GlobalConditionsGrammar.g4 by ANTLR 4.6-SNAPSHOT
+// Generated from src/assets/grammars/UserQueryGrammar.g4 by ANTLR 4.6-SNAPSHOT
 
 
 import { ATN } from 'antlr4ts/atn/ATN';
@@ -15,7 +15,7 @@ import { VocabularyImpl } from 'antlr4ts/VocabularyImpl';
 import * as Utils from 'antlr4ts/misc/Utils';
 
 
-export class GlobalConditionsGrammarLexer extends Lexer {
+export class UserQueryGrammarLexer extends Lexer {
 	public static readonly T__0=1;
 	public static readonly T__1=2;
 	public static readonly T__2=3;
@@ -77,31 +77,31 @@ export class GlobalConditionsGrammarLexer extends Lexer {
 		"FALSE", "VARIABLE", "STRING_LITERAL", "DOT", "COMMA", "LPAR", "RPAR", 
 		"LBRAC", "RBRAC", "SUM_MINUS", "MULT_DIV", "SCIENTIFIC_NUMBER", "WS"
 	];
-	public static readonly VOCABULARY: Vocabulary = new VocabularyImpl(GlobalConditionsGrammarLexer._LITERAL_NAMES, GlobalConditionsGrammarLexer._SYMBOLIC_NAMES, []);
+	public static readonly VOCABULARY: Vocabulary = new VocabularyImpl(UserQueryGrammarLexer._LITERAL_NAMES, UserQueryGrammarLexer._SYMBOLIC_NAMES, []);
 
 	@Override
 	@NotNull
 	public get vocabulary(): Vocabulary {
-		return GlobalConditionsGrammarLexer.VOCABULARY;
+		return UserQueryGrammarLexer.VOCABULARY;
 	}
 
 
 	constructor(input: CharStream) {
 		super(input);
-		this._interp = new LexerATNSimulator(GlobalConditionsGrammarLexer._ATN, this);
+		this._interp = new LexerATNSimulator(UserQueryGrammarLexer._ATN, this);
 	}
 
 	@Override
-	public get grammarFileName(): string { return "GlobalConditionsGrammar.g4"; }
+	public get grammarFileName(): string { return "UserQueryGrammar.g4"; }
 
 	@Override
-	public get ruleNames(): string[] { return GlobalConditionsGrammarLexer.ruleNames; }
+	public get ruleNames(): string[] { return UserQueryGrammarLexer.ruleNames; }
 
 	@Override
-	public get serializedATN(): string { return GlobalConditionsGrammarLexer._serializedATN; }
+	public get serializedATN(): string { return UserQueryGrammarLexer._serializedATN; }
 
 	@Override
-	public get modeNames(): string[] { return GlobalConditionsGrammarLexer.modeNames; }
+	public get modeNames(): string[] { return UserQueryGrammarLexer.modeNames; }
 
 	public static readonly _serializedATN: string =
 		"\x03\uAF6F\u8320\u479D\uB75C\u4880\u1605\u191C\uAB37\x02$\u0165\b\x01"+
@@ -260,11 +260,11 @@ export class GlobalConditionsGrammarLexer extends Lexer {
 		"\u0119\u011E\u0124\u0126\u0161\x03\b\x02\x02";
 	public static __ATN: ATN;
 	public static get _ATN(): ATN {
-		if (!GlobalConditionsGrammarLexer.__ATN) {
-			GlobalConditionsGrammarLexer.__ATN = new ATNDeserializer().deserialize(Utils.toCharArray(GlobalConditionsGrammarLexer._serializedATN));
+		if (!UserQueryGrammarLexer.__ATN) {
+			UserQueryGrammarLexer.__ATN = new ATNDeserializer().deserialize(Utils.toCharArray(UserQueryGrammarLexer._serializedATN));
 		}
 
-		return GlobalConditionsGrammarLexer.__ATN;
+		return UserQueryGrammarLexer.__ATN;
 	}
 
 }

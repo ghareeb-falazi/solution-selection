@@ -1,62 +1,62 @@
-// Generated from src/assets/grammars/GlobalConditionsGrammar.g4 by ANTLR 4.6-SNAPSHOT
+// Generated from src/assets/grammars/UserQueryGrammar.g4 by ANTLR 4.6-SNAPSHOT
 
 
 import { ParseTreeVisitor } from 'antlr4ts/tree/ParseTreeVisitor';
 
-import { StringVariableContext } from './GlobalConditionsGrammarParser';
-import { StringAtomContext } from './GlobalConditionsGrammarParser';
-import { MvvContext } from './GlobalConditionsGrammarParser';
-import { FBinaryBoolOpContext } from './GlobalConditionsGrammarParser';
-import { FArithmeticComparisonContext } from './GlobalConditionsGrammarParser';
-import { FBoolConstantContext } from './GlobalConditionsGrammarParser';
-import { FUnaryBoolOpContext } from './GlobalConditionsGrammarParser';
-import { FBoolVariableContext } from './GlobalConditionsGrammarParser';
-import { FStringComparisonContext } from './GlobalConditionsGrammarParser';
-import { FArithmeticConstantContext } from './GlobalConditionsGrammarParser';
-import { FBinaryArithmeticOpContext } from './GlobalConditionsGrammarParser';
-import { FUnaryArithmeticOpContext } from './GlobalConditionsGrammarParser';
-import { FArithmeticVariableContext } from './GlobalConditionsGrammarParser';
-import { ArithmeticConstantContext } from './GlobalConditionsGrammarParser';
-import { BinaryArithmeticOpContext } from './GlobalConditionsGrammarParser';
-import { ArithmeticVariableContext } from './GlobalConditionsGrammarParser';
-import { ArithmeticFuncContext } from './GlobalConditionsGrammarParser';
-import { UnaryArithmeticOpContext } from './GlobalConditionsGrammarParser';
-import { RightMVVArithCompContext } from './GlobalConditionsGrammarParser';
-import { BoolVariableContext } from './GlobalConditionsGrammarParser';
-import { ExistsCapContext } from './GlobalConditionsGrammarParser';
-import { ArithmeticComparisonContext } from './GlobalConditionsGrammarParser';
-import { BoolConstantContext } from './GlobalConditionsGrammarParser';
-import { UnaryBoolOpContext } from './GlobalConditionsGrammarParser';
-import { StringComparisonContext } from './GlobalConditionsGrammarParser';
-import { LeftMVVArithCompContext } from './GlobalConditionsGrammarParser';
-import { ExistsValContext } from './GlobalConditionsGrammarParser';
-import { LeftMVVStringCompContext } from './GlobalConditionsGrammarParser';
-import { ExistsCSContext } from './GlobalConditionsGrammarParser';
-import { RightMVVStringCompContext } from './GlobalConditionsGrammarParser';
-import { BoolMVVContext } from './GlobalConditionsGrammarParser';
-import { BinaryBoolOpContext } from './GlobalConditionsGrammarParser';
-import { FStringVariableContext } from './GlobalConditionsGrammarParser';
-import { FStringAtomContext } from './GlobalConditionsGrammarParser';
-import { BooleanExpressionContext } from './GlobalConditionsGrammarParser';
-import { ArithmeticExpressionContext } from './GlobalConditionsGrammarParser';
-import { StringValueContext } from './GlobalConditionsGrammarParser';
-import { MultiValueVariableContext } from './GlobalConditionsGrammarParser';
-import { FBooleanExpressionContext } from './GlobalConditionsGrammarParser';
-import { FArithmeticExpressionContext } from './GlobalConditionsGrammarParser';
-import { FStringValueContext } from './GlobalConditionsGrammarParser';
+import { StringVariableContext } from './UserQueryGrammarParser';
+import { StringAtomContext } from './UserQueryGrammarParser';
+import { MvvContext } from './UserQueryGrammarParser';
+import { FBinaryBoolOpContext } from './UserQueryGrammarParser';
+import { FArithmeticComparisonContext } from './UserQueryGrammarParser';
+import { FBoolConstantContext } from './UserQueryGrammarParser';
+import { FUnaryBoolOpContext } from './UserQueryGrammarParser';
+import { FBoolVariableContext } from './UserQueryGrammarParser';
+import { FStringComparisonContext } from './UserQueryGrammarParser';
+import { FArithmeticConstantContext } from './UserQueryGrammarParser';
+import { FBinaryArithmeticOpContext } from './UserQueryGrammarParser';
+import { FUnaryArithmeticOpContext } from './UserQueryGrammarParser';
+import { FArithmeticVariableContext } from './UserQueryGrammarParser';
+import { ArithmeticConstantContext } from './UserQueryGrammarParser';
+import { BinaryArithmeticOpContext } from './UserQueryGrammarParser';
+import { ArithmeticVariableContext } from './UserQueryGrammarParser';
+import { ArithmeticFuncContext } from './UserQueryGrammarParser';
+import { UnaryArithmeticOpContext } from './UserQueryGrammarParser';
+import { RightMVVArithCompContext } from './UserQueryGrammarParser';
+import { BoolVariableContext } from './UserQueryGrammarParser';
+import { ExistsCapContext } from './UserQueryGrammarParser';
+import { ArithmeticComparisonContext } from './UserQueryGrammarParser';
+import { BoolConstantContext } from './UserQueryGrammarParser';
+import { UnaryBoolOpContext } from './UserQueryGrammarParser';
+import { StringComparisonContext } from './UserQueryGrammarParser';
+import { LeftMVVArithCompContext } from './UserQueryGrammarParser';
+import { ExistsValContext } from './UserQueryGrammarParser';
+import { LeftMVVStringCompContext } from './UserQueryGrammarParser';
+import { ExistsCSContext } from './UserQueryGrammarParser';
+import { RightMVVStringCompContext } from './UserQueryGrammarParser';
+import { BoolMVVContext } from './UserQueryGrammarParser';
+import { BinaryBoolOpContext } from './UserQueryGrammarParser';
+import { FStringVariableContext } from './UserQueryGrammarParser';
+import { FStringAtomContext } from './UserQueryGrammarParser';
+import { BooleanExpressionContext } from './UserQueryGrammarParser';
+import { ArithmeticExpressionContext } from './UserQueryGrammarParser';
+import { StringValueContext } from './UserQueryGrammarParser';
+import { MultiValueVariableContext } from './UserQueryGrammarParser';
+import { FBooleanExpressionContext } from './UserQueryGrammarParser';
+import { FArithmeticExpressionContext } from './UserQueryGrammarParser';
+import { FStringValueContext } from './UserQueryGrammarParser';
 
 
 /**
  * This interface defines a complete generic visitor for a parse tree produced
- * by `GlobalConditionsGrammarParser`.
+ * by `UserQueryGrammarParser`.
  *
  * @param <Result> The return type of the visit operation. Use `void` for
  * operations with no return type.
  */
-export interface GlobalConditionsGrammarVisitor<Result> extends ParseTreeVisitor<Result> {
+export interface UserQueryGrammarVisitor<Result> extends ParseTreeVisitor<Result> {
 	/**
 	 * Visit a parse tree produced by the `stringVariable`
-	 * labeled alternative in `GlobalConditionsGrammarParser.stringValue`.
+	 * labeled alternative in `UserQueryGrammarParser.stringValue`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -64,7 +64,7 @@ export interface GlobalConditionsGrammarVisitor<Result> extends ParseTreeVisitor
 
 	/**
 	 * Visit a parse tree produced by the `stringAtom`
-	 * labeled alternative in `GlobalConditionsGrammarParser.stringValue`.
+	 * labeled alternative in `UserQueryGrammarParser.stringValue`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -72,7 +72,7 @@ export interface GlobalConditionsGrammarVisitor<Result> extends ParseTreeVisitor
 
 	/**
 	 * Visit a parse tree produced by the `mvv`
-	 * labeled alternative in `GlobalConditionsGrammarParser.multiValueVariable`.
+	 * labeled alternative in `UserQueryGrammarParser.multiValueVariable`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -80,7 +80,7 @@ export interface GlobalConditionsGrammarVisitor<Result> extends ParseTreeVisitor
 
 	/**
 	 * Visit a parse tree produced by the `fBinaryBoolOp`
-	 * labeled alternative in `GlobalConditionsGrammarParser.fBooleanExpression`.
+	 * labeled alternative in `UserQueryGrammarParser.fBooleanExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -88,7 +88,7 @@ export interface GlobalConditionsGrammarVisitor<Result> extends ParseTreeVisitor
 
 	/**
 	 * Visit a parse tree produced by the `fArithmeticComparison`
-	 * labeled alternative in `GlobalConditionsGrammarParser.fBooleanExpression`.
+	 * labeled alternative in `UserQueryGrammarParser.fBooleanExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -96,7 +96,7 @@ export interface GlobalConditionsGrammarVisitor<Result> extends ParseTreeVisitor
 
 	/**
 	 * Visit a parse tree produced by the `fBoolConstant`
-	 * labeled alternative in `GlobalConditionsGrammarParser.fBooleanExpression`.
+	 * labeled alternative in `UserQueryGrammarParser.fBooleanExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -104,7 +104,7 @@ export interface GlobalConditionsGrammarVisitor<Result> extends ParseTreeVisitor
 
 	/**
 	 * Visit a parse tree produced by the `fUnaryBoolOp`
-	 * labeled alternative in `GlobalConditionsGrammarParser.fBooleanExpression`.
+	 * labeled alternative in `UserQueryGrammarParser.fBooleanExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -112,7 +112,7 @@ export interface GlobalConditionsGrammarVisitor<Result> extends ParseTreeVisitor
 
 	/**
 	 * Visit a parse tree produced by the `fBoolVariable`
-	 * labeled alternative in `GlobalConditionsGrammarParser.fBooleanExpression`.
+	 * labeled alternative in `UserQueryGrammarParser.fBooleanExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -120,7 +120,7 @@ export interface GlobalConditionsGrammarVisitor<Result> extends ParseTreeVisitor
 
 	/**
 	 * Visit a parse tree produced by the `fStringComparison`
-	 * labeled alternative in `GlobalConditionsGrammarParser.fBooleanExpression`.
+	 * labeled alternative in `UserQueryGrammarParser.fBooleanExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -128,7 +128,7 @@ export interface GlobalConditionsGrammarVisitor<Result> extends ParseTreeVisitor
 
 	/**
 	 * Visit a parse tree produced by the `fArithmeticConstant`
-	 * labeled alternative in `GlobalConditionsGrammarParser.fArithmeticExpression`.
+	 * labeled alternative in `UserQueryGrammarParser.fArithmeticExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -136,7 +136,7 @@ export interface GlobalConditionsGrammarVisitor<Result> extends ParseTreeVisitor
 
 	/**
 	 * Visit a parse tree produced by the `fBinaryArithmeticOp`
-	 * labeled alternative in `GlobalConditionsGrammarParser.fArithmeticExpression`.
+	 * labeled alternative in `UserQueryGrammarParser.fArithmeticExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -144,7 +144,7 @@ export interface GlobalConditionsGrammarVisitor<Result> extends ParseTreeVisitor
 
 	/**
 	 * Visit a parse tree produced by the `fUnaryArithmeticOp`
-	 * labeled alternative in `GlobalConditionsGrammarParser.fArithmeticExpression`.
+	 * labeled alternative in `UserQueryGrammarParser.fArithmeticExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -152,7 +152,7 @@ export interface GlobalConditionsGrammarVisitor<Result> extends ParseTreeVisitor
 
 	/**
 	 * Visit a parse tree produced by the `fArithmeticVariable`
-	 * labeled alternative in `GlobalConditionsGrammarParser.fArithmeticExpression`.
+	 * labeled alternative in `UserQueryGrammarParser.fArithmeticExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -160,7 +160,7 @@ export interface GlobalConditionsGrammarVisitor<Result> extends ParseTreeVisitor
 
 	/**
 	 * Visit a parse tree produced by the `arithmeticConstant`
-	 * labeled alternative in `GlobalConditionsGrammarParser.arithmeticExpression`.
+	 * labeled alternative in `UserQueryGrammarParser.arithmeticExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -168,7 +168,7 @@ export interface GlobalConditionsGrammarVisitor<Result> extends ParseTreeVisitor
 
 	/**
 	 * Visit a parse tree produced by the `binaryArithmeticOp`
-	 * labeled alternative in `GlobalConditionsGrammarParser.arithmeticExpression`.
+	 * labeled alternative in `UserQueryGrammarParser.arithmeticExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -176,7 +176,7 @@ export interface GlobalConditionsGrammarVisitor<Result> extends ParseTreeVisitor
 
 	/**
 	 * Visit a parse tree produced by the `arithmeticVariable`
-	 * labeled alternative in `GlobalConditionsGrammarParser.arithmeticExpression`.
+	 * labeled alternative in `UserQueryGrammarParser.arithmeticExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -184,7 +184,7 @@ export interface GlobalConditionsGrammarVisitor<Result> extends ParseTreeVisitor
 
 	/**
 	 * Visit a parse tree produced by the `arithmeticFunc`
-	 * labeled alternative in `GlobalConditionsGrammarParser.arithmeticExpression`.
+	 * labeled alternative in `UserQueryGrammarParser.arithmeticExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -192,7 +192,7 @@ export interface GlobalConditionsGrammarVisitor<Result> extends ParseTreeVisitor
 
 	/**
 	 * Visit a parse tree produced by the `unaryArithmeticOp`
-	 * labeled alternative in `GlobalConditionsGrammarParser.arithmeticExpression`.
+	 * labeled alternative in `UserQueryGrammarParser.arithmeticExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -200,7 +200,7 @@ export interface GlobalConditionsGrammarVisitor<Result> extends ParseTreeVisitor
 
 	/**
 	 * Visit a parse tree produced by the `rightMVVArithComp`
-	 * labeled alternative in `GlobalConditionsGrammarParser.booleanExpression`.
+	 * labeled alternative in `UserQueryGrammarParser.booleanExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -208,7 +208,7 @@ export interface GlobalConditionsGrammarVisitor<Result> extends ParseTreeVisitor
 
 	/**
 	 * Visit a parse tree produced by the `boolVariable`
-	 * labeled alternative in `GlobalConditionsGrammarParser.booleanExpression`.
+	 * labeled alternative in `UserQueryGrammarParser.booleanExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -216,7 +216,7 @@ export interface GlobalConditionsGrammarVisitor<Result> extends ParseTreeVisitor
 
 	/**
 	 * Visit a parse tree produced by the `existsCap`
-	 * labeled alternative in `GlobalConditionsGrammarParser.booleanExpression`.
+	 * labeled alternative in `UserQueryGrammarParser.booleanExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -224,7 +224,7 @@ export interface GlobalConditionsGrammarVisitor<Result> extends ParseTreeVisitor
 
 	/**
 	 * Visit a parse tree produced by the `arithmeticComparison`
-	 * labeled alternative in `GlobalConditionsGrammarParser.booleanExpression`.
+	 * labeled alternative in `UserQueryGrammarParser.booleanExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -232,7 +232,7 @@ export interface GlobalConditionsGrammarVisitor<Result> extends ParseTreeVisitor
 
 	/**
 	 * Visit a parse tree produced by the `boolConstant`
-	 * labeled alternative in `GlobalConditionsGrammarParser.booleanExpression`.
+	 * labeled alternative in `UserQueryGrammarParser.booleanExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -240,7 +240,7 @@ export interface GlobalConditionsGrammarVisitor<Result> extends ParseTreeVisitor
 
 	/**
 	 * Visit a parse tree produced by the `unaryBoolOp`
-	 * labeled alternative in `GlobalConditionsGrammarParser.booleanExpression`.
+	 * labeled alternative in `UserQueryGrammarParser.booleanExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -248,7 +248,7 @@ export interface GlobalConditionsGrammarVisitor<Result> extends ParseTreeVisitor
 
 	/**
 	 * Visit a parse tree produced by the `stringComparison`
-	 * labeled alternative in `GlobalConditionsGrammarParser.booleanExpression`.
+	 * labeled alternative in `UserQueryGrammarParser.booleanExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -256,7 +256,7 @@ export interface GlobalConditionsGrammarVisitor<Result> extends ParseTreeVisitor
 
 	/**
 	 * Visit a parse tree produced by the `leftMVVArithComp`
-	 * labeled alternative in `GlobalConditionsGrammarParser.booleanExpression`.
+	 * labeled alternative in `UserQueryGrammarParser.booleanExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -264,7 +264,7 @@ export interface GlobalConditionsGrammarVisitor<Result> extends ParseTreeVisitor
 
 	/**
 	 * Visit a parse tree produced by the `existsVal`
-	 * labeled alternative in `GlobalConditionsGrammarParser.booleanExpression`.
+	 * labeled alternative in `UserQueryGrammarParser.booleanExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -272,7 +272,7 @@ export interface GlobalConditionsGrammarVisitor<Result> extends ParseTreeVisitor
 
 	/**
 	 * Visit a parse tree produced by the `leftMVVStringComp`
-	 * labeled alternative in `GlobalConditionsGrammarParser.booleanExpression`.
+	 * labeled alternative in `UserQueryGrammarParser.booleanExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -280,7 +280,7 @@ export interface GlobalConditionsGrammarVisitor<Result> extends ParseTreeVisitor
 
 	/**
 	 * Visit a parse tree produced by the `existsCS`
-	 * labeled alternative in `GlobalConditionsGrammarParser.booleanExpression`.
+	 * labeled alternative in `UserQueryGrammarParser.booleanExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -288,7 +288,7 @@ export interface GlobalConditionsGrammarVisitor<Result> extends ParseTreeVisitor
 
 	/**
 	 * Visit a parse tree produced by the `rightMVVStringComp`
-	 * labeled alternative in `GlobalConditionsGrammarParser.booleanExpression`.
+	 * labeled alternative in `UserQueryGrammarParser.booleanExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -296,7 +296,7 @@ export interface GlobalConditionsGrammarVisitor<Result> extends ParseTreeVisitor
 
 	/**
 	 * Visit a parse tree produced by the `boolMVV`
-	 * labeled alternative in `GlobalConditionsGrammarParser.booleanExpression`.
+	 * labeled alternative in `UserQueryGrammarParser.booleanExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -304,7 +304,7 @@ export interface GlobalConditionsGrammarVisitor<Result> extends ParseTreeVisitor
 
 	/**
 	 * Visit a parse tree produced by the `binaryBoolOp`
-	 * labeled alternative in `GlobalConditionsGrammarParser.booleanExpression`.
+	 * labeled alternative in `UserQueryGrammarParser.booleanExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -312,7 +312,7 @@ export interface GlobalConditionsGrammarVisitor<Result> extends ParseTreeVisitor
 
 	/**
 	 * Visit a parse tree produced by the `fStringVariable`
-	 * labeled alternative in `GlobalConditionsGrammarParser.fStringValue`.
+	 * labeled alternative in `UserQueryGrammarParser.fStringValue`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -320,56 +320,56 @@ export interface GlobalConditionsGrammarVisitor<Result> extends ParseTreeVisitor
 
 	/**
 	 * Visit a parse tree produced by the `fStringAtom`
-	 * labeled alternative in `GlobalConditionsGrammarParser.fStringValue`.
+	 * labeled alternative in `UserQueryGrammarParser.fStringValue`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	visitFStringAtom?: (ctx: FStringAtomContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `GlobalConditionsGrammarParser.booleanExpression`.
+	 * Visit a parse tree produced by `UserQueryGrammarParser.booleanExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	visitBooleanExpression?: (ctx: BooleanExpressionContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `GlobalConditionsGrammarParser.arithmeticExpression`.
+	 * Visit a parse tree produced by `UserQueryGrammarParser.arithmeticExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	visitArithmeticExpression?: (ctx: ArithmeticExpressionContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `GlobalConditionsGrammarParser.stringValue`.
+	 * Visit a parse tree produced by `UserQueryGrammarParser.stringValue`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	visitStringValue?: (ctx: StringValueContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `GlobalConditionsGrammarParser.multiValueVariable`.
+	 * Visit a parse tree produced by `UserQueryGrammarParser.multiValueVariable`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	visitMultiValueVariable?: (ctx: MultiValueVariableContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `GlobalConditionsGrammarParser.fBooleanExpression`.
+	 * Visit a parse tree produced by `UserQueryGrammarParser.fBooleanExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	visitFBooleanExpression?: (ctx: FBooleanExpressionContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `GlobalConditionsGrammarParser.fArithmeticExpression`.
+	 * Visit a parse tree produced by `UserQueryGrammarParser.fArithmeticExpression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	visitFArithmeticExpression?: (ctx: FArithmeticExpressionContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `GlobalConditionsGrammarParser.fStringValue`.
+	 * Visit a parse tree produced by `UserQueryGrammarParser.fStringValue`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */

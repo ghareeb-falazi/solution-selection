@@ -6,67 +6,86 @@ import {Http} from "@angular/http";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import {ConcreteSolutionInterface, ConcreteSolutionModel} from "../../data-model/concrete-solution.model";
-import {getCurrentDebugContext} from "@angular/core/src/view/services";
-import {isNullOrUndefined} from "util";
 import {RequirementModel} from "../../data-model/requirement.model";
 import {CapabilityModel} from "../../data-model/capability.model";
 
-
+/**
+ * A service that provides access to the concrete solution repository
+ */
 @Injectable()
 export class ConcreteSolutionRepositoryService {
+  /**
+   * Local cache of concrete solutions
+   */
   allSolutions: ConcreteSolutionModel[];
-  private initialized:Promise<any>;
+  /**
+   * Used to indicate that service initialization is done
+   */
+  private initialized: Promise<any>;
 
+  /**
+   * Initializes a new instances of the service
+   * @param {Http} http Angular service for http connections
+   */
   constructor(private http: Http) {
     this.initialized = this.initialize();
   }
 
-  private initialize():Promise<any>{
-    //console.debug('ConcreteSolutionRepositoryService.waitForInitialization() is called, value for allSolutions:');
-    //console.debug(this.allSolutions);
-      let url = 'assets/concrete-solutions.json';
-      return this.http.get(url)
-        .toPromise()
-        .then((response) => {
+  /**
+   * A simple implementation that reads the concrete solutions stored in a local JSON file
+   * @returns {Promise<any>} a Promise that gets resolved when initialization is done.
+   */
+  private initialize(): Promise<any> {
+    const url = 'assets/concrete-solutions.json';
+    return this.http.get(url)
+      .toPromise()
+      .then((response) => {
 
-          let result: ConcreteSolutionModel[] = [];
-          //console.debug(response.json());
-          //console.debug('this was initial!');
-          let original: ConcreteSolutionInterface[] = response.json();
+        const result: ConcreteSolutionModel[] = [];
+        const original: ConcreteSolutionInterface[] = response.json();
 
-          for (let i = 0; i < original.length; i++) {
-            result.push(ConcreteSolutionModel.fromData(original[i]));
-          }
-          //console.debug(result);
-          this.allSolutions = result;
-          console.debug(`ConcreteSolutionRepository is initialized`);
+        for (let i = 0; i < original.length; i++) {
+          result.push(ConcreteSolutionModel.fromData(original[i]));
+        }
 
-          return result;
-        })
-        .catch(this.handleError);
+        this.allSolutions = result;
+        console.debug(`ConcreteSolutionRepository is initialized`);
+
+        return result;
+      })
+      .catch(ConcreteSolutionRepositoryService.handleError);
   }
 
+  /**
+   * Returns a Promise that gets resolved when the initialization process is done.
+   * @returns {Promise<any>} a Promise that gets resolved when the initialization process is done.
+   */
   waitForInitialization(): Promise<any> {
     return this.initialized;
   }
 
+  /**
+   * Gets the set of concrete solutions that implement a given pattern
+   * @param {string} patternName
+   * @returns {ConcreteSolutionModel[]}
+   */
   getConcreteSolutionsOfPattern(patternName: string): ConcreteSolutionModel[] {
-    let result: ConcreteSolutionModel[] = [];
+    return this.allSolutions.filter(solution =>{
+      return solution.getImplementedPattern().toLowerCase() === patternName.toLowerCase()
+    });
 
-    for (let i = 0; i < this.allSolutions.length; i++) {
-      if (this.allSolutions[i].getImplementedPattern().toLowerCase() === patternName.toLowerCase()) {
-        result.push(this.allSolutions[i]);
-      }
-    }
-
-    return result;
   }
 
-  getConcreteSolutionByUri(csUri: string):ConcreteSolutionModel{
-    let result:ConcreteSolutionModel = null;
+  /**
+   * Gets a concrete solution based on its uri
+   * @param {string} csUri
+   * @returns {ConcreteSolutionModel}
+   */
+  getConcreteSolutionByUri(csUri: string): ConcreteSolutionModel {
+    let result: ConcreteSolutionModel = null;
 
-    for(const sol of this.allSolutions){
-      if(sol.uri === csUri){
+    for (const sol of this.allSolutions) {
+      if (sol.uri === csUri) {
         result = sol;
         break;
       }
@@ -75,20 +94,11 @@ export class ConcreteSolutionRepositoryService {
     return result;
   }
 
-  getAllImplementedPatterns(): string[] {
-    const result: string[] = [];
-    let currentPattern: string;
 
-    for (const solution of this.allSolutions) {
-      currentPattern = solution.getImplementedPattern();
-
-      if (currentPattern && result.filter(param => param === currentPattern).length === 0)
-        result.push(currentPattern);
-    }
-
-    return result;
-  }
-
+  /**
+   * Gets a set of all capabilities of concrete solutions
+   * @returns {Promise<CapabilityModel[]>}
+   */
   getAllCapabilities(): Promise<CapabilityModel[]> {
     const result: CapabilityModel[] = [];
 
@@ -99,34 +109,26 @@ export class ConcreteSolutionRepositoryService {
     return new Promise<CapabilityModel[]>(resolve => resolve(result));
   }
 
-  getAllPropertyNamesOfCapability(capabilityName: string): Promise<string[]> {
-    const result: string[] = [];
+  /**
+   * Gets a set of all requirements of concrete solutions
+   * @returns {Promise<RequirementModel[]>}
+   */
+  getAllRequirements(): Promise<RequirementModel[]> {
+    const result: RequirementModel[] = [];
 
     for (const sol of this.allSolutions) {
-      for (const cap of sol.capabilities) {
-        if (cap.name===capabilityName) {
-          for (const propKey of cap.properties.keys()) {
-              if (result.indexOf(propKey) < 0)
-                result.push(propKey);
-          }
-        }
-      }
-    }
-
-    return new Promise<string[]>(resolve => resolve(result));
-  }
-
-  getAllRequirements():Promise<RequirementModel[]>{
-    const result:RequirementModel[] = [];
-
-    for(const sol of this.allSolutions){
       result.push(...sol.requirements);
     }
 
-    return new Promise<RequirementModel[]>(resolve=>resolve(result));
+    return new Promise<RequirementModel[]>(resolve => resolve(result));
   }
 
-  private handleError(error: any): Promise<any> {
+  /**
+   * Handles errors that might occur while initializing the service
+   * @param error the error to handle
+   * @returns {Promise<any>}
+   */
+  private static handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only
     return Promise.reject(error.message || error);
   }

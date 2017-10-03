@@ -3,19 +3,34 @@ import {CapabilityModel} from "../../data-model/capability.model";
 import {SuggestionsService} from "../../core/suggestions/suggestions.service";
 
 /**
- * Created by falazigb on 06-Aug-17.
+ * A component that represents a single initial property
  */
 @Component({
   selector: 'capa',
   templateUrl: './initial-property.component.html'
 })
-
 export class InitialPropertyComponent implements OnInit {
+  /**
+   * the name of the property being typed by the user
+   */
   propNameQuery: string;
+  /**
+   * The value in the "value" field
+   */
   newValueInput: string;
+  /**
+   * The set of suggestions for the current property name
+   */
   suggestions: any[];
+  /**
+   * The set of properties for this initial property
+   * @type {Array}
+   */
   properties:[string, string][] = [];
 
+  /**
+   * The model-object created based on this component
+   */
   @Input()
   capability: CapabilityModel;
 
@@ -31,14 +46,21 @@ export class InitialPropertyComponent implements OnInit {
 
   }
 
+  /**
+   * Search for suggestions for the property name being typed
+   */
   searchForSuggestions(): void {
-    console.debug(`inside search for suggestions ${this.propNameQuery},${this.capability.name}`);
     this.suggestionsService.getSuggestionsForPropertyName(this.propNameQuery, this.capability.name)
       .then(result => {
         this.suggestions = result;
       });
   }
 
+  /**
+   * finds the index of a property based on its label
+   * @param {string} label
+   * @returns {number}
+   */
   private findPropertyByLabel(label:string):number{
     let index:number = -1;
 
@@ -52,6 +74,9 @@ export class InitialPropertyComponent implements OnInit {
     }
   }
 
+  /**
+   * Handles the event when the user clicks on the dropdown arrow
+   */
   handleDropdown() {
     //mimic remote call, otherwise the dropdown doesn't show
     this.suggestionsService.getSuggestionsForPropertyName(null, this.capability.name)
@@ -63,8 +88,11 @@ export class InitialPropertyComponent implements OnInit {
 
   }
 
-
-
+  /**
+   * Handles the event when the user clicks on the add property button
+   * @param {string} label
+   * @param {string} value
+   */
   addProperty(label: string, value: string): void {
     if (this.capability.properties.has(label))
       console.error(`The property: ${label} already exists in the current capability!`);
@@ -79,6 +107,10 @@ export class InitialPropertyComponent implements OnInit {
 
   }
 
+  /**
+   * Handles the event when the user clicks on the remove property button
+   * @param {string} label
+   */
   removeProperty(label: string): void {
     if (this.capability.properties.has(label)){
       this.capability.properties.delete(label);
@@ -90,6 +122,10 @@ export class InitialPropertyComponent implements OnInit {
     }
   }
 
+  /**
+   * Returns a capability that represents the current initial property
+   * @returns {CapabilityModel}
+   */
   getCapability(): CapabilityModel {
     this.capability.properties = new Map(this.properties);
     return this.capability;

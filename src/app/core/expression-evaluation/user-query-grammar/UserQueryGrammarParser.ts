@@ -1,4 +1,4 @@
-// Generated from src/assets/grammars/GlobalConditionsGrammar.g4 by ANTLR 4.6-SNAPSHOT
+// Generated from src/assets/grammars/UserQueryGrammar.g4 by ANTLR 4.6-SNAPSHOT
 
 
 import { ATN } from 'antlr4ts/atn/ATN';
@@ -23,8 +23,7 @@ import { VocabularyImpl } from 'antlr4ts/VocabularyImpl';
 
 import * as Utils from 'antlr4ts/misc/Utils';
 
-import { GlobalConditionsGrammarListener } from './GlobalConditionsGrammarListener';
-import { GlobalConditionsGrammarVisitor } from './GlobalConditionsGrammarVisitor';
+import { UserQueryGrammarVisitor } from './UserQueryGrammarVisitor';
 
 
 
@@ -38,7 +37,7 @@ export class BooleanExpressionContext extends ParserRuleContext {
 			super();
 		}
 	}
-	@Override public get ruleIndex(): number { return GlobalConditionsGrammarParser.RULE_booleanExpression; }
+	@Override public get ruleIndex(): number { return UserQueryGrammarParser.RULE_booleanExpression; }
 
 	public copyFrom(ctx: BooleanExpressionContext): void {
 		super.copyFrom(ctx);
@@ -56,15 +55,7 @@ export class RightMVVArithCompContext extends BooleanExpressionContext {
 	}
 	constructor(ctx: BooleanExpressionContext) { super(); this.copyFrom(ctx); }
 	@Override
-	public enterRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.enterRightMVVArithComp) listener.enterRightMVVArithComp(this);
-	}
-	@Override
-	public exitRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.exitRightMVVArithComp) listener.exitRightMVVArithComp(this);
-	}
-	@Override
-	public accept<Result>(visitor: GlobalConditionsGrammarVisitor<Result>): Result {
+	public accept<Result>(visitor: UserQueryGrammarVisitor<Result>): Result {
 		if (visitor.visitRightMVVArithComp) return visitor.visitRightMVVArithComp(this);
 		else return visitor.visitChildren(this);
 	}
@@ -72,36 +63,28 @@ export class RightMVVArithCompContext extends BooleanExpressionContext {
 export class BoolVariableContext extends BooleanExpressionContext {
 	public _cap: Token;
 	public _property: Token;
-	public CS(): TerminalNode { return this.getToken(GlobalConditionsGrammarParser.CS, 0); }
+	public CS(): TerminalNode { return this.getToken(UserQueryGrammarParser.CS, 0); }
 	public DOT(): TerminalNode[];
 	public DOT(i: number): TerminalNode;
 	public DOT(i?: number): TerminalNode | TerminalNode[] {
 		if (i === undefined) {
-			return this.getTokens(GlobalConditionsGrammarParser.DOT);
+			return this.getTokens(UserQueryGrammarParser.DOT);
 		} else {
-			return this.getToken(GlobalConditionsGrammarParser.DOT, i);
+			return this.getToken(UserQueryGrammarParser.DOT, i);
 		}
 	}
 	public VARIABLE(): TerminalNode[];
 	public VARIABLE(i: number): TerminalNode;
 	public VARIABLE(i?: number): TerminalNode | TerminalNode[] {
 		if (i === undefined) {
-			return this.getTokens(GlobalConditionsGrammarParser.VARIABLE);
+			return this.getTokens(UserQueryGrammarParser.VARIABLE);
 		} else {
-			return this.getToken(GlobalConditionsGrammarParser.VARIABLE, i);
+			return this.getToken(UserQueryGrammarParser.VARIABLE, i);
 		}
 	}
 	constructor(ctx: BooleanExpressionContext) { super(); this.copyFrom(ctx); }
 	@Override
-	public enterRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.enterBoolVariable) listener.enterBoolVariable(this);
-	}
-	@Override
-	public exitRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.exitBoolVariable) listener.exitBoolVariable(this);
-	}
-	@Override
-	public accept<Result>(visitor: GlobalConditionsGrammarVisitor<Result>): Result {
+	public accept<Result>(visitor: UserQueryGrammarVisitor<Result>): Result {
 		if (visitor.visitBoolVariable) return visitor.visitBoolVariable(this);
 		else return visitor.visitChildren(this);
 	}
@@ -109,24 +92,16 @@ export class BoolVariableContext extends BooleanExpressionContext {
 export class ExistsCapContext extends BooleanExpressionContext {
 	public _cs: Token;
 	public _cap: Token;
-	public EXISTS_CAP(): TerminalNode { return this.getToken(GlobalConditionsGrammarParser.EXISTS_CAP, 0); }
-	public LPAR(): TerminalNode { return this.getToken(GlobalConditionsGrammarParser.LPAR, 0); }
-	public COMMA(): TerminalNode { return this.getToken(GlobalConditionsGrammarParser.COMMA, 0); }
-	public RPAR(): TerminalNode { return this.getToken(GlobalConditionsGrammarParser.RPAR, 0); }
-	public VARIABLE(): TerminalNode { return this.getToken(GlobalConditionsGrammarParser.VARIABLE, 0); }
-	public ANY(): TerminalNode | undefined { return this.tryGetToken(GlobalConditionsGrammarParser.ANY, 0); }
-	public CS(): TerminalNode | undefined { return this.tryGetToken(GlobalConditionsGrammarParser.CS, 0); }
+	public EXISTS_CAP(): TerminalNode { return this.getToken(UserQueryGrammarParser.EXISTS_CAP, 0); }
+	public LPAR(): TerminalNode { return this.getToken(UserQueryGrammarParser.LPAR, 0); }
+	public COMMA(): TerminalNode { return this.getToken(UserQueryGrammarParser.COMMA, 0); }
+	public RPAR(): TerminalNode { return this.getToken(UserQueryGrammarParser.RPAR, 0); }
+	public VARIABLE(): TerminalNode { return this.getToken(UserQueryGrammarParser.VARIABLE, 0); }
+	public ANY(): TerminalNode | undefined { return this.tryGetToken(UserQueryGrammarParser.ANY, 0); }
+	public CS(): TerminalNode | undefined { return this.tryGetToken(UserQueryGrammarParser.CS, 0); }
 	constructor(ctx: BooleanExpressionContext) { super(); this.copyFrom(ctx); }
 	@Override
-	public enterRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.enterExistsCap) listener.enterExistsCap(this);
-	}
-	@Override
-	public exitRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.exitExistsCap) listener.exitExistsCap(this);
-	}
-	@Override
-	public accept<Result>(visitor: GlobalConditionsGrammarVisitor<Result>): Result {
+	public accept<Result>(visitor: UserQueryGrammarVisitor<Result>): Result {
 		if (visitor.visitExistsCap) return visitor.visitExistsCap(this);
 		else return visitor.visitChildren(this);
 	}
@@ -146,33 +121,17 @@ export class ArithmeticComparisonContext extends BooleanExpressionContext {
 	}
 	constructor(ctx: BooleanExpressionContext) { super(); this.copyFrom(ctx); }
 	@Override
-	public enterRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.enterArithmeticComparison) listener.enterArithmeticComparison(this);
-	}
-	@Override
-	public exitRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.exitArithmeticComparison) listener.exitArithmeticComparison(this);
-	}
-	@Override
-	public accept<Result>(visitor: GlobalConditionsGrammarVisitor<Result>): Result {
+	public accept<Result>(visitor: UserQueryGrammarVisitor<Result>): Result {
 		if (visitor.visitArithmeticComparison) return visitor.visitArithmeticComparison(this);
 		else return visitor.visitChildren(this);
 	}
 }
 export class BoolConstantContext extends BooleanExpressionContext {
 	public _atom: Token;
-	public BOOL_CONSTANT(): TerminalNode { return this.getToken(GlobalConditionsGrammarParser.BOOL_CONSTANT, 0); }
+	public BOOL_CONSTANT(): TerminalNode { return this.getToken(UserQueryGrammarParser.BOOL_CONSTANT, 0); }
 	constructor(ctx: BooleanExpressionContext) { super(); this.copyFrom(ctx); }
 	@Override
-	public enterRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.enterBoolConstant) listener.enterBoolConstant(this);
-	}
-	@Override
-	public exitRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.exitBoolConstant) listener.exitBoolConstant(this);
-	}
-	@Override
-	public accept<Result>(visitor: GlobalConditionsGrammarVisitor<Result>): Result {
+	public accept<Result>(visitor: UserQueryGrammarVisitor<Result>): Result {
 		if (visitor.visitBoolConstant) return visitor.visitBoolConstant(this);
 		else return visitor.visitChildren(this);
 	}
@@ -183,18 +142,10 @@ export class UnaryBoolOpContext extends BooleanExpressionContext {
 	public booleanExpression(): BooleanExpressionContext {
 		return this.getRuleContext(0, BooleanExpressionContext);
 	}
-	public NOT(): TerminalNode | undefined { return this.tryGetToken(GlobalConditionsGrammarParser.NOT, 0); }
+	public NOT(): TerminalNode | undefined { return this.tryGetToken(UserQueryGrammarParser.NOT, 0); }
 	constructor(ctx: BooleanExpressionContext) { super(); this.copyFrom(ctx); }
 	@Override
-	public enterRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.enterUnaryBoolOp) listener.enterUnaryBoolOp(this);
-	}
-	@Override
-	public exitRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.exitUnaryBoolOp) listener.exitUnaryBoolOp(this);
-	}
-	@Override
-	public accept<Result>(visitor: GlobalConditionsGrammarVisitor<Result>): Result {
+	public accept<Result>(visitor: UserQueryGrammarVisitor<Result>): Result {
 		if (visitor.visitUnaryBoolOp) return visitor.visitUnaryBoolOp(this);
 		else return visitor.visitChildren(this);
 	}
@@ -214,15 +165,7 @@ export class StringComparisonContext extends BooleanExpressionContext {
 	}
 	constructor(ctx: BooleanExpressionContext) { super(); this.copyFrom(ctx); }
 	@Override
-	public enterRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.enterStringComparison) listener.enterStringComparison(this);
-	}
-	@Override
-	public exitRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.exitStringComparison) listener.exitStringComparison(this);
-	}
-	@Override
-	public accept<Result>(visitor: GlobalConditionsGrammarVisitor<Result>): Result {
+	public accept<Result>(visitor: UserQueryGrammarVisitor<Result>): Result {
 		if (visitor.visitStringComparison) return visitor.visitStringComparison(this);
 		else return visitor.visitChildren(this);
 	}
@@ -239,15 +182,7 @@ export class LeftMVVArithCompContext extends BooleanExpressionContext {
 	}
 	constructor(ctx: BooleanExpressionContext) { super(); this.copyFrom(ctx); }
 	@Override
-	public enterRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.enterLeftMVVArithComp) listener.enterLeftMVVArithComp(this);
-	}
-	@Override
-	public exitRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.exitLeftMVVArithComp) listener.exitLeftMVVArithComp(this);
-	}
-	@Override
-	public accept<Result>(visitor: GlobalConditionsGrammarVisitor<Result>): Result {
+	public accept<Result>(visitor: UserQueryGrammarVisitor<Result>): Result {
 		if (visitor.visitLeftMVVArithComp) return visitor.visitLeftMVVArithComp(this);
 		else return visitor.visitChildren(this);
 	}
@@ -257,43 +192,35 @@ export class ExistsValContext extends BooleanExpressionContext {
 	public _cap: Token;
 	public _property: Token;
 	public _value: Token;
-	public EXISTS_VAL(): TerminalNode { return this.getToken(GlobalConditionsGrammarParser.EXISTS_VAL, 0); }
-	public LPAR(): TerminalNode { return this.getToken(GlobalConditionsGrammarParser.LPAR, 0); }
+	public EXISTS_VAL(): TerminalNode { return this.getToken(UserQueryGrammarParser.EXISTS_VAL, 0); }
+	public LPAR(): TerminalNode { return this.getToken(UserQueryGrammarParser.LPAR, 0); }
 	public COMMA(): TerminalNode[];
 	public COMMA(i: number): TerminalNode;
 	public COMMA(i?: number): TerminalNode | TerminalNode[] {
 		if (i === undefined) {
-			return this.getTokens(GlobalConditionsGrammarParser.COMMA);
+			return this.getTokens(UserQueryGrammarParser.COMMA);
 		} else {
-			return this.getToken(GlobalConditionsGrammarParser.COMMA, i);
+			return this.getToken(UserQueryGrammarParser.COMMA, i);
 		}
 	}
-	public RPAR(): TerminalNode { return this.getToken(GlobalConditionsGrammarParser.RPAR, 0); }
+	public RPAR(): TerminalNode { return this.getToken(UserQueryGrammarParser.RPAR, 0); }
 	public VARIABLE(): TerminalNode[];
 	public VARIABLE(i: number): TerminalNode;
 	public VARIABLE(i?: number): TerminalNode | TerminalNode[] {
 		if (i === undefined) {
-			return this.getTokens(GlobalConditionsGrammarParser.VARIABLE);
+			return this.getTokens(UserQueryGrammarParser.VARIABLE);
 		} else {
-			return this.getToken(GlobalConditionsGrammarParser.VARIABLE, i);
+			return this.getToken(UserQueryGrammarParser.VARIABLE, i);
 		}
 	}
-	public ANY(): TerminalNode | undefined { return this.tryGetToken(GlobalConditionsGrammarParser.ANY, 0); }
-	public CS(): TerminalNode | undefined { return this.tryGetToken(GlobalConditionsGrammarParser.CS, 0); }
-	public SCIENTIFIC_NUMBER(): TerminalNode | undefined { return this.tryGetToken(GlobalConditionsGrammarParser.SCIENTIFIC_NUMBER, 0); }
-	public STRING_LITERAL(): TerminalNode | undefined { return this.tryGetToken(GlobalConditionsGrammarParser.STRING_LITERAL, 0); }
-	public BOOL_CONSTANT(): TerminalNode | undefined { return this.tryGetToken(GlobalConditionsGrammarParser.BOOL_CONSTANT, 0); }
+	public ANY(): TerminalNode | undefined { return this.tryGetToken(UserQueryGrammarParser.ANY, 0); }
+	public CS(): TerminalNode | undefined { return this.tryGetToken(UserQueryGrammarParser.CS, 0); }
+	public SCIENTIFIC_NUMBER(): TerminalNode | undefined { return this.tryGetToken(UserQueryGrammarParser.SCIENTIFIC_NUMBER, 0); }
+	public STRING_LITERAL(): TerminalNode | undefined { return this.tryGetToken(UserQueryGrammarParser.STRING_LITERAL, 0); }
+	public BOOL_CONSTANT(): TerminalNode | undefined { return this.tryGetToken(UserQueryGrammarParser.BOOL_CONSTANT, 0); }
 	constructor(ctx: BooleanExpressionContext) { super(); this.copyFrom(ctx); }
 	@Override
-	public enterRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.enterExistsVal) listener.enterExistsVal(this);
-	}
-	@Override
-	public exitRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.exitExistsVal) listener.exitExistsVal(this);
-	}
-	@Override
-	public accept<Result>(visitor: GlobalConditionsGrammarVisitor<Result>): Result {
+	public accept<Result>(visitor: UserQueryGrammarVisitor<Result>): Result {
 		if (visitor.visitExistsVal) return visitor.visitExistsVal(this);
 		else return visitor.visitChildren(this);
 	}
@@ -310,36 +237,20 @@ export class LeftMVVStringCompContext extends BooleanExpressionContext {
 	}
 	constructor(ctx: BooleanExpressionContext) { super(); this.copyFrom(ctx); }
 	@Override
-	public enterRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.enterLeftMVVStringComp) listener.enterLeftMVVStringComp(this);
-	}
-	@Override
-	public exitRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.exitLeftMVVStringComp) listener.exitLeftMVVStringComp(this);
-	}
-	@Override
-	public accept<Result>(visitor: GlobalConditionsGrammarVisitor<Result>): Result {
+	public accept<Result>(visitor: UserQueryGrammarVisitor<Result>): Result {
 		if (visitor.visitLeftMVVStringComp) return visitor.visitLeftMVVStringComp(this);
 		else return visitor.visitChildren(this);
 	}
 }
 export class ExistsCSContext extends BooleanExpressionContext {
 	public _cs: Token;
-	public EXISTS_CS(): TerminalNode { return this.getToken(GlobalConditionsGrammarParser.EXISTS_CS, 0); }
-	public LPAR(): TerminalNode { return this.getToken(GlobalConditionsGrammarParser.LPAR, 0); }
-	public RPAR(): TerminalNode { return this.getToken(GlobalConditionsGrammarParser.RPAR, 0); }
-	public CS(): TerminalNode { return this.getToken(GlobalConditionsGrammarParser.CS, 0); }
+	public EXISTS_CS(): TerminalNode { return this.getToken(UserQueryGrammarParser.EXISTS_CS, 0); }
+	public LPAR(): TerminalNode { return this.getToken(UserQueryGrammarParser.LPAR, 0); }
+	public RPAR(): TerminalNode { return this.getToken(UserQueryGrammarParser.RPAR, 0); }
+	public CS(): TerminalNode { return this.getToken(UserQueryGrammarParser.CS, 0); }
 	constructor(ctx: BooleanExpressionContext) { super(); this.copyFrom(ctx); }
 	@Override
-	public enterRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.enterExistsCS) listener.enterExistsCS(this);
-	}
-	@Override
-	public exitRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.exitExistsCS) listener.exitExistsCS(this);
-	}
-	@Override
-	public accept<Result>(visitor: GlobalConditionsGrammarVisitor<Result>): Result {
+	public accept<Result>(visitor: UserQueryGrammarVisitor<Result>): Result {
 		if (visitor.visitExistsCS) return visitor.visitExistsCS(this);
 		else return visitor.visitChildren(this);
 	}
@@ -356,15 +267,7 @@ export class RightMVVStringCompContext extends BooleanExpressionContext {
 	}
 	constructor(ctx: BooleanExpressionContext) { super(); this.copyFrom(ctx); }
 	@Override
-	public enterRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.enterRightMVVStringComp) listener.enterRightMVVStringComp(this);
-	}
-	@Override
-	public exitRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.exitRightMVVStringComp) listener.exitRightMVVStringComp(this);
-	}
-	@Override
-	public accept<Result>(visitor: GlobalConditionsGrammarVisitor<Result>): Result {
+	public accept<Result>(visitor: UserQueryGrammarVisitor<Result>): Result {
 		if (visitor.visitRightMVVStringComp) return visitor.visitRightMVVStringComp(this);
 		else return visitor.visitChildren(this);
 	}
@@ -375,15 +278,7 @@ export class BoolMVVContext extends BooleanExpressionContext {
 	}
 	constructor(ctx: BooleanExpressionContext) { super(); this.copyFrom(ctx); }
 	@Override
-	public enterRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.enterBoolMVV) listener.enterBoolMVV(this);
-	}
-	@Override
-	public exitRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.exitBoolMVV) listener.exitBoolMVV(this);
-	}
-	@Override
-	public accept<Result>(visitor: GlobalConditionsGrammarVisitor<Result>): Result {
+	public accept<Result>(visitor: UserQueryGrammarVisitor<Result>): Result {
 		if (visitor.visitBoolMVV) return visitor.visitBoolMVV(this);
 		else return visitor.visitChildren(this);
 	}
@@ -401,19 +296,11 @@ export class BinaryBoolOpContext extends BooleanExpressionContext {
 			return this.getRuleContext(i, BooleanExpressionContext);
 		}
 	}
-	public AND(): TerminalNode | undefined { return this.tryGetToken(GlobalConditionsGrammarParser.AND, 0); }
-	public OR(): TerminalNode | undefined { return this.tryGetToken(GlobalConditionsGrammarParser.OR, 0); }
+	public AND(): TerminalNode | undefined { return this.tryGetToken(UserQueryGrammarParser.AND, 0); }
+	public OR(): TerminalNode | undefined { return this.tryGetToken(UserQueryGrammarParser.OR, 0); }
 	constructor(ctx: BooleanExpressionContext) { super(); this.copyFrom(ctx); }
 	@Override
-	public enterRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.enterBinaryBoolOp) listener.enterBinaryBoolOp(this);
-	}
-	@Override
-	public exitRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.exitBinaryBoolOp) listener.exitBinaryBoolOp(this);
-	}
-	@Override
-	public accept<Result>(visitor: GlobalConditionsGrammarVisitor<Result>): Result {
+	public accept<Result>(visitor: UserQueryGrammarVisitor<Result>): Result {
 		if (visitor.visitBinaryBoolOp) return visitor.visitBinaryBoolOp(this);
 		else return visitor.visitChildren(this);
 	}
@@ -430,7 +317,7 @@ export class ArithmeticExpressionContext extends ParserRuleContext {
 			super();
 		}
 	}
-	@Override public get ruleIndex(): number { return GlobalConditionsGrammarParser.RULE_arithmeticExpression; }
+	@Override public get ruleIndex(): number { return UserQueryGrammarParser.RULE_arithmeticExpression; }
 
 	public copyFrom(ctx: ArithmeticExpressionContext): void {
 		super.copyFrom(ctx);
@@ -438,18 +325,10 @@ export class ArithmeticExpressionContext extends ParserRuleContext {
 }
 export class ArithmeticConstantContext extends ArithmeticExpressionContext {
 	public _atom: Token;
-	public SCIENTIFIC_NUMBER(): TerminalNode { return this.getToken(GlobalConditionsGrammarParser.SCIENTIFIC_NUMBER, 0); }
+	public SCIENTIFIC_NUMBER(): TerminalNode { return this.getToken(UserQueryGrammarParser.SCIENTIFIC_NUMBER, 0); }
 	constructor(ctx: ArithmeticExpressionContext) { super(); this.copyFrom(ctx); }
 	@Override
-	public enterRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.enterArithmeticConstant) listener.enterArithmeticConstant(this);
-	}
-	@Override
-	public exitRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.exitArithmeticConstant) listener.exitArithmeticConstant(this);
-	}
-	@Override
-	public accept<Result>(visitor: GlobalConditionsGrammarVisitor<Result>): Result {
+	public accept<Result>(visitor: UserQueryGrammarVisitor<Result>): Result {
 		if (visitor.visitArithmeticConstant) return visitor.visitArithmeticConstant(this);
 		else return visitor.visitChildren(this);
 	}
@@ -467,19 +346,11 @@ export class BinaryArithmeticOpContext extends ArithmeticExpressionContext {
 			return this.getRuleContext(i, ArithmeticExpressionContext);
 		}
 	}
-	public MULT_DIV(): TerminalNode | undefined { return this.tryGetToken(GlobalConditionsGrammarParser.MULT_DIV, 0); }
-	public SUM_MINUS(): TerminalNode | undefined { return this.tryGetToken(GlobalConditionsGrammarParser.SUM_MINUS, 0); }
+	public MULT_DIV(): TerminalNode | undefined { return this.tryGetToken(UserQueryGrammarParser.MULT_DIV, 0); }
+	public SUM_MINUS(): TerminalNode | undefined { return this.tryGetToken(UserQueryGrammarParser.SUM_MINUS, 0); }
 	constructor(ctx: ArithmeticExpressionContext) { super(); this.copyFrom(ctx); }
 	@Override
-	public enterRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.enterBinaryArithmeticOp) listener.enterBinaryArithmeticOp(this);
-	}
-	@Override
-	public exitRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.exitBinaryArithmeticOp) listener.exitBinaryArithmeticOp(this);
-	}
-	@Override
-	public accept<Result>(visitor: GlobalConditionsGrammarVisitor<Result>): Result {
+	public accept<Result>(visitor: UserQueryGrammarVisitor<Result>): Result {
 		if (visitor.visitBinaryArithmeticOp) return visitor.visitBinaryArithmeticOp(this);
 		else return visitor.visitChildren(this);
 	}
@@ -487,36 +358,28 @@ export class BinaryArithmeticOpContext extends ArithmeticExpressionContext {
 export class ArithmeticVariableContext extends ArithmeticExpressionContext {
 	public _cap: Token;
 	public _property: Token;
-	public CS(): TerminalNode { return this.getToken(GlobalConditionsGrammarParser.CS, 0); }
+	public CS(): TerminalNode { return this.getToken(UserQueryGrammarParser.CS, 0); }
 	public DOT(): TerminalNode[];
 	public DOT(i: number): TerminalNode;
 	public DOT(i?: number): TerminalNode | TerminalNode[] {
 		if (i === undefined) {
-			return this.getTokens(GlobalConditionsGrammarParser.DOT);
+			return this.getTokens(UserQueryGrammarParser.DOT);
 		} else {
-			return this.getToken(GlobalConditionsGrammarParser.DOT, i);
+			return this.getToken(UserQueryGrammarParser.DOT, i);
 		}
 	}
 	public VARIABLE(): TerminalNode[];
 	public VARIABLE(i: number): TerminalNode;
 	public VARIABLE(i?: number): TerminalNode | TerminalNode[] {
 		if (i === undefined) {
-			return this.getTokens(GlobalConditionsGrammarParser.VARIABLE);
+			return this.getTokens(UserQueryGrammarParser.VARIABLE);
 		} else {
-			return this.getToken(GlobalConditionsGrammarParser.VARIABLE, i);
+			return this.getToken(UserQueryGrammarParser.VARIABLE, i);
 		}
 	}
 	constructor(ctx: ArithmeticExpressionContext) { super(); this.copyFrom(ctx); }
 	@Override
-	public enterRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.enterArithmeticVariable) listener.enterArithmeticVariable(this);
-	}
-	@Override
-	public exitRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.exitArithmeticVariable) listener.exitArithmeticVariable(this);
-	}
-	@Override
-	public accept<Result>(visitor: GlobalConditionsGrammarVisitor<Result>): Result {
+	public accept<Result>(visitor: UserQueryGrammarVisitor<Result>): Result {
 		if (visitor.visitArithmeticVariable) return visitor.visitArithmeticVariable(this);
 		else return visitor.visitChildren(this);
 	}
@@ -525,32 +388,24 @@ export class ArithmeticFuncContext extends ArithmeticExpressionContext {
 	public _func: Token;
 	public _cap: Token;
 	public _property: Token;
-	public LPAR(): TerminalNode { return this.getToken(GlobalConditionsGrammarParser.LPAR, 0); }
-	public DOT(): TerminalNode { return this.getToken(GlobalConditionsGrammarParser.DOT, 0); }
-	public RPAR(): TerminalNode { return this.getToken(GlobalConditionsGrammarParser.RPAR, 0); }
+	public LPAR(): TerminalNode { return this.getToken(UserQueryGrammarParser.LPAR, 0); }
+	public DOT(): TerminalNode { return this.getToken(UserQueryGrammarParser.DOT, 0); }
+	public RPAR(): TerminalNode { return this.getToken(UserQueryGrammarParser.RPAR, 0); }
 	public VARIABLE(): TerminalNode[];
 	public VARIABLE(i: number): TerminalNode;
 	public VARIABLE(i?: number): TerminalNode | TerminalNode[] {
 		if (i === undefined) {
-			return this.getTokens(GlobalConditionsGrammarParser.VARIABLE);
+			return this.getTokens(UserQueryGrammarParser.VARIABLE);
 		} else {
-			return this.getToken(GlobalConditionsGrammarParser.VARIABLE, i);
+			return this.getToken(UserQueryGrammarParser.VARIABLE, i);
 		}
 	}
-	public SUM(): TerminalNode | undefined { return this.tryGetToken(GlobalConditionsGrammarParser.SUM, 0); }
-	public COUNT(): TerminalNode | undefined { return this.tryGetToken(GlobalConditionsGrammarParser.COUNT, 0); }
-	public AVG(): TerminalNode | undefined { return this.tryGetToken(GlobalConditionsGrammarParser.AVG, 0); }
+	public SUM(): TerminalNode | undefined { return this.tryGetToken(UserQueryGrammarParser.SUM, 0); }
+	public COUNT(): TerminalNode | undefined { return this.tryGetToken(UserQueryGrammarParser.COUNT, 0); }
+	public AVG(): TerminalNode | undefined { return this.tryGetToken(UserQueryGrammarParser.AVG, 0); }
 	constructor(ctx: ArithmeticExpressionContext) { super(); this.copyFrom(ctx); }
 	@Override
-	public enterRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.enterArithmeticFunc) listener.enterArithmeticFunc(this);
-	}
-	@Override
-	public exitRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.exitArithmeticFunc) listener.exitArithmeticFunc(this);
-	}
-	@Override
-	public accept<Result>(visitor: GlobalConditionsGrammarVisitor<Result>): Result {
+	public accept<Result>(visitor: UserQueryGrammarVisitor<Result>): Result {
 		if (visitor.visitArithmeticFunc) return visitor.visitArithmeticFunc(this);
 		else return visitor.visitChildren(this);
 	}
@@ -558,23 +413,15 @@ export class ArithmeticFuncContext extends ArithmeticExpressionContext {
 export class UnaryArithmeticOpContext extends ArithmeticExpressionContext {
 	public _op: Token;
 	public _exp: ArithmeticExpressionContext;
-	public SUM_MINUS(): TerminalNode | undefined { return this.tryGetToken(GlobalConditionsGrammarParser.SUM_MINUS, 0); }
+	public SUM_MINUS(): TerminalNode | undefined { return this.tryGetToken(UserQueryGrammarParser.SUM_MINUS, 0); }
 	public arithmeticExpression(): ArithmeticExpressionContext {
 		return this.getRuleContext(0, ArithmeticExpressionContext);
 	}
-	public RPAR(): TerminalNode | undefined { return this.tryGetToken(GlobalConditionsGrammarParser.RPAR, 0); }
-	public LPAR(): TerminalNode | undefined { return this.tryGetToken(GlobalConditionsGrammarParser.LPAR, 0); }
+	public RPAR(): TerminalNode | undefined { return this.tryGetToken(UserQueryGrammarParser.RPAR, 0); }
+	public LPAR(): TerminalNode | undefined { return this.tryGetToken(UserQueryGrammarParser.LPAR, 0); }
 	constructor(ctx: ArithmeticExpressionContext) { super(); this.copyFrom(ctx); }
 	@Override
-	public enterRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.enterUnaryArithmeticOp) listener.enterUnaryArithmeticOp(this);
-	}
-	@Override
-	public exitRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.exitUnaryArithmeticOp) listener.exitUnaryArithmeticOp(this);
-	}
-	@Override
-	public accept<Result>(visitor: GlobalConditionsGrammarVisitor<Result>): Result {
+	public accept<Result>(visitor: UserQueryGrammarVisitor<Result>): Result {
 		if (visitor.visitUnaryArithmeticOp) return visitor.visitUnaryArithmeticOp(this);
 		else return visitor.visitChildren(this);
 	}
@@ -591,7 +438,7 @@ export class StringValueContext extends ParserRuleContext {
 			super();
 		}
 	}
-	@Override public get ruleIndex(): number { return GlobalConditionsGrammarParser.RULE_stringValue; }
+	@Override public get ruleIndex(): number { return UserQueryGrammarParser.RULE_stringValue; }
 
 	public copyFrom(ctx: StringValueContext): void {
 		super.copyFrom(ctx);
@@ -600,54 +447,38 @@ export class StringValueContext extends ParserRuleContext {
 export class StringVariableContext extends StringValueContext {
 	public _cap: Token;
 	public _property: Token;
-	public CS(): TerminalNode { return this.getToken(GlobalConditionsGrammarParser.CS, 0); }
+	public CS(): TerminalNode { return this.getToken(UserQueryGrammarParser.CS, 0); }
 	public DOT(): TerminalNode[];
 	public DOT(i: number): TerminalNode;
 	public DOT(i?: number): TerminalNode | TerminalNode[] {
 		if (i === undefined) {
-			return this.getTokens(GlobalConditionsGrammarParser.DOT);
+			return this.getTokens(UserQueryGrammarParser.DOT);
 		} else {
-			return this.getToken(GlobalConditionsGrammarParser.DOT, i);
+			return this.getToken(UserQueryGrammarParser.DOT, i);
 		}
 	}
 	public VARIABLE(): TerminalNode[];
 	public VARIABLE(i: number): TerminalNode;
 	public VARIABLE(i?: number): TerminalNode | TerminalNode[] {
 		if (i === undefined) {
-			return this.getTokens(GlobalConditionsGrammarParser.VARIABLE);
+			return this.getTokens(UserQueryGrammarParser.VARIABLE);
 		} else {
-			return this.getToken(GlobalConditionsGrammarParser.VARIABLE, i);
+			return this.getToken(UserQueryGrammarParser.VARIABLE, i);
 		}
 	}
 	constructor(ctx: StringValueContext) { super(); this.copyFrom(ctx); }
 	@Override
-	public enterRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.enterStringVariable) listener.enterStringVariable(this);
-	}
-	@Override
-	public exitRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.exitStringVariable) listener.exitStringVariable(this);
-	}
-	@Override
-	public accept<Result>(visitor: GlobalConditionsGrammarVisitor<Result>): Result {
+	public accept<Result>(visitor: UserQueryGrammarVisitor<Result>): Result {
 		if (visitor.visitStringVariable) return visitor.visitStringVariable(this);
 		else return visitor.visitChildren(this);
 	}
 }
 export class StringAtomContext extends StringValueContext {
 	public _atom: Token;
-	public STRING_LITERAL(): TerminalNode { return this.getToken(GlobalConditionsGrammarParser.STRING_LITERAL, 0); }
+	public STRING_LITERAL(): TerminalNode { return this.getToken(UserQueryGrammarParser.STRING_LITERAL, 0); }
 	constructor(ctx: StringValueContext) { super(); this.copyFrom(ctx); }
 	@Override
-	public enterRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.enterStringAtom) listener.enterStringAtom(this);
-	}
-	@Override
-	public exitRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.exitStringAtom) listener.exitStringAtom(this);
-	}
-	@Override
-	public accept<Result>(visitor: GlobalConditionsGrammarVisitor<Result>): Result {
+	public accept<Result>(visitor: UserQueryGrammarVisitor<Result>): Result {
 		if (visitor.visitStringAtom) return visitor.visitStringAtom(this);
 		else return visitor.visitChildren(this);
 	}
@@ -664,7 +495,7 @@ export class MultiValueVariableContext extends ParserRuleContext {
 			super();
 		}
 	}
-	@Override public get ruleIndex(): number { return GlobalConditionsGrammarParser.RULE_multiValueVariable; }
+	@Override public get ruleIndex(): number { return UserQueryGrammarParser.RULE_multiValueVariable; }
 
 	public copyFrom(ctx: MultiValueVariableContext): void {
 		super.copyFrom(ctx);
@@ -678,38 +509,30 @@ export class MvvContext extends MultiValueVariableContext {
 	public DOT(i: number): TerminalNode;
 	public DOT(i?: number): TerminalNode | TerminalNode[] {
 		if (i === undefined) {
-			return this.getTokens(GlobalConditionsGrammarParser.DOT);
+			return this.getTokens(UserQueryGrammarParser.DOT);
 		} else {
-			return this.getToken(GlobalConditionsGrammarParser.DOT, i);
+			return this.getToken(UserQueryGrammarParser.DOT, i);
 		}
 	}
 	public VARIABLE(): TerminalNode[];
 	public VARIABLE(i: number): TerminalNode;
 	public VARIABLE(i?: number): TerminalNode | TerminalNode[] {
 		if (i === undefined) {
-			return this.getTokens(GlobalConditionsGrammarParser.VARIABLE);
+			return this.getTokens(UserQueryGrammarParser.VARIABLE);
 		} else {
-			return this.getToken(GlobalConditionsGrammarParser.VARIABLE, i);
+			return this.getToken(UserQueryGrammarParser.VARIABLE, i);
 		}
 	}
-	public ANY(): TerminalNode | undefined { return this.tryGetToken(GlobalConditionsGrammarParser.ANY, 0); }
-	public ALL(): TerminalNode | undefined { return this.tryGetToken(GlobalConditionsGrammarParser.ALL, 0); }
-	public LBRAC(): TerminalNode | undefined { return this.tryGetToken(GlobalConditionsGrammarParser.LBRAC, 0); }
+	public ANY(): TerminalNode | undefined { return this.tryGetToken(UserQueryGrammarParser.ANY, 0); }
+	public ALL(): TerminalNode | undefined { return this.tryGetToken(UserQueryGrammarParser.ALL, 0); }
+	public LBRAC(): TerminalNode | undefined { return this.tryGetToken(UserQueryGrammarParser.LBRAC, 0); }
 	public fBooleanExpression(): FBooleanExpressionContext | undefined {
 		return this.tryGetRuleContext(0, FBooleanExpressionContext);
 	}
-	public RBRAC(): TerminalNode | undefined { return this.tryGetToken(GlobalConditionsGrammarParser.RBRAC, 0); }
+	public RBRAC(): TerminalNode | undefined { return this.tryGetToken(UserQueryGrammarParser.RBRAC, 0); }
 	constructor(ctx: MultiValueVariableContext) { super(); this.copyFrom(ctx); }
 	@Override
-	public enterRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.enterMvv) listener.enterMvv(this);
-	}
-	@Override
-	public exitRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.exitMvv) listener.exitMvv(this);
-	}
-	@Override
-	public accept<Result>(visitor: GlobalConditionsGrammarVisitor<Result>): Result {
+	public accept<Result>(visitor: UserQueryGrammarVisitor<Result>): Result {
 		if (visitor.visitMvv) return visitor.visitMvv(this);
 		else return visitor.visitChildren(this);
 	}
@@ -726,7 +549,7 @@ export class FBooleanExpressionContext extends ParserRuleContext {
 			super();
 		}
 	}
-	@Override public get ruleIndex(): number { return GlobalConditionsGrammarParser.RULE_fBooleanExpression; }
+	@Override public get ruleIndex(): number { return UserQueryGrammarParser.RULE_fBooleanExpression; }
 
 	public copyFrom(ctx: FBooleanExpressionContext): void {
 		super.copyFrom(ctx);
@@ -745,19 +568,11 @@ export class FBinaryBoolOpContext extends FBooleanExpressionContext {
 			return this.getRuleContext(i, FBooleanExpressionContext);
 		}
 	}
-	public AND(): TerminalNode | undefined { return this.tryGetToken(GlobalConditionsGrammarParser.AND, 0); }
-	public OR(): TerminalNode | undefined { return this.tryGetToken(GlobalConditionsGrammarParser.OR, 0); }
+	public AND(): TerminalNode | undefined { return this.tryGetToken(UserQueryGrammarParser.AND, 0); }
+	public OR(): TerminalNode | undefined { return this.tryGetToken(UserQueryGrammarParser.OR, 0); }
 	constructor(ctx: FBooleanExpressionContext) { super(); this.copyFrom(ctx); }
 	@Override
-	public enterRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.enterFBinaryBoolOp) listener.enterFBinaryBoolOp(this);
-	}
-	@Override
-	public exitRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.exitFBinaryBoolOp) listener.exitFBinaryBoolOp(this);
-	}
-	@Override
-	public accept<Result>(visitor: GlobalConditionsGrammarVisitor<Result>): Result {
+	public accept<Result>(visitor: UserQueryGrammarVisitor<Result>): Result {
 		if (visitor.visitFBinaryBoolOp) return visitor.visitFBinaryBoolOp(this);
 		else return visitor.visitChildren(this);
 	}
@@ -777,33 +592,17 @@ export class FArithmeticComparisonContext extends FBooleanExpressionContext {
 	}
 	constructor(ctx: FBooleanExpressionContext) { super(); this.copyFrom(ctx); }
 	@Override
-	public enterRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.enterFArithmeticComparison) listener.enterFArithmeticComparison(this);
-	}
-	@Override
-	public exitRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.exitFArithmeticComparison) listener.exitFArithmeticComparison(this);
-	}
-	@Override
-	public accept<Result>(visitor: GlobalConditionsGrammarVisitor<Result>): Result {
+	public accept<Result>(visitor: UserQueryGrammarVisitor<Result>): Result {
 		if (visitor.visitFArithmeticComparison) return visitor.visitFArithmeticComparison(this);
 		else return visitor.visitChildren(this);
 	}
 }
 export class FBoolConstantContext extends FBooleanExpressionContext {
 	public _atom: Token;
-	public BOOL_CONSTANT(): TerminalNode { return this.getToken(GlobalConditionsGrammarParser.BOOL_CONSTANT, 0); }
+	public BOOL_CONSTANT(): TerminalNode { return this.getToken(UserQueryGrammarParser.BOOL_CONSTANT, 0); }
 	constructor(ctx: FBooleanExpressionContext) { super(); this.copyFrom(ctx); }
 	@Override
-	public enterRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.enterFBoolConstant) listener.enterFBoolConstant(this);
-	}
-	@Override
-	public exitRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.exitFBoolConstant) listener.exitFBoolConstant(this);
-	}
-	@Override
-	public accept<Result>(visitor: GlobalConditionsGrammarVisitor<Result>): Result {
+	public accept<Result>(visitor: UserQueryGrammarVisitor<Result>): Result {
 		if (visitor.visitFBoolConstant) return visitor.visitFBoolConstant(this);
 		else return visitor.visitChildren(this);
 	}
@@ -811,23 +610,15 @@ export class FBoolConstantContext extends FBooleanExpressionContext {
 export class FUnaryBoolOpContext extends FBooleanExpressionContext {
 	public _op: Token;
 	public _exp: FBooleanExpressionContext;
-	public RPAR(): TerminalNode | undefined { return this.tryGetToken(GlobalConditionsGrammarParser.RPAR, 0); }
-	public LPAR(): TerminalNode | undefined { return this.tryGetToken(GlobalConditionsGrammarParser.LPAR, 0); }
+	public RPAR(): TerminalNode | undefined { return this.tryGetToken(UserQueryGrammarParser.RPAR, 0); }
+	public LPAR(): TerminalNode | undefined { return this.tryGetToken(UserQueryGrammarParser.LPAR, 0); }
 	public fBooleanExpression(): FBooleanExpressionContext {
 		return this.getRuleContext(0, FBooleanExpressionContext);
 	}
-	public NOT(): TerminalNode | undefined { return this.tryGetToken(GlobalConditionsGrammarParser.NOT, 0); }
+	public NOT(): TerminalNode | undefined { return this.tryGetToken(UserQueryGrammarParser.NOT, 0); }
 	constructor(ctx: FBooleanExpressionContext) { super(); this.copyFrom(ctx); }
 	@Override
-	public enterRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.enterFUnaryBoolOp) listener.enterFUnaryBoolOp(this);
-	}
-	@Override
-	public exitRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.exitFUnaryBoolOp) listener.exitFUnaryBoolOp(this);
-	}
-	@Override
-	public accept<Result>(visitor: GlobalConditionsGrammarVisitor<Result>): Result {
+	public accept<Result>(visitor: UserQueryGrammarVisitor<Result>): Result {
 		if (visitor.visitFUnaryBoolOp) return visitor.visitFUnaryBoolOp(this);
 		else return visitor.visitChildren(this);
 	}
@@ -835,27 +626,19 @@ export class FUnaryBoolOpContext extends FBooleanExpressionContext {
 export class FBoolVariableContext extends FBooleanExpressionContext {
 	public _cap: Token;
 	public _property: Token;
-	public DOT(): TerminalNode { return this.getToken(GlobalConditionsGrammarParser.DOT, 0); }
+	public DOT(): TerminalNode { return this.getToken(UserQueryGrammarParser.DOT, 0); }
 	public VARIABLE(): TerminalNode[];
 	public VARIABLE(i: number): TerminalNode;
 	public VARIABLE(i?: number): TerminalNode | TerminalNode[] {
 		if (i === undefined) {
-			return this.getTokens(GlobalConditionsGrammarParser.VARIABLE);
+			return this.getTokens(UserQueryGrammarParser.VARIABLE);
 		} else {
-			return this.getToken(GlobalConditionsGrammarParser.VARIABLE, i);
+			return this.getToken(UserQueryGrammarParser.VARIABLE, i);
 		}
 	}
 	constructor(ctx: FBooleanExpressionContext) { super(); this.copyFrom(ctx); }
 	@Override
-	public enterRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.enterFBoolVariable) listener.enterFBoolVariable(this);
-	}
-	@Override
-	public exitRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.exitFBoolVariable) listener.exitFBoolVariable(this);
-	}
-	@Override
-	public accept<Result>(visitor: GlobalConditionsGrammarVisitor<Result>): Result {
+	public accept<Result>(visitor: UserQueryGrammarVisitor<Result>): Result {
 		if (visitor.visitFBoolVariable) return visitor.visitFBoolVariable(this);
 		else return visitor.visitChildren(this);
 	}
@@ -875,15 +658,7 @@ export class FStringComparisonContext extends FBooleanExpressionContext {
 	}
 	constructor(ctx: FBooleanExpressionContext) { super(); this.copyFrom(ctx); }
 	@Override
-	public enterRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.enterFStringComparison) listener.enterFStringComparison(this);
-	}
-	@Override
-	public exitRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.exitFStringComparison) listener.exitFStringComparison(this);
-	}
-	@Override
-	public accept<Result>(visitor: GlobalConditionsGrammarVisitor<Result>): Result {
+	public accept<Result>(visitor: UserQueryGrammarVisitor<Result>): Result {
 		if (visitor.visitFStringComparison) return visitor.visitFStringComparison(this);
 		else return visitor.visitChildren(this);
 	}
@@ -900,7 +675,7 @@ export class FArithmeticExpressionContext extends ParserRuleContext {
 			super();
 		}
 	}
-	@Override public get ruleIndex(): number { return GlobalConditionsGrammarParser.RULE_fArithmeticExpression; }
+	@Override public get ruleIndex(): number { return UserQueryGrammarParser.RULE_fArithmeticExpression; }
 
 	public copyFrom(ctx: FArithmeticExpressionContext): void {
 		super.copyFrom(ctx);
@@ -908,18 +683,10 @@ export class FArithmeticExpressionContext extends ParserRuleContext {
 }
 export class FArithmeticConstantContext extends FArithmeticExpressionContext {
 	public _atom: Token;
-	public SCIENTIFIC_NUMBER(): TerminalNode { return this.getToken(GlobalConditionsGrammarParser.SCIENTIFIC_NUMBER, 0); }
+	public SCIENTIFIC_NUMBER(): TerminalNode { return this.getToken(UserQueryGrammarParser.SCIENTIFIC_NUMBER, 0); }
 	constructor(ctx: FArithmeticExpressionContext) { super(); this.copyFrom(ctx); }
 	@Override
-	public enterRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.enterFArithmeticConstant) listener.enterFArithmeticConstant(this);
-	}
-	@Override
-	public exitRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.exitFArithmeticConstant) listener.exitFArithmeticConstant(this);
-	}
-	@Override
-	public accept<Result>(visitor: GlobalConditionsGrammarVisitor<Result>): Result {
+	public accept<Result>(visitor: UserQueryGrammarVisitor<Result>): Result {
 		if (visitor.visitFArithmeticConstant) return visitor.visitFArithmeticConstant(this);
 		else return visitor.visitChildren(this);
 	}
@@ -937,19 +704,11 @@ export class FBinaryArithmeticOpContext extends FArithmeticExpressionContext {
 			return this.getRuleContext(i, FArithmeticExpressionContext);
 		}
 	}
-	public MULT_DIV(): TerminalNode | undefined { return this.tryGetToken(GlobalConditionsGrammarParser.MULT_DIV, 0); }
-	public SUM_MINUS(): TerminalNode | undefined { return this.tryGetToken(GlobalConditionsGrammarParser.SUM_MINUS, 0); }
+	public MULT_DIV(): TerminalNode | undefined { return this.tryGetToken(UserQueryGrammarParser.MULT_DIV, 0); }
+	public SUM_MINUS(): TerminalNode | undefined { return this.tryGetToken(UserQueryGrammarParser.SUM_MINUS, 0); }
 	constructor(ctx: FArithmeticExpressionContext) { super(); this.copyFrom(ctx); }
 	@Override
-	public enterRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.enterFBinaryArithmeticOp) listener.enterFBinaryArithmeticOp(this);
-	}
-	@Override
-	public exitRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.exitFBinaryArithmeticOp) listener.exitFBinaryArithmeticOp(this);
-	}
-	@Override
-	public accept<Result>(visitor: GlobalConditionsGrammarVisitor<Result>): Result {
+	public accept<Result>(visitor: UserQueryGrammarVisitor<Result>): Result {
 		if (visitor.visitFBinaryArithmeticOp) return visitor.visitFBinaryArithmeticOp(this);
 		else return visitor.visitChildren(this);
 	}
@@ -957,23 +716,15 @@ export class FBinaryArithmeticOpContext extends FArithmeticExpressionContext {
 export class FUnaryArithmeticOpContext extends FArithmeticExpressionContext {
 	public _op: Token;
 	public _exp: FArithmeticExpressionContext;
-	public SUM_MINUS(): TerminalNode | undefined { return this.tryGetToken(GlobalConditionsGrammarParser.SUM_MINUS, 0); }
+	public SUM_MINUS(): TerminalNode | undefined { return this.tryGetToken(UserQueryGrammarParser.SUM_MINUS, 0); }
 	public fArithmeticExpression(): FArithmeticExpressionContext {
 		return this.getRuleContext(0, FArithmeticExpressionContext);
 	}
-	public RPAR(): TerminalNode | undefined { return this.tryGetToken(GlobalConditionsGrammarParser.RPAR, 0); }
-	public LPAR(): TerminalNode | undefined { return this.tryGetToken(GlobalConditionsGrammarParser.LPAR, 0); }
+	public RPAR(): TerminalNode | undefined { return this.tryGetToken(UserQueryGrammarParser.RPAR, 0); }
+	public LPAR(): TerminalNode | undefined { return this.tryGetToken(UserQueryGrammarParser.LPAR, 0); }
 	constructor(ctx: FArithmeticExpressionContext) { super(); this.copyFrom(ctx); }
 	@Override
-	public enterRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.enterFUnaryArithmeticOp) listener.enterFUnaryArithmeticOp(this);
-	}
-	@Override
-	public exitRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.exitFUnaryArithmeticOp) listener.exitFUnaryArithmeticOp(this);
-	}
-	@Override
-	public accept<Result>(visitor: GlobalConditionsGrammarVisitor<Result>): Result {
+	public accept<Result>(visitor: UserQueryGrammarVisitor<Result>): Result {
 		if (visitor.visitFUnaryArithmeticOp) return visitor.visitFUnaryArithmeticOp(this);
 		else return visitor.visitChildren(this);
 	}
@@ -981,27 +732,19 @@ export class FUnaryArithmeticOpContext extends FArithmeticExpressionContext {
 export class FArithmeticVariableContext extends FArithmeticExpressionContext {
 	public _cap: Token;
 	public _property: Token;
-	public DOT(): TerminalNode { return this.getToken(GlobalConditionsGrammarParser.DOT, 0); }
+	public DOT(): TerminalNode { return this.getToken(UserQueryGrammarParser.DOT, 0); }
 	public VARIABLE(): TerminalNode[];
 	public VARIABLE(i: number): TerminalNode;
 	public VARIABLE(i?: number): TerminalNode | TerminalNode[] {
 		if (i === undefined) {
-			return this.getTokens(GlobalConditionsGrammarParser.VARIABLE);
+			return this.getTokens(UserQueryGrammarParser.VARIABLE);
 		} else {
-			return this.getToken(GlobalConditionsGrammarParser.VARIABLE, i);
+			return this.getToken(UserQueryGrammarParser.VARIABLE, i);
 		}
 	}
 	constructor(ctx: FArithmeticExpressionContext) { super(); this.copyFrom(ctx); }
 	@Override
-	public enterRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.enterFArithmeticVariable) listener.enterFArithmeticVariable(this);
-	}
-	@Override
-	public exitRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.exitFArithmeticVariable) listener.exitFArithmeticVariable(this);
-	}
-	@Override
-	public accept<Result>(visitor: GlobalConditionsGrammarVisitor<Result>): Result {
+	public accept<Result>(visitor: UserQueryGrammarVisitor<Result>): Result {
 		if (visitor.visitFArithmeticVariable) return visitor.visitFArithmeticVariable(this);
 		else return visitor.visitChildren(this);
 	}
@@ -1018,7 +761,7 @@ export class FStringValueContext extends ParserRuleContext {
 			super();
 		}
 	}
-	@Override public get ruleIndex(): number { return GlobalConditionsGrammarParser.RULE_fStringValue; }
+	@Override public get ruleIndex(): number { return UserQueryGrammarParser.RULE_fStringValue; }
 
 	public copyFrom(ctx: FStringValueContext): void {
 		super.copyFrom(ctx);
@@ -1027,51 +770,35 @@ export class FStringValueContext extends ParserRuleContext {
 export class FStringVariableContext extends FStringValueContext {
 	public _cap: Token;
 	public _property: Token;
-	public DOT(): TerminalNode { return this.getToken(GlobalConditionsGrammarParser.DOT, 0); }
+	public DOT(): TerminalNode { return this.getToken(UserQueryGrammarParser.DOT, 0); }
 	public VARIABLE(): TerminalNode[];
 	public VARIABLE(i: number): TerminalNode;
 	public VARIABLE(i?: number): TerminalNode | TerminalNode[] {
 		if (i === undefined) {
-			return this.getTokens(GlobalConditionsGrammarParser.VARIABLE);
+			return this.getTokens(UserQueryGrammarParser.VARIABLE);
 		} else {
-			return this.getToken(GlobalConditionsGrammarParser.VARIABLE, i);
+			return this.getToken(UserQueryGrammarParser.VARIABLE, i);
 		}
 	}
 	constructor(ctx: FStringValueContext) { super(); this.copyFrom(ctx); }
 	@Override
-	public enterRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.enterFStringVariable) listener.enterFStringVariable(this);
-	}
-	@Override
-	public exitRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.exitFStringVariable) listener.exitFStringVariable(this);
-	}
-	@Override
-	public accept<Result>(visitor: GlobalConditionsGrammarVisitor<Result>): Result {
+	public accept<Result>(visitor: UserQueryGrammarVisitor<Result>): Result {
 		if (visitor.visitFStringVariable) return visitor.visitFStringVariable(this);
 		else return visitor.visitChildren(this);
 	}
 }
 export class FStringAtomContext extends FStringValueContext {
 	public _atom: Token;
-	public STRING_LITERAL(): TerminalNode { return this.getToken(GlobalConditionsGrammarParser.STRING_LITERAL, 0); }
+	public STRING_LITERAL(): TerminalNode { return this.getToken(UserQueryGrammarParser.STRING_LITERAL, 0); }
 	constructor(ctx: FStringValueContext) { super(); this.copyFrom(ctx); }
 	@Override
-	public enterRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.enterFStringAtom) listener.enterFStringAtom(this);
-	}
-	@Override
-	public exitRule(listener: GlobalConditionsGrammarListener): void {
-		if (listener.exitFStringAtom) listener.exitFStringAtom(this);
-	}
-	@Override
-	public accept<Result>(visitor: GlobalConditionsGrammarVisitor<Result>): Result {
+	public accept<Result>(visitor: UserQueryGrammarVisitor<Result>): Result {
 		if (visitor.visitFStringAtom) return visitor.visitFStringAtom(this);
 		else return visitor.visitChildren(this);
 	}
 }
 
-export class GlobalConditionsGrammarParser extends Parser {
+export class UserQueryGrammarParser extends Parser {
   public static readonly T__0=1;
   public static readonly T__1=2;
   public static readonly T__2=3;
@@ -1131,26 +858,26 @@ export class GlobalConditionsGrammarParser extends Parser {
     "FALSE", "VARIABLE", "STRING_LITERAL", "DOT", "COMMA", "LPAR", "RPAR",
     "LBRAC", "RBRAC", "SUM_MINUS", "MULT_DIV", "SCIENTIFIC_NUMBER", "WS"
   ];
-  public static readonly VOCABULARY: Vocabulary = new VocabularyImpl(GlobalConditionsGrammarParser._LITERAL_NAMES, GlobalConditionsGrammarParser._SYMBOLIC_NAMES, []);
+  public static readonly VOCABULARY: Vocabulary = new VocabularyImpl(UserQueryGrammarParser._LITERAL_NAMES, UserQueryGrammarParser._SYMBOLIC_NAMES, []);
 
   @Override
   @NotNull
   public get vocabulary(): Vocabulary {
-    return GlobalConditionsGrammarParser.VOCABULARY;
+    return UserQueryGrammarParser.VOCABULARY;
   }
 
   @Override
-  public get grammarFileName(): string { return "GlobalConditionsGrammar.g4"; }
+  public get grammarFileName(): string { return "UserQueryGrammar.g4"; }
 
   @Override
-  public get ruleNames(): string[] { return GlobalConditionsGrammarParser.ruleNames; }
+  public get ruleNames(): string[] { return UserQueryGrammarParser.ruleNames; }
 
   @Override
-  public get serializedATN(): string { return GlobalConditionsGrammarParser._serializedATN; }
+  public get serializedATN(): string { return UserQueryGrammarParser._serializedATN; }
 
   constructor(input: TokenStream) {
     super(input);
-    this._interp = new ParserATNSimulator(GlobalConditionsGrammarParser._ATN, this);
+    this._interp = new ParserATNSimulator(UserQueryGrammarParser._ATN, this);
   }
   public booleanExpression(): BooleanExpressionContext;
   public booleanExpression(_p: number): BooleanExpressionContext;
@@ -1165,7 +892,7 @@ export class GlobalConditionsGrammarParser extends Parser {
     let _localctx: BooleanExpressionContext = new BooleanExpressionContext(this._ctx, _parentState);
     let _prevctx: BooleanExpressionContext = _localctx;
     let _startState: number = 0;
-    this.enterRecursionRule(_localctx, 0, GlobalConditionsGrammarParser.RULE_booleanExpression, _p);
+    this.enterRecursionRule(_localctx, 0, UserQueryGrammarParser.RULE_booleanExpression, _p);
     let _la: number;
     try {
       let _alt: number;
@@ -1181,7 +908,7 @@ export class GlobalConditionsGrammarParser extends Parser {
             _prevctx = _localctx;
 
             this.state = 15;
-            (_localctx as BoolConstantContext)._atom = this.match(GlobalConditionsGrammarParser.BOOL_CONSTANT);
+            (_localctx as BoolConstantContext)._atom = this.match(UserQueryGrammarParser.BOOL_CONSTANT);
           }
             break;
 
@@ -1191,15 +918,15 @@ export class GlobalConditionsGrammarParser extends Parser {
             this._ctx = _localctx;
             _prevctx = _localctx;
             this.state = 16;
-            this.match(GlobalConditionsGrammarParser.CS);
+            this.match(UserQueryGrammarParser.CS);
             this.state = 17;
-            this.match(GlobalConditionsGrammarParser.DOT);
+            this.match(UserQueryGrammarParser.DOT);
             this.state = 18;
-            (_localctx as BoolVariableContext)._cap = this.match(GlobalConditionsGrammarParser.VARIABLE);
+            (_localctx as BoolVariableContext)._cap = this.match(UserQueryGrammarParser.VARIABLE);
             this.state = 19;
-            this.match(GlobalConditionsGrammarParser.DOT);
+            this.match(UserQueryGrammarParser.DOT);
             this.state = 20;
-            (_localctx as BoolVariableContext)._property = this.match(GlobalConditionsGrammarParser.VARIABLE);
+            (_localctx as BoolVariableContext)._property = this.match(UserQueryGrammarParser.VARIABLE);
           }
             break;
 
@@ -1219,13 +946,13 @@ export class GlobalConditionsGrammarParser extends Parser {
             this._ctx = _localctx;
             _prevctx = _localctx;
             this.state = 22;
-            this.match(GlobalConditionsGrammarParser.EXISTS_CS);
+            this.match(UserQueryGrammarParser.EXISTS_CS);
             this.state = 23;
-            this.match(GlobalConditionsGrammarParser.LPAR);
+            this.match(UserQueryGrammarParser.LPAR);
             this.state = 24;
-            (_localctx as ExistsCSContext)._cs = this.match(GlobalConditionsGrammarParser.CS);
+            (_localctx as ExistsCSContext)._cs = this.match(UserQueryGrammarParser.CS);
             this.state = 25;
-            this.match(GlobalConditionsGrammarParser.RPAR);
+            this.match(UserQueryGrammarParser.RPAR);
           }
             break;
 
@@ -1235,13 +962,13 @@ export class GlobalConditionsGrammarParser extends Parser {
             this._ctx = _localctx;
             _prevctx = _localctx;
             this.state = 26;
-            this.match(GlobalConditionsGrammarParser.EXISTS_CAP);
+            this.match(UserQueryGrammarParser.EXISTS_CAP);
             this.state = 27;
-            this.match(GlobalConditionsGrammarParser.LPAR);
+            this.match(UserQueryGrammarParser.LPAR);
             this.state = 28;
             (_localctx as ExistsCapContext)._cs = this._input.LT(1);
             _la = this._input.LA(1);
-            if ( !(_la===GlobalConditionsGrammarParser.CS || _la===GlobalConditionsGrammarParser.ANY) ) {
+            if ( !(_la===UserQueryGrammarParser.CS || _la===UserQueryGrammarParser.ANY) ) {
               (_localctx as ExistsCapContext)._cs = this._errHandler.recoverInline(this);
             } else {
               if (this._input.LA(1) === Token.EOF) {
@@ -1252,11 +979,11 @@ export class GlobalConditionsGrammarParser extends Parser {
               this.consume();
             }
             this.state = 29;
-            this.match(GlobalConditionsGrammarParser.COMMA);
+            this.match(UserQueryGrammarParser.COMMA);
             this.state = 30;
-            (_localctx as ExistsCapContext)._cap = this.match(GlobalConditionsGrammarParser.VARIABLE);
+            (_localctx as ExistsCapContext)._cap = this.match(UserQueryGrammarParser.VARIABLE);
             this.state = 31;
-            this.match(GlobalConditionsGrammarParser.RPAR);
+            this.match(UserQueryGrammarParser.RPAR);
           }
             break;
 
@@ -1266,13 +993,13 @@ export class GlobalConditionsGrammarParser extends Parser {
             this._ctx = _localctx;
             _prevctx = _localctx;
             this.state = 32;
-            this.match(GlobalConditionsGrammarParser.EXISTS_VAL);
+            this.match(UserQueryGrammarParser.EXISTS_VAL);
             this.state = 33;
-            this.match(GlobalConditionsGrammarParser.LPAR);
+            this.match(UserQueryGrammarParser.LPAR);
             this.state = 34;
             (_localctx as ExistsValContext)._cs = this._input.LT(1);
             _la = this._input.LA(1);
-            if ( !(_la===GlobalConditionsGrammarParser.CS || _la===GlobalConditionsGrammarParser.ANY) ) {
+            if ( !(_la===UserQueryGrammarParser.CS || _la===UserQueryGrammarParser.ANY) ) {
               (_localctx as ExistsValContext)._cs = this._errHandler.recoverInline(this);
             } else {
               if (this._input.LA(1) === Token.EOF) {
@@ -1283,19 +1010,19 @@ export class GlobalConditionsGrammarParser extends Parser {
               this.consume();
             }
             this.state = 35;
-            this.match(GlobalConditionsGrammarParser.COMMA);
+            this.match(UserQueryGrammarParser.COMMA);
             this.state = 36;
-            (_localctx as ExistsValContext)._cap = this.match(GlobalConditionsGrammarParser.VARIABLE);
+            (_localctx as ExistsValContext)._cap = this.match(UserQueryGrammarParser.VARIABLE);
             this.state = 37;
-            this.match(GlobalConditionsGrammarParser.COMMA);
+            this.match(UserQueryGrammarParser.COMMA);
             this.state = 38;
-            (_localctx as ExistsValContext)._property = this.match(GlobalConditionsGrammarParser.VARIABLE);
+            (_localctx as ExistsValContext)._property = this.match(UserQueryGrammarParser.VARIABLE);
             this.state = 39;
-            this.match(GlobalConditionsGrammarParser.COMMA);
+            this.match(UserQueryGrammarParser.COMMA);
             this.state = 40;
             (_localctx as ExistsValContext)._value = this._input.LT(1);
             _la = this._input.LA(1);
-            if ( !(((((_la - 20)) & ~0x1F) === 0 && ((1 << (_la - 20)) & ((1 << (GlobalConditionsGrammarParser.BOOL_CONSTANT - 20)) | (1 << (GlobalConditionsGrammarParser.STRING_LITERAL - 20)) | (1 << (GlobalConditionsGrammarParser.SCIENTIFIC_NUMBER - 20)))) !== 0)) ) {
+            if ( !(((((_la - 20)) & ~0x1F) === 0 && ((1 << (_la - 20)) & ((1 << (UserQueryGrammarParser.BOOL_CONSTANT - 20)) | (1 << (UserQueryGrammarParser.STRING_LITERAL - 20)) | (1 << (UserQueryGrammarParser.SCIENTIFIC_NUMBER - 20)))) !== 0)) ) {
               (_localctx as ExistsValContext)._value = this._errHandler.recoverInline(this);
             } else {
               if (this._input.LA(1) === Token.EOF) {
@@ -1306,7 +1033,7 @@ export class GlobalConditionsGrammarParser extends Parser {
               this.consume();
             }
             this.state = 41;
-            this.match(GlobalConditionsGrammarParser.RPAR);
+            this.match(UserQueryGrammarParser.RPAR);
           }
             break;
 
@@ -1316,11 +1043,11 @@ export class GlobalConditionsGrammarParser extends Parser {
             this._ctx = _localctx;
             _prevctx = _localctx;
             this.state = 42;
-            (_localctx as UnaryBoolOpContext)._op = this.match(GlobalConditionsGrammarParser.LPAR);
+            (_localctx as UnaryBoolOpContext)._op = this.match(UserQueryGrammarParser.LPAR);
             this.state = 43;
             (_localctx as UnaryBoolOpContext)._exp = this.booleanExpression(0);
             this.state = 44;
-            this.match(GlobalConditionsGrammarParser.RPAR);
+            this.match(UserQueryGrammarParser.RPAR);
           }
             break;
 
@@ -1330,7 +1057,7 @@ export class GlobalConditionsGrammarParser extends Parser {
             this._ctx = _localctx;
             _prevctx = _localctx;
             this.state = 46;
-            this.match(GlobalConditionsGrammarParser.NOT);
+            this.match(UserQueryGrammarParser.NOT);
             this.state = 47;
             (_localctx as UnaryBoolOpContext)._exp = this.booleanExpression(9);
           }
@@ -1346,7 +1073,7 @@ export class GlobalConditionsGrammarParser extends Parser {
             this.state = 49;
             (_localctx as LeftMVVArithCompContext)._op = this._input.LT(1);
             _la = this._input.LA(1);
-            if ( !((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << GlobalConditionsGrammarParser.T__0) | (1 << GlobalConditionsGrammarParser.T__1) | (1 << GlobalConditionsGrammarParser.T__2) | (1 << GlobalConditionsGrammarParser.T__3) | (1 << GlobalConditionsGrammarParser.T__4) | (1 << GlobalConditionsGrammarParser.T__5))) !== 0)) ) {
+            if ( !((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << UserQueryGrammarParser.T__0) | (1 << UserQueryGrammarParser.T__1) | (1 << UserQueryGrammarParser.T__2) | (1 << UserQueryGrammarParser.T__3) | (1 << UserQueryGrammarParser.T__4) | (1 << UserQueryGrammarParser.T__5))) !== 0)) ) {
               (_localctx as LeftMVVArithCompContext)._op = this._errHandler.recoverInline(this);
             } else {
               if (this._input.LA(1) === Token.EOF) {
@@ -1371,7 +1098,7 @@ export class GlobalConditionsGrammarParser extends Parser {
             this.state = 53;
             (_localctx as RightMVVArithCompContext)._op = this._input.LT(1);
             _la = this._input.LA(1);
-            if ( !((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << GlobalConditionsGrammarParser.T__0) | (1 << GlobalConditionsGrammarParser.T__1) | (1 << GlobalConditionsGrammarParser.T__2) | (1 << GlobalConditionsGrammarParser.T__3) | (1 << GlobalConditionsGrammarParser.T__4) | (1 << GlobalConditionsGrammarParser.T__5))) !== 0)) ) {
+            if ( !((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << UserQueryGrammarParser.T__0) | (1 << UserQueryGrammarParser.T__1) | (1 << UserQueryGrammarParser.T__2) | (1 << UserQueryGrammarParser.T__3) | (1 << UserQueryGrammarParser.T__4) | (1 << UserQueryGrammarParser.T__5))) !== 0)) ) {
               (_localctx as RightMVVArithCompContext)._op = this._errHandler.recoverInline(this);
             } else {
               if (this._input.LA(1) === Token.EOF) {
@@ -1396,7 +1123,7 @@ export class GlobalConditionsGrammarParser extends Parser {
             this.state = 57;
             (_localctx as ArithmeticComparisonContext)._op = this._input.LT(1);
             _la = this._input.LA(1);
-            if ( !((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << GlobalConditionsGrammarParser.T__0) | (1 << GlobalConditionsGrammarParser.T__1) | (1 << GlobalConditionsGrammarParser.T__2) | (1 << GlobalConditionsGrammarParser.T__3) | (1 << GlobalConditionsGrammarParser.T__4) | (1 << GlobalConditionsGrammarParser.T__5))) !== 0)) ) {
+            if ( !((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << UserQueryGrammarParser.T__0) | (1 << UserQueryGrammarParser.T__1) | (1 << UserQueryGrammarParser.T__2) | (1 << UserQueryGrammarParser.T__3) | (1 << UserQueryGrammarParser.T__4) | (1 << UserQueryGrammarParser.T__5))) !== 0)) ) {
               (_localctx as ArithmeticComparisonContext)._op = this._errHandler.recoverInline(this);
             } else {
               if (this._input.LA(1) === Token.EOF) {
@@ -1421,7 +1148,7 @@ export class GlobalConditionsGrammarParser extends Parser {
             this.state = 61;
             (_localctx as LeftMVVStringCompContext)._op = this._input.LT(1);
             _la = this._input.LA(1);
-            if ( !(_la===GlobalConditionsGrammarParser.T__0 || _la===GlobalConditionsGrammarParser.T__5) ) {
+            if ( !(_la===UserQueryGrammarParser.T__0 || _la===UserQueryGrammarParser.T__5) ) {
               (_localctx as LeftMVVStringCompContext)._op = this._errHandler.recoverInline(this);
             } else {
               if (this._input.LA(1) === Token.EOF) {
@@ -1446,7 +1173,7 @@ export class GlobalConditionsGrammarParser extends Parser {
             this.state = 65;
             (_localctx as RightMVVStringCompContext)._op = this._input.LT(1);
             _la = this._input.LA(1);
-            if ( !(_la===GlobalConditionsGrammarParser.T__0 || _la===GlobalConditionsGrammarParser.T__5) ) {
+            if ( !(_la===UserQueryGrammarParser.T__0 || _la===UserQueryGrammarParser.T__5) ) {
               (_localctx as RightMVVStringCompContext)._op = this._errHandler.recoverInline(this);
             } else {
               if (this._input.LA(1) === Token.EOF) {
@@ -1471,7 +1198,7 @@ export class GlobalConditionsGrammarParser extends Parser {
             this.state = 69;
             (_localctx as StringComparisonContext)._op = this._input.LT(1);
             _la = this._input.LA(1);
-            if ( !(_la===GlobalConditionsGrammarParser.T__0 || _la===GlobalConditionsGrammarParser.T__5) ) {
+            if ( !(_la===UserQueryGrammarParser.T__0 || _la===UserQueryGrammarParser.T__5) ) {
               (_localctx as StringComparisonContext)._op = this._errHandler.recoverInline(this);
             } else {
               if (this._input.LA(1) === Token.EOF) {
@@ -1502,11 +1229,11 @@ export class GlobalConditionsGrammarParser extends Parser {
                 {
                   _localctx = new BinaryBoolOpContext(new BooleanExpressionContext(_parentctx, _parentState));
                   (_localctx as BinaryBoolOpContext)._left = _prevctx;
-                  this.pushNewRecursionContext(_localctx, _startState, GlobalConditionsGrammarParser.RULE_booleanExpression);
+                  this.pushNewRecursionContext(_localctx, _startState, UserQueryGrammarParser.RULE_booleanExpression);
                   this.state = 74;
                   if (!(this.precpred(this._ctx, 2))) throw new FailedPredicateException(this, "this.precpred(this._ctx, 2)");
                   this.state = 75;
-                  (_localctx as BinaryBoolOpContext)._op = this.match(GlobalConditionsGrammarParser.AND);
+                  (_localctx as BinaryBoolOpContext)._op = this.match(UserQueryGrammarParser.AND);
                   this.state = 76;
                   (_localctx as BinaryBoolOpContext)._right = this.booleanExpression(3);
                 }
@@ -1516,11 +1243,11 @@ export class GlobalConditionsGrammarParser extends Parser {
                 {
                   _localctx = new BinaryBoolOpContext(new BooleanExpressionContext(_parentctx, _parentState));
                   (_localctx as BinaryBoolOpContext)._left = _prevctx;
-                  this.pushNewRecursionContext(_localctx, _startState, GlobalConditionsGrammarParser.RULE_booleanExpression);
+                  this.pushNewRecursionContext(_localctx, _startState, UserQueryGrammarParser.RULE_booleanExpression);
                   this.state = 77;
                   if (!(this.precpred(this._ctx, 1))) throw new FailedPredicateException(this, "this.precpred(this._ctx, 1)");
                   this.state = 78;
-                  (_localctx as BinaryBoolOpContext)._op = this.match(GlobalConditionsGrammarParser.OR);
+                  (_localctx as BinaryBoolOpContext)._op = this.match(UserQueryGrammarParser.OR);
                   this.state = 79;
                   (_localctx as BinaryBoolOpContext)._right = this.booleanExpression(2);
                 }
@@ -1562,7 +1289,7 @@ export class GlobalConditionsGrammarParser extends Parser {
     let _localctx: ArithmeticExpressionContext = new ArithmeticExpressionContext(this._ctx, _parentState);
     let _prevctx: ArithmeticExpressionContext = _localctx;
     let _startState: number = 2;
-    this.enterRecursionRule(_localctx, 2, GlobalConditionsGrammarParser.RULE_arithmeticExpression, _p);
+    this.enterRecursionRule(_localctx, 2, UserQueryGrammarParser.RULE_arithmeticExpression, _p);
     let _la: number;
     try {
       let _alt: number;
@@ -1571,36 +1298,36 @@ export class GlobalConditionsGrammarParser extends Parser {
         this.state = 104;
         this._errHandler.sync(this);
         switch (this._input.LA(1)) {
-          case GlobalConditionsGrammarParser.SCIENTIFIC_NUMBER:
+          case UserQueryGrammarParser.SCIENTIFIC_NUMBER:
           {
             _localctx = new ArithmeticConstantContext(_localctx);
             this._ctx = _localctx;
             _prevctx = _localctx;
 
             this.state = 86;
-            (_localctx as ArithmeticConstantContext)._atom = this.match(GlobalConditionsGrammarParser.SCIENTIFIC_NUMBER);
+            (_localctx as ArithmeticConstantContext)._atom = this.match(UserQueryGrammarParser.SCIENTIFIC_NUMBER);
           }
             break;
-          case GlobalConditionsGrammarParser.CS:
+          case UserQueryGrammarParser.CS:
           {
             _localctx = new ArithmeticVariableContext(_localctx);
             this._ctx = _localctx;
             _prevctx = _localctx;
             this.state = 87;
-            this.match(GlobalConditionsGrammarParser.CS);
+            this.match(UserQueryGrammarParser.CS);
             this.state = 88;
-            this.match(GlobalConditionsGrammarParser.DOT);
+            this.match(UserQueryGrammarParser.DOT);
             this.state = 89;
-            (_localctx as ArithmeticVariableContext)._cap = this.match(GlobalConditionsGrammarParser.VARIABLE);
+            (_localctx as ArithmeticVariableContext)._cap = this.match(UserQueryGrammarParser.VARIABLE);
             this.state = 90;
-            this.match(GlobalConditionsGrammarParser.DOT);
+            this.match(UserQueryGrammarParser.DOT);
             this.state = 91;
-            (_localctx as ArithmeticVariableContext)._property = this.match(GlobalConditionsGrammarParser.VARIABLE);
+            (_localctx as ArithmeticVariableContext)._property = this.match(UserQueryGrammarParser.VARIABLE);
           }
             break;
-          case GlobalConditionsGrammarParser.SUM:
-          case GlobalConditionsGrammarParser.COUNT:
-          case GlobalConditionsGrammarParser.AVG:
+          case UserQueryGrammarParser.SUM:
+          case UserQueryGrammarParser.COUNT:
+          case UserQueryGrammarParser.AVG:
           {
             _localctx = new ArithmeticFuncContext(_localctx);
             this._ctx = _localctx;
@@ -1608,7 +1335,7 @@ export class GlobalConditionsGrammarParser extends Parser {
             this.state = 92;
             (_localctx as ArithmeticFuncContext)._func = this._input.LT(1);
             _la = this._input.LA(1);
-            if ( !((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << GlobalConditionsGrammarParser.SUM) | (1 << GlobalConditionsGrammarParser.COUNT) | (1 << GlobalConditionsGrammarParser.AVG))) !== 0)) ) {
+            if ( !((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << UserQueryGrammarParser.SUM) | (1 << UserQueryGrammarParser.COUNT) | (1 << UserQueryGrammarParser.AVG))) !== 0)) ) {
               (_localctx as ArithmeticFuncContext)._func = this._errHandler.recoverInline(this);
             } else {
               if (this._input.LA(1) === Token.EOF) {
@@ -1619,39 +1346,39 @@ export class GlobalConditionsGrammarParser extends Parser {
               this.consume();
             }
             this.state = 93;
-            this.match(GlobalConditionsGrammarParser.LPAR);
+            this.match(UserQueryGrammarParser.LPAR);
             this.state = 94;
-            (_localctx as ArithmeticFuncContext)._cap = this.match(GlobalConditionsGrammarParser.VARIABLE);
+            (_localctx as ArithmeticFuncContext)._cap = this.match(UserQueryGrammarParser.VARIABLE);
             this.state = 95;
-            this.match(GlobalConditionsGrammarParser.DOT);
+            this.match(UserQueryGrammarParser.DOT);
             this.state = 96;
-            (_localctx as ArithmeticFuncContext)._property = this.match(GlobalConditionsGrammarParser.VARIABLE);
+            (_localctx as ArithmeticFuncContext)._property = this.match(UserQueryGrammarParser.VARIABLE);
             this.state = 97;
-            this.match(GlobalConditionsGrammarParser.RPAR);
+            this.match(UserQueryGrammarParser.RPAR);
           }
             break;
-          case GlobalConditionsGrammarParser.SUM_MINUS:
+          case UserQueryGrammarParser.SUM_MINUS:
           {
             _localctx = new UnaryArithmeticOpContext(_localctx);
             this._ctx = _localctx;
             _prevctx = _localctx;
             this.state = 98;
-            (_localctx as UnaryArithmeticOpContext)._op = this.match(GlobalConditionsGrammarParser.SUM_MINUS);
+            (_localctx as UnaryArithmeticOpContext)._op = this.match(UserQueryGrammarParser.SUM_MINUS);
             this.state = 99;
             (_localctx as UnaryArithmeticOpContext)._exp = this.arithmeticExpression(4);
           }
             break;
-          case GlobalConditionsGrammarParser.LPAR:
+          case UserQueryGrammarParser.LPAR:
           {
             _localctx = new UnaryArithmeticOpContext(_localctx);
             this._ctx = _localctx;
             _prevctx = _localctx;
             this.state = 100;
-            (_localctx as UnaryArithmeticOpContext)._op = this.match(GlobalConditionsGrammarParser.LPAR);
+            (_localctx as UnaryArithmeticOpContext)._op = this.match(UserQueryGrammarParser.LPAR);
             this.state = 101;
             (_localctx as UnaryArithmeticOpContext)._exp = this.arithmeticExpression(0);
             this.state = 102;
-            this.match(GlobalConditionsGrammarParser.RPAR);
+            this.match(UserQueryGrammarParser.RPAR);
           }
             break;
           default:
@@ -1673,11 +1400,11 @@ export class GlobalConditionsGrammarParser extends Parser {
                 {
                   _localctx = new BinaryArithmeticOpContext(new ArithmeticExpressionContext(_parentctx, _parentState));
                   (_localctx as BinaryArithmeticOpContext)._left = _prevctx;
-                  this.pushNewRecursionContext(_localctx, _startState, GlobalConditionsGrammarParser.RULE_arithmeticExpression);
+                  this.pushNewRecursionContext(_localctx, _startState, UserQueryGrammarParser.RULE_arithmeticExpression);
                   this.state = 106;
                   if (!(this.precpred(this._ctx, 2))) throw new FailedPredicateException(this, "this.precpred(this._ctx, 2)");
                   this.state = 107;
-                  (_localctx as BinaryArithmeticOpContext)._op = this.match(GlobalConditionsGrammarParser.MULT_DIV);
+                  (_localctx as BinaryArithmeticOpContext)._op = this.match(UserQueryGrammarParser.MULT_DIV);
                   this.state = 108;
                   (_localctx as BinaryArithmeticOpContext)._right = this.arithmeticExpression(3);
                 }
@@ -1687,11 +1414,11 @@ export class GlobalConditionsGrammarParser extends Parser {
                 {
                   _localctx = new BinaryArithmeticOpContext(new ArithmeticExpressionContext(_parentctx, _parentState));
                   (_localctx as BinaryArithmeticOpContext)._left = _prevctx;
-                  this.pushNewRecursionContext(_localctx, _startState, GlobalConditionsGrammarParser.RULE_arithmeticExpression);
+                  this.pushNewRecursionContext(_localctx, _startState, UserQueryGrammarParser.RULE_arithmeticExpression);
                   this.state = 109;
                   if (!(this.precpred(this._ctx, 1))) throw new FailedPredicateException(this, "this.precpred(this._ctx, 1)");
                   this.state = 110;
-                  (_localctx as BinaryArithmeticOpContext)._op = this.match(GlobalConditionsGrammarParser.SUM_MINUS);
+                  (_localctx as BinaryArithmeticOpContext)._op = this.match(UserQueryGrammarParser.SUM_MINUS);
                   this.state = 111;
                   (_localctx as BinaryArithmeticOpContext)._right = this.arithmeticExpression(2);
                 }
@@ -1722,33 +1449,33 @@ export class GlobalConditionsGrammarParser extends Parser {
   @RuleVersion(0)
   public stringValue(): StringValueContext {
     let _localctx: StringValueContext = new StringValueContext(this._ctx, this.state);
-    this.enterRule(_localctx, 4, GlobalConditionsGrammarParser.RULE_stringValue);
+    this.enterRule(_localctx, 4, UserQueryGrammarParser.RULE_stringValue);
     try {
       this.state = 123;
       this._errHandler.sync(this);
       switch (this._input.LA(1)) {
-        case GlobalConditionsGrammarParser.STRING_LITERAL:
+        case UserQueryGrammarParser.STRING_LITERAL:
           _localctx = new StringAtomContext(_localctx);
           this.enterOuterAlt(_localctx, 1);
         {
           this.state = 117;
-          (_localctx as StringAtomContext)._atom = this.match(GlobalConditionsGrammarParser.STRING_LITERAL);
+          (_localctx as StringAtomContext)._atom = this.match(UserQueryGrammarParser.STRING_LITERAL);
         }
           break;
-        case GlobalConditionsGrammarParser.CS:
+        case UserQueryGrammarParser.CS:
           _localctx = new StringVariableContext(_localctx);
           this.enterOuterAlt(_localctx, 2);
         {
           this.state = 118;
-          this.match(GlobalConditionsGrammarParser.CS);
+          this.match(UserQueryGrammarParser.CS);
           this.state = 119;
-          this.match(GlobalConditionsGrammarParser.DOT);
+          this.match(UserQueryGrammarParser.DOT);
           this.state = 120;
-          (_localctx as StringVariableContext)._cap = this.match(GlobalConditionsGrammarParser.VARIABLE);
+          (_localctx as StringVariableContext)._cap = this.match(UserQueryGrammarParser.VARIABLE);
           this.state = 121;
-          this.match(GlobalConditionsGrammarParser.DOT);
+          this.match(UserQueryGrammarParser.DOT);
           this.state = 122;
-          (_localctx as StringVariableContext)._property = this.match(GlobalConditionsGrammarParser.VARIABLE);
+          (_localctx as StringVariableContext)._property = this.match(UserQueryGrammarParser.VARIABLE);
         }
           break;
         default:
@@ -1772,7 +1499,7 @@ export class GlobalConditionsGrammarParser extends Parser {
   @RuleVersion(0)
   public multiValueVariable(): MultiValueVariableContext {
     let _localctx: MultiValueVariableContext = new MultiValueVariableContext(this._ctx, this.state);
-    this.enterRule(_localctx, 6, GlobalConditionsGrammarParser.RULE_multiValueVariable);
+    this.enterRule(_localctx, 6, UserQueryGrammarParser.RULE_multiValueVariable);
     let _la: number;
     try {
       this.state = 139;
@@ -1785,7 +1512,7 @@ export class GlobalConditionsGrammarParser extends Parser {
           this.state = 125;
           (_localctx as MvvContext)._accessor = this._input.LT(1);
           _la = this._input.LA(1);
-          if ( !(_la===GlobalConditionsGrammarParser.ANY || _la===GlobalConditionsGrammarParser.ALL) ) {
+          if ( !(_la===UserQueryGrammarParser.ANY || _la===UserQueryGrammarParser.ALL) ) {
             (_localctx as MvvContext)._accessor = this._errHandler.recoverInline(this);
           } else {
             if (this._input.LA(1) === Token.EOF) {
@@ -1796,13 +1523,13 @@ export class GlobalConditionsGrammarParser extends Parser {
             this.consume();
           }
           this.state = 126;
-          this.match(GlobalConditionsGrammarParser.DOT);
+          this.match(UserQueryGrammarParser.DOT);
           this.state = 127;
-          (_localctx as MvvContext)._capability = this.match(GlobalConditionsGrammarParser.VARIABLE);
+          (_localctx as MvvContext)._capability = this.match(UserQueryGrammarParser.VARIABLE);
           this.state = 128;
-          this.match(GlobalConditionsGrammarParser.DOT);
+          this.match(UserQueryGrammarParser.DOT);
           this.state = 129;
-          (_localctx as MvvContext)._property = this.match(GlobalConditionsGrammarParser.VARIABLE);
+          (_localctx as MvvContext)._property = this.match(UserQueryGrammarParser.VARIABLE);
         }
           break;
 
@@ -1813,7 +1540,7 @@ export class GlobalConditionsGrammarParser extends Parser {
           this.state = 130;
           (_localctx as MvvContext)._accessor = this._input.LT(1);
           _la = this._input.LA(1);
-          if ( !(_la===GlobalConditionsGrammarParser.ANY || _la===GlobalConditionsGrammarParser.ALL) ) {
+          if ( !(_la===UserQueryGrammarParser.ANY || _la===UserQueryGrammarParser.ALL) ) {
             (_localctx as MvvContext)._accessor = this._errHandler.recoverInline(this);
           } else {
             if (this._input.LA(1) === Token.EOF) {
@@ -1824,19 +1551,19 @@ export class GlobalConditionsGrammarParser extends Parser {
             this.consume();
           }
           this.state = 131;
-          this.match(GlobalConditionsGrammarParser.LBRAC);
+          this.match(UserQueryGrammarParser.LBRAC);
           this.state = 132;
           this.fBooleanExpression(0);
           this.state = 133;
-          this.match(GlobalConditionsGrammarParser.RBRAC);
+          this.match(UserQueryGrammarParser.RBRAC);
           this.state = 134;
-          this.match(GlobalConditionsGrammarParser.DOT);
+          this.match(UserQueryGrammarParser.DOT);
           this.state = 135;
-          (_localctx as MvvContext)._capability = this.match(GlobalConditionsGrammarParser.VARIABLE);
+          (_localctx as MvvContext)._capability = this.match(UserQueryGrammarParser.VARIABLE);
           this.state = 136;
-          this.match(GlobalConditionsGrammarParser.DOT);
+          this.match(UserQueryGrammarParser.DOT);
           this.state = 137;
-          (_localctx as MvvContext)._property = this.match(GlobalConditionsGrammarParser.VARIABLE);
+          (_localctx as MvvContext)._property = this.match(UserQueryGrammarParser.VARIABLE);
         }
           break;
       }
@@ -1869,7 +1596,7 @@ export class GlobalConditionsGrammarParser extends Parser {
     let _localctx: FBooleanExpressionContext = new FBooleanExpressionContext(this._ctx, _parentState);
     let _prevctx: FBooleanExpressionContext = _localctx;
     let _startState: number = 8;
-    this.enterRecursionRule(_localctx, 8, GlobalConditionsGrammarParser.RULE_fBooleanExpression, _p);
+    this.enterRecursionRule(_localctx, 8, UserQueryGrammarParser.RULE_fBooleanExpression, _p);
     let _la: number;
     try {
       let _alt: number;
@@ -1885,7 +1612,7 @@ export class GlobalConditionsGrammarParser extends Parser {
             _prevctx = _localctx;
 
             this.state = 142;
-            (_localctx as FBoolConstantContext)._atom = this.match(GlobalConditionsGrammarParser.BOOL_CONSTANT);
+            (_localctx as FBoolConstantContext)._atom = this.match(UserQueryGrammarParser.BOOL_CONSTANT);
           }
             break;
 
@@ -1895,11 +1622,11 @@ export class GlobalConditionsGrammarParser extends Parser {
             this._ctx = _localctx;
             _prevctx = _localctx;
             this.state = 143;
-            (_localctx as FBoolVariableContext)._cap = this.match(GlobalConditionsGrammarParser.VARIABLE);
+            (_localctx as FBoolVariableContext)._cap = this.match(UserQueryGrammarParser.VARIABLE);
             this.state = 144;
-            this.match(GlobalConditionsGrammarParser.DOT);
+            this.match(UserQueryGrammarParser.DOT);
             this.state = 145;
-            (_localctx as FBoolVariableContext)._property = this.match(GlobalConditionsGrammarParser.VARIABLE);
+            (_localctx as FBoolVariableContext)._property = this.match(UserQueryGrammarParser.VARIABLE);
           }
             break;
 
@@ -1909,11 +1636,11 @@ export class GlobalConditionsGrammarParser extends Parser {
             this._ctx = _localctx;
             _prevctx = _localctx;
             this.state = 146;
-            (_localctx as FUnaryBoolOpContext)._op = this.match(GlobalConditionsGrammarParser.LPAR);
+            (_localctx as FUnaryBoolOpContext)._op = this.match(UserQueryGrammarParser.LPAR);
             this.state = 147;
             (_localctx as FUnaryBoolOpContext)._exp = this.fBooleanExpression(0);
             this.state = 148;
-            this.match(GlobalConditionsGrammarParser.RPAR);
+            this.match(UserQueryGrammarParser.RPAR);
           }
             break;
 
@@ -1923,7 +1650,7 @@ export class GlobalConditionsGrammarParser extends Parser {
             this._ctx = _localctx;
             _prevctx = _localctx;
             this.state = 150;
-            this.match(GlobalConditionsGrammarParser.NOT);
+            this.match(UserQueryGrammarParser.NOT);
             this.state = 151;
             (_localctx as FUnaryBoolOpContext)._exp = this.fBooleanExpression(5);
           }
@@ -1939,7 +1666,7 @@ export class GlobalConditionsGrammarParser extends Parser {
             this.state = 153;
             (_localctx as FArithmeticComparisonContext)._op = this._input.LT(1);
             _la = this._input.LA(1);
-            if ( !((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << GlobalConditionsGrammarParser.T__0) | (1 << GlobalConditionsGrammarParser.T__1) | (1 << GlobalConditionsGrammarParser.T__2) | (1 << GlobalConditionsGrammarParser.T__3) | (1 << GlobalConditionsGrammarParser.T__4) | (1 << GlobalConditionsGrammarParser.T__5))) !== 0)) ) {
+            if ( !((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << UserQueryGrammarParser.T__0) | (1 << UserQueryGrammarParser.T__1) | (1 << UserQueryGrammarParser.T__2) | (1 << UserQueryGrammarParser.T__3) | (1 << UserQueryGrammarParser.T__4) | (1 << UserQueryGrammarParser.T__5))) !== 0)) ) {
               (_localctx as FArithmeticComparisonContext)._op = this._errHandler.recoverInline(this);
             } else {
               if (this._input.LA(1) === Token.EOF) {
@@ -1964,7 +1691,7 @@ export class GlobalConditionsGrammarParser extends Parser {
             this.state = 157;
             (_localctx as FStringComparisonContext)._op = this._input.LT(1);
             _la = this._input.LA(1);
-            if ( !(_la===GlobalConditionsGrammarParser.T__0 || _la===GlobalConditionsGrammarParser.T__5) ) {
+            if ( !(_la===UserQueryGrammarParser.T__0 || _la===UserQueryGrammarParser.T__5) ) {
               (_localctx as FStringComparisonContext)._op = this._errHandler.recoverInline(this);
             } else {
               if (this._input.LA(1) === Token.EOF) {
@@ -1995,11 +1722,11 @@ export class GlobalConditionsGrammarParser extends Parser {
                 {
                   _localctx = new FBinaryBoolOpContext(new FBooleanExpressionContext(_parentctx, _parentState));
                   (_localctx as FBinaryBoolOpContext)._left = _prevctx;
-                  this.pushNewRecursionContext(_localctx, _startState, GlobalConditionsGrammarParser.RULE_fBooleanExpression);
+                  this.pushNewRecursionContext(_localctx, _startState, UserQueryGrammarParser.RULE_fBooleanExpression);
                   this.state = 162;
                   if (!(this.precpred(this._ctx, 2))) throw new FailedPredicateException(this, "this.precpred(this._ctx, 2)");
                   this.state = 163;
-                  (_localctx as FBinaryBoolOpContext)._op = this.match(GlobalConditionsGrammarParser.AND);
+                  (_localctx as FBinaryBoolOpContext)._op = this.match(UserQueryGrammarParser.AND);
                   this.state = 164;
                   (_localctx as FBinaryBoolOpContext)._right = this.fBooleanExpression(3);
                 }
@@ -2009,11 +1736,11 @@ export class GlobalConditionsGrammarParser extends Parser {
                 {
                   _localctx = new FBinaryBoolOpContext(new FBooleanExpressionContext(_parentctx, _parentState));
                   (_localctx as FBinaryBoolOpContext)._left = _prevctx;
-                  this.pushNewRecursionContext(_localctx, _startState, GlobalConditionsGrammarParser.RULE_fBooleanExpression);
+                  this.pushNewRecursionContext(_localctx, _startState, UserQueryGrammarParser.RULE_fBooleanExpression);
                   this.state = 165;
                   if (!(this.precpred(this._ctx, 1))) throw new FailedPredicateException(this, "this.precpred(this._ctx, 1)");
                   this.state = 166;
-                  (_localctx as FBinaryBoolOpContext)._op = this.match(GlobalConditionsGrammarParser.OR);
+                  (_localctx as FBinaryBoolOpContext)._op = this.match(UserQueryGrammarParser.OR);
                   this.state = 167;
                   (_localctx as FBinaryBoolOpContext)._right = this.fBooleanExpression(2);
                 }
@@ -2055,7 +1782,7 @@ export class GlobalConditionsGrammarParser extends Parser {
     let _localctx: FArithmeticExpressionContext = new FArithmeticExpressionContext(this._ctx, _parentState);
     let _prevctx: FArithmeticExpressionContext = _localctx;
     let _startState: number = 10;
-    this.enterRecursionRule(_localctx, 10, GlobalConditionsGrammarParser.RULE_fArithmeticExpression, _p);
+    this.enterRecursionRule(_localctx, 10, UserQueryGrammarParser.RULE_fArithmeticExpression, _p);
     try {
       let _alt: number;
       this.enterOuterAlt(_localctx, 1);
@@ -2063,51 +1790,51 @@ export class GlobalConditionsGrammarParser extends Parser {
         this.state = 184;
         this._errHandler.sync(this);
         switch (this._input.LA(1)) {
-          case GlobalConditionsGrammarParser.SCIENTIFIC_NUMBER:
+          case UserQueryGrammarParser.SCIENTIFIC_NUMBER:
           {
             _localctx = new FArithmeticConstantContext(_localctx);
             this._ctx = _localctx;
             _prevctx = _localctx;
 
             this.state = 174;
-            (_localctx as FArithmeticConstantContext)._atom = this.match(GlobalConditionsGrammarParser.SCIENTIFIC_NUMBER);
+            (_localctx as FArithmeticConstantContext)._atom = this.match(UserQueryGrammarParser.SCIENTIFIC_NUMBER);
           }
             break;
-          case GlobalConditionsGrammarParser.VARIABLE:
+          case UserQueryGrammarParser.VARIABLE:
           {
             _localctx = new FArithmeticVariableContext(_localctx);
             this._ctx = _localctx;
             _prevctx = _localctx;
             this.state = 175;
-            (_localctx as FArithmeticVariableContext)._cap = this.match(GlobalConditionsGrammarParser.VARIABLE);
+            (_localctx as FArithmeticVariableContext)._cap = this.match(UserQueryGrammarParser.VARIABLE);
             this.state = 176;
-            this.match(GlobalConditionsGrammarParser.DOT);
+            this.match(UserQueryGrammarParser.DOT);
             this.state = 177;
-            (_localctx as FArithmeticVariableContext)._property = this.match(GlobalConditionsGrammarParser.VARIABLE);
+            (_localctx as FArithmeticVariableContext)._property = this.match(UserQueryGrammarParser.VARIABLE);
           }
             break;
-          case GlobalConditionsGrammarParser.SUM_MINUS:
+          case UserQueryGrammarParser.SUM_MINUS:
           {
             _localctx = new FUnaryArithmeticOpContext(_localctx);
             this._ctx = _localctx;
             _prevctx = _localctx;
             this.state = 178;
-            (_localctx as FUnaryArithmeticOpContext)._op = this.match(GlobalConditionsGrammarParser.SUM_MINUS);
+            (_localctx as FUnaryArithmeticOpContext)._op = this.match(UserQueryGrammarParser.SUM_MINUS);
             this.state = 179;
             (_localctx as FUnaryArithmeticOpContext)._exp = this.fArithmeticExpression(4);
           }
             break;
-          case GlobalConditionsGrammarParser.LPAR:
+          case UserQueryGrammarParser.LPAR:
           {
             _localctx = new FUnaryArithmeticOpContext(_localctx);
             this._ctx = _localctx;
             _prevctx = _localctx;
             this.state = 180;
-            (_localctx as FUnaryArithmeticOpContext)._op = this.match(GlobalConditionsGrammarParser.LPAR);
+            (_localctx as FUnaryArithmeticOpContext)._op = this.match(UserQueryGrammarParser.LPAR);
             this.state = 181;
             (_localctx as FUnaryArithmeticOpContext)._exp = this.fArithmeticExpression(0);
             this.state = 182;
-            this.match(GlobalConditionsGrammarParser.RPAR);
+            this.match(UserQueryGrammarParser.RPAR);
           }
             break;
           default:
@@ -2129,11 +1856,11 @@ export class GlobalConditionsGrammarParser extends Parser {
                 {
                   _localctx = new FBinaryArithmeticOpContext(new FArithmeticExpressionContext(_parentctx, _parentState));
                   (_localctx as FBinaryArithmeticOpContext)._left = _prevctx;
-                  this.pushNewRecursionContext(_localctx, _startState, GlobalConditionsGrammarParser.RULE_fArithmeticExpression);
+                  this.pushNewRecursionContext(_localctx, _startState, UserQueryGrammarParser.RULE_fArithmeticExpression);
                   this.state = 186;
                   if (!(this.precpred(this._ctx, 2))) throw new FailedPredicateException(this, "this.precpred(this._ctx, 2)");
                   this.state = 187;
-                  (_localctx as FBinaryArithmeticOpContext)._op = this.match(GlobalConditionsGrammarParser.MULT_DIV);
+                  (_localctx as FBinaryArithmeticOpContext)._op = this.match(UserQueryGrammarParser.MULT_DIV);
                   this.state = 188;
                   (_localctx as FBinaryArithmeticOpContext)._right = this.fArithmeticExpression(3);
                 }
@@ -2143,11 +1870,11 @@ export class GlobalConditionsGrammarParser extends Parser {
                 {
                   _localctx = new FBinaryArithmeticOpContext(new FArithmeticExpressionContext(_parentctx, _parentState));
                   (_localctx as FBinaryArithmeticOpContext)._left = _prevctx;
-                  this.pushNewRecursionContext(_localctx, _startState, GlobalConditionsGrammarParser.RULE_fArithmeticExpression);
+                  this.pushNewRecursionContext(_localctx, _startState, UserQueryGrammarParser.RULE_fArithmeticExpression);
                   this.state = 189;
                   if (!(this.precpred(this._ctx, 1))) throw new FailedPredicateException(this, "this.precpred(this._ctx, 1)");
                   this.state = 190;
-                  (_localctx as FBinaryArithmeticOpContext)._op = this.match(GlobalConditionsGrammarParser.SUM_MINUS);
+                  (_localctx as FBinaryArithmeticOpContext)._op = this.match(UserQueryGrammarParser.SUM_MINUS);
                   this.state = 191;
                   (_localctx as FBinaryArithmeticOpContext)._right = this.fArithmeticExpression(2);
                 }
@@ -2178,29 +1905,29 @@ export class GlobalConditionsGrammarParser extends Parser {
   @RuleVersion(0)
   public fStringValue(): FStringValueContext {
     let _localctx: FStringValueContext = new FStringValueContext(this._ctx, this.state);
-    this.enterRule(_localctx, 12, GlobalConditionsGrammarParser.RULE_fStringValue);
+    this.enterRule(_localctx, 12, UserQueryGrammarParser.RULE_fStringValue);
     try {
       this.state = 201;
       this._errHandler.sync(this);
       switch (this._input.LA(1)) {
-        case GlobalConditionsGrammarParser.STRING_LITERAL:
+        case UserQueryGrammarParser.STRING_LITERAL:
           _localctx = new FStringAtomContext(_localctx);
           this.enterOuterAlt(_localctx, 1);
         {
           this.state = 197;
-          (_localctx as FStringAtomContext)._atom = this.match(GlobalConditionsGrammarParser.STRING_LITERAL);
+          (_localctx as FStringAtomContext)._atom = this.match(UserQueryGrammarParser.STRING_LITERAL);
         }
           break;
-        case GlobalConditionsGrammarParser.VARIABLE:
+        case UserQueryGrammarParser.VARIABLE:
           _localctx = new FStringVariableContext(_localctx);
           this.enterOuterAlt(_localctx, 2);
         {
           this.state = 198;
-          (_localctx as FStringVariableContext)._cap = this.match(GlobalConditionsGrammarParser.VARIABLE);
+          (_localctx as FStringVariableContext)._cap = this.match(UserQueryGrammarParser.VARIABLE);
           this.state = 199;
-          this.match(GlobalConditionsGrammarParser.DOT);
+          this.match(UserQueryGrammarParser.DOT);
           this.state = 200;
-          (_localctx as FStringVariableContext)._property = this.match(GlobalConditionsGrammarParser.VARIABLE);
+          (_localctx as FStringVariableContext)._property = this.match(UserQueryGrammarParser.VARIABLE);
         }
           break;
         default:
@@ -2376,11 +2103,11 @@ export class GlobalConditionsGrammarParser extends Parser {
     "\xAA\xAC\xBA\xC2\xC4\xCB";
   public static __ATN: ATN;
   public static get _ATN(): ATN {
-    if (!GlobalConditionsGrammarParser.__ATN) {
-      GlobalConditionsGrammarParser.__ATN = new ATNDeserializer().deserialize(Utils.toCharArray(GlobalConditionsGrammarParser._serializedATN));
+    if (!UserQueryGrammarParser.__ATN) {
+      UserQueryGrammarParser.__ATN = new ATNDeserializer().deserialize(Utils.toCharArray(UserQueryGrammarParser._serializedATN));
     }
 
-    return GlobalConditionsGrammarParser.__ATN;
+    return UserQueryGrammarParser.__ATN;
   }
 
 }

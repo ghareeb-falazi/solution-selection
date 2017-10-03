@@ -1,4 +1,4 @@
-grammar GlobalConditionsGrammar;
+grammar UserQueryGrammar;
 import CommonTokens;
 
 booleanExpression

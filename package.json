@@ -9,8 +9,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "antlrReq": "antlr4ts src/assets/grammars/RequirementsGrammar.g4 -o src/app/expression-evaluator/requirements-grammar -visitor",
-    "antlrGC": "antlr4ts src/assets/grammars/GlobalConditionsGrammar.g4 -o src/app/expression-evaluator/global-conditions-grammar -visitor"
+    "antlrReq": "antlr4ts src/assets/grammars/RequirementsGrammar.g4 -o src/core/app/expression-evaluation/requirements-grammar -visitor",
+    "antlrUQ": "antlr4ts src/assets/grammars/UserQueryGrammar.g4 -o src/app/core/expression-evaluation/user-query-grammar -visitor -no-listener"
   },
   "private": true,
   "dependencies": {

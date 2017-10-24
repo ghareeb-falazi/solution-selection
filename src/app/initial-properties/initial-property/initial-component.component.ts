@@ -1,12 +1,12 @@
-import {Component, Input, OnInit} from "@angular/core";
-import {CapabilityModel} from "../../data-model/capability.model";
-import {SuggestionsService} from "../../core/suggestions/suggestions.service";
+import {Component, Input, OnInit} from '@angular/core';
+import {CapabilityModel} from '../../data-model/capability.model';
+import {SuggestionsService} from '../../core/suggestions/suggestions.service';
 
 /**
  * A component that represents a single initial property
  */
 @Component({
-  selector: 'capa',
+  selector: 'app-capa',
   templateUrl: './initial-property.component.html'
 })
 export class InitialPropertyComponent implements OnInit {
@@ -26,7 +26,7 @@ export class InitialPropertyComponent implements OnInit {
    * The set of properties for this initial property
    * @type {Array}
    */
-  properties:[string, string][] = [];
+  properties: [string, string][] = [];
 
   /**
    * The model-object created based on this component
@@ -61,11 +61,11 @@ export class InitialPropertyComponent implements OnInit {
    * @param {string} label
    * @returns {number}
    */
-  private findPropertyByLabel(label:string):number{
-    let index:number = -1;
+  private findPropertyByLabel(label: string): number {
+    let index: number = -1;
 
-    for(let i = 0; i < this.properties.length; i++){
-      if(this.properties[i][0] === label){
+    for (let i = 0; i < this.properties.length; i++) {
+      if (this.properties[i][0] === label) {
         index = i;
         break;
       }
@@ -78,7 +78,7 @@ export class InitialPropertyComponent implements OnInit {
    * Handles the event when the user clicks on the dropdown arrow
    */
   handleDropdown() {
-    //mimic remote call, otherwise the dropdown doesn't show
+    // mimic remote call, otherwise the dropdown doesn't show
     this.suggestionsService.getSuggestionsForPropertyName(null, this.capability.name)
       .then(result => {
         setTimeout(() => {
@@ -94,9 +94,9 @@ export class InitialPropertyComponent implements OnInit {
    * @param {string} value
    */
   addProperty(label: string, value: string): void {
-    if (this.capability.properties.has(label))
+    if (this.capability.properties.has(label)) {
       console.error(`The property: ${label} already exists in the current capability!`);
-    else {
+    } else {
       this.capability.properties.set(label, value);
       this.properties.push([label, value]);
 
@@ -112,12 +112,11 @@ export class InitialPropertyComponent implements OnInit {
    * @param {string} label
    */
   removeProperty(label: string): void {
-    if (this.capability.properties.has(label)){
+    if (this.capability.properties.has(label)) {
       this.capability.properties.delete(label);
       const index = this.findPropertyByLabel(label);
       this.properties.splice(index, 1);
-    }
-    else {
+    } else {
       console.error(`The label: ${label} is not found in the properties. Nothing is deleted!`);
     }
   }

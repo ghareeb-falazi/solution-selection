@@ -4,8 +4,8 @@
  */
 export abstract class AbstractAggregatorModel {
 
-  constructor(public aggregatorUri:string)
-  {}
+  constructor(public aggregatorUri: string) {
+  }
 
   /**
    * Checks whether this aggregator can aggregate the given concrete solutions
@@ -13,5 +13,5 @@ export abstract class AbstractAggregatorModel {
    * @param {string} csUri2 one of the concrete solutions to check for aggregability
    * @returns {boolean} true if the aggregator can aggregate the two given concrete solutions
    */
-  abstract canAggregate(csUri1:string ,csUri2:string):boolean;
+  abstract canAggregate(csUri1: string, csUri2: string): boolean;
 }

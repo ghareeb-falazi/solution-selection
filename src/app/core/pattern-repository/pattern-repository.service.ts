@@ -1,6 +1,6 @@
-import {Injectable} from "@angular/core";
-import {Http} from "@angular/http";
-import {PatternModel} from "../../data-model/pattern.model";
+import {Injectable} from '@angular/core';
+import {Http} from '@angular/http';
+import {PatternModel} from '../../data-model/pattern.model';
 
 /**
  * A service that provides access to the pattern repository
@@ -17,6 +17,16 @@ export class PatternRepositoryService {
   private initialized: Promise<any>;
 
   /**
+   * Handles errors that might occur while initializing the service
+   * @param error the error to handle
+   * @returns {Promise<any>}
+   */
+  private static handleError(error: any): Promise<any> {
+    console.error('An error occurred', error); // for demo purposes only
+    return Promise.reject(error.message || error);
+  }
+
+  /**
    * Initializes a new instances of the service
    * @param {Http} http Angular service for http connections
    */
@@ -29,7 +39,7 @@ export class PatternRepositoryService {
    * @returns {Promise<any>} a Promise that gets resolved when initialization is done.
    */
   private initialize(): Promise<any> {
-    const url: string = 'assets/patterns.json';
+    const url = 'assets/patterns.json';
 
     return this.http.get(url)
       .toPromise()
@@ -40,7 +50,7 @@ export class PatternRepositoryService {
 
           let nextPattern: PatternModel;
 
-          //fill references to next patterns
+          // fill references to next patterns
           for (const pattern of result) {
             pattern.nextPatterns = [];
 
@@ -68,13 +78,5 @@ export class PatternRepositoryService {
     return this.initialized;
   }
 
-  /**
-   * Handles errors that might occur while initializing the service
-   * @param error the error to handle
-   * @returns {Promise<any>}
-   */
-  private static handleError(error: any): Promise<any> {
-    console.error('An error occurred', error); // for demo purposes only
-    return Promise.reject(error.message || error);
-  }
+
 }

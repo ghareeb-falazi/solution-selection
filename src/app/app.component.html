@@ -5,12 +5,12 @@
   <div id="options">
     <p-accordion>
       <p-accordionTab header="Pattern Sequence">
-        <pattern-selector (patternsSelectedEvent)="patternsSelected($event)"
-                          (patternsUnselectedEvent)="patternsUnselected($event)"></pattern-selector>
+        <app-pattern-selector (patternsSelectedEvent)="patternsSelected($event)"
+                          (patternsUnselectedEvent)="patternsUnselected($event)"></app-pattern-selector>
       </p-accordionTab>
 
       <p-accordionTab header="Initial Capabilities">
-        <caps></caps>
+        <app-caps></app-caps>
       </p-accordionTab>
 
       <p-accordionTab header="User Query">
@@ -72,13 +72,13 @@
 
   <div id="graphs">
     <p-panel header="Graph Representation" [toggleable]="true">
-      <pattern-graph (onNodeDoubleClickedEvent)="patternDoubleClicked($event)" (onMouseOverNodeEvent)="mouseOnPattern($event)" (onMouseOutNodeEvent)="mouseOutPattern($event)">
+      <app-pattern-graph (onNodeDoubleClickedEvent)="patternDoubleClicked($event)" (onMouseOverNodeEvent)="mouseOnPattern($event)" (onMouseOutNodeEvent)="mouseOutPattern($event)">
 
-      </pattern-graph>
+      </app-pattern-graph>
 
-      <solutions-graph (onNodeDoubleClickedEvent)="concreteSolutionDoubleClicked($event)">
+      <app-solutions-graph (onNodeDoubleClickedEvent)="concreteSolutionDoubleClicked($event)">
 
-      </solutions-graph>
+      </app-solutions-graph>
     </p-panel>
   </div>
 </div>

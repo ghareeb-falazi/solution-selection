@@ -1,13 +1,13 @@
 /**
  * Created by falazigb on 09-Jul-17.
  */
-import {Injectable} from "@angular/core";
-import {Http} from "@angular/http";
+import {Injectable} from '@angular/core';
+import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
-import {ConcreteSolutionInterface, ConcreteSolutionModel} from "../../data-model/concrete-solution.model";
-import {RequirementModel} from "../../data-model/requirement.model";
-import {CapabilityModel} from "../../data-model/capability.model";
+import {ConcreteSolutionInterface, ConcreteSolutionModel} from '../../data-model/concrete-solution.model';
+import {RequirementModel} from '../../data-model/requirement.model';
+import {CapabilityModel} from '../../data-model/capability.model';
 
 /**
  * A service that provides access to the concrete solution repository
@@ -22,6 +22,16 @@ export class ConcreteSolutionRepositoryService {
    * Used to indicate that service initialization is done
    */
   private initialized: Promise<any>;
+
+  /**
+   * Handles errors that might occur while initializing the service
+   * @param error the error to handle
+   * @returns {Promise<any>}
+   */
+  private static handleError(error: any): Promise<any> {
+    console.error('An error occurred', error); // for demo purposes only
+    return Promise.reject(error.message || error);
+  }
 
   /**
    * Initializes a new instances of the service
@@ -70,8 +80,8 @@ export class ConcreteSolutionRepositoryService {
    * @returns {ConcreteSolutionModel[]}
    */
   getConcreteSolutionsOfPattern(patternName: string): ConcreteSolutionModel[] {
-    return this.allSolutions.filter(solution =>{
-      return solution.getImplementedPattern().toLowerCase() === patternName.toLowerCase()
+    return this.allSolutions.filter(solution => {
+      return solution.getImplementedPattern().toLowerCase() === patternName.toLowerCase();
     });
 
   }
@@ -123,13 +133,5 @@ export class ConcreteSolutionRepositoryService {
     return new Promise<RequirementModel[]>(resolve => resolve(result));
   }
 
-  /**
-   * Handles errors that might occur while initializing the service
-   * @param error the error to handle
-   * @returns {Promise<any>}
-   */
-  private static handleError(error: any): Promise<any> {
-    console.error('An error occurred', error); // for demo purposes only
-    return Promise.reject(error.message || error);
-  }
+
 }

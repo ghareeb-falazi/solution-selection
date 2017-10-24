@@ -1,16 +1,17 @@
 import * as shape from 'd3-shape';
-import {Output, EventEmitter} from "@angular/core";
-import {isNullOrUndefined} from "util";
+import {Output, EventEmitter} from '@angular/core';
+import {isNullOrUndefined} from 'util';
 
 /**
  * Basic graph node
  */
 export class GraphNode {
-  isHighlighted: boolean = false;
-  opacity: number = 1.0;
+  static readonly highOpacityValue = 1.0;
+  static readonly lowOpacityValue = 0.5;
+  isHighlighted = false;
+  opacity = 1.0;
   readonly normalStrokeColor: string;
-  static readonly highOpacityValue:number = 1.0;
-  static readonly lowOpacityValue:number = 0.5;
+
 
   constructor(public id: string, public fillColor: string, public strokeColor: string, public readonly highlightedStrokeColor) {
     this.normalStrokeColor = strokeColor;
@@ -21,7 +22,7 @@ export class GraphNode {
  * Basic graph link
  */
 export class GraphLink {
-  strokeColor: string = 'black';
+  strokeColor = 'black';
 
   /**
    * Initializes a new instance of this class
@@ -55,12 +56,12 @@ export abstract class AbstractGraphComponent {
    * The width of the canvas the graph is fit into
    * @type {number}
    */
-  width: number = 730;
+  width = 730;
   /**
    * The height of the canvas the graph is fit into
    * @type {number}
    */
-  height: number = 300;
+  height = 300;
   /**
    * The dimensions of the canvas the graph is fit into
    * @type {[number , number]}
@@ -70,7 +71,7 @@ export abstract class AbstractGraphComponent {
    * The flow direction of the graph
    * @type {string}
    */
-  orientation:string='LR';
+  orientation= 'LR';
   /**
    * Whether a legend should be shown when hovering over a node
    * @type {boolean}
@@ -80,7 +81,7 @@ export abstract class AbstractGraphComponent {
    * The color of links arrow heads
    * @type {string}
    */
-  arrowHeadColor: string = 'black';
+  arrowHeadColor = 'black';
   /**
    * An event that is triggered when a node is double-clicked
    * @type {EventEmitter<GraphNode>}
@@ -97,7 +98,21 @@ export abstract class AbstractGraphComponent {
    */
   @Output() onMouseOutNodeEvent = new EventEmitter<GraphNode>();
 
+  /**
+   * Called when a node is double clicked, right before the event is raised
+   * @param {GraphNode} node the node that was double-clicked
+   */
+  onNodeDoubleClicked?: (node: GraphNode) => void;
 
+  /**
+   * optional to implement
+   */
+  onMouseOver?: (node: GraphNode) => void;
+
+  /**
+   * optional to implement
+   */
+  onMouseOut?: (node: GraphNode) => void;
   /**
    * Instantiates a node based on an id and a tag.
    * @param id
@@ -131,21 +146,7 @@ export abstract class AbstractGraphComponent {
    */
   abstract getNextItems(currentItem: any): any[];
 
-  /**
-   * Called when a node is double clicked, right before the event is raised
-   * @param {GraphNode} node the node that was double-clicked
-   */
-  onNodeDoubleClicked?: (node: GraphNode)=> void;
 
-  /**
-   * optional to implement
-   */
-  onMouseOver?: (node: GraphNode) => void;
-
-  /**
-   * optional to implement
-   */
-  onMouseOut?: (node: GraphNode) => void;
 
 
   /**
@@ -195,18 +196,18 @@ export abstract class AbstractGraphComponent {
    * @param {GraphNode} node
    */
   handleDoubleClick(node: GraphNode) {
-    //node here is a gui-internal copy of the node in the myNodes list
-    //we should get a reference to the one in the myNodes list instead!
+    // node here is a gui-internal copy of the node in the myNodes list
+    // we should get a reference to the one in the myNodes list instead!
     const myNode: GraphNode = this.myNodes.find(item => item.id === node.id);
 
-    if(!isNullOrUndefined(this.onNodeDoubleClicked)) {
+    if (!isNullOrUndefined(this.onNodeDoubleClicked)) {
       this.onNodeDoubleClicked(myNode);
     }
     this.onNodeDoubleClickedEvent.emit(myNode);
   }
 
-  handleMouseOver(node: GraphNode){
-    if(!isNullOrUndefined(this.onMouseOver)){
+  handleMouseOver(node: GraphNode) {
+    if (!isNullOrUndefined(this.onMouseOver)) {
       this.onMouseOver(node);
     }
 
@@ -214,8 +215,8 @@ export abstract class AbstractGraphComponent {
     this.onMouseOverNodeEvent.emit(myNode);
   }
 
-  handleMouseOut(node: GraphNode){
-    if(!isNullOrUndefined(this.onMouseOut)){
+  handleMouseOut(node: GraphNode) {
+    if (!isNullOrUndefined(this.onMouseOut)) {
       this.onMouseOut(node);
     }
 
@@ -223,18 +224,19 @@ export abstract class AbstractGraphComponent {
     this.onMouseOutNodeEvent.emit(myNode);
   }
 
-  public changeNodesOpacity(nodes: GraphNode[], value:number, refreshNodes:boolean):void{
-    let anyChanges: boolean = false;
+  public changeNodesOpacity(nodes: GraphNode[], value: number, refreshNodes: boolean): void {
+    let anyChanges = false;
 
     for (const node of nodes) {
-      if (value != node.opacity) {//only if there's a need to highlight
+      if (value !== node.opacity) {// only if there's a need to highlight
         anyChanges = true;
         node.opacity = value;
       }
     }
 
-    if(anyChanges && refreshNodes)
-      this.myNodes = [...this.myNodes];//otherwise the change is not bound
+    if (anyChanges && refreshNodes) {
+      this.myNodes = [...this.myNodes]; // otherwise the change is not bound
+    }
 
   }
 
@@ -244,10 +246,10 @@ export abstract class AbstractGraphComponent {
    * @param {boolean} newValue the new highlight value
    */
   public highlightNodes(nodes: GraphNode[], newValue: boolean): void {
-    let anyChange: boolean = false;
+    let anyChange = false;
 
     for (const node of nodes) {
-      if (newValue != node.isHighlighted) {//only if there's a need to highlight
+      if (newValue !== node.isHighlighted) {// only if there's a need to highlight
         anyChange = true;
         if (newValue) {
           node.strokeColor = node.highlightedStrokeColor;
@@ -259,7 +261,8 @@ export abstract class AbstractGraphComponent {
       }
     }
 
-    if(anyChange)
-      this.myNodes = [...this.myNodes];//otherwise the change is not bound
+    if (anyChange) {
+      this.myNodes = [...this.myNodes]; // otherwise the change is not bound
+    }
   }
 }

@@ -1,7 +1,7 @@
-import {ConcreteSolutionModel} from "./concrete-solution.model";
-import {ConcreteSolutionPathStepModel} from "./concrete-solution-path-step.model";
-import {AbstractAggregatorModel} from "./abstract-aggregator.model";
-import {isNullOrUndefined} from "util";
+import {ConcreteSolutionModel} from './concrete-solution.model';
+import {ConcreteSolutionPathStepModel} from './concrete-solution-path-step.model';
+import {AbstractAggregatorModel} from './abstract-aggregator.model';
+import {isNullOrUndefined} from 'util';
 
 /**
  * Created by falazigb on 13-Jul-17.
@@ -14,7 +14,7 @@ export class ConcreteSolutionPathModel {
    * @param {ConcreteSolutionModel} startNode an optional starting concrete solution.
    */
   constructor(startNode?: ConcreteSolutionModel) {
-    //if provided with a starting node, create a step for it with no aggregators 'before'.
+    // if provided with a starting node, create a step for it with no aggregators 'before'.
     if (!isNullOrUndefined(startNode)) {
       const firstStep: ConcreteSolutionPathStepModel = new ConcreteSolutionPathStepModel([], startNode);
       this.pushPathStep(firstStep);
@@ -59,8 +59,9 @@ export class ConcreteSolutionPathModel {
     const result: AbstractAggregatorModel[][] = [];
 
     for (const step of this.path) {
-      if (step.aggregators.length > 0)
+      if (step.aggregators.length > 0) {
         result.push(step.aggregators);
+      }
     }
 
     return result;
@@ -78,7 +79,7 @@ export class ConcreteSolutionPathModel {
     let result: ConcreteSolutionModel = null;
     let index = -1;
 
-    //find the index of the given concrete solution.
+    // find the index of the given concrete solution.
     for (let i = 0; i < this.path.length; i++) {
       if (solutionUri === this.path[i].concreteSolution.uri) {
         index = i;
@@ -88,12 +89,13 @@ export class ConcreteSolutionPathModel {
 
     if (index >= 0) {
       if (isNext) {
-        if (index < this.path.length - 1)
-          result = this.path[index + 1].concreteSolution;//return next
-      }
-      else {
-        if (index > 0)
-          return this.path[index - 1].concreteSolution;//return previous
+        if (index < this.path.length - 1) {
+          result = this.path[index + 1].concreteSolution; // return next
+        }
+      } else {
+        if (index > 0) {
+          return this.path[index - 1].concreteSolution; // return previous
+        }
       }
     }
 
@@ -105,9 +107,9 @@ export class ConcreteSolutionPathModel {
    * @returns {ConcreteSolutionPathModel} a shallow copy of the concrete solution path
    */
   copy(): ConcreteSolutionPathModel {
-    let result: ConcreteSolutionPathModel = new ConcreteSolutionPathModel();
+    const result: ConcreteSolutionPathModel = new ConcreteSolutionPathModel();
 
-    for (let step of this.path) {
+    for (const step of this.path) {
       result.path.push(step);
     }
 
@@ -121,7 +123,7 @@ export class ConcreteSolutionPathModel {
    * "<start_cs_uri>->(<agg_list_1>)-><cs_uri>->..-><end_cs_uri>"
    */
   toString(): string {
-    let result: string = "";
+    let result = '';
 
     for (let i = 0; i < this.path.length; i++) {
       result += this.path[i].toString();

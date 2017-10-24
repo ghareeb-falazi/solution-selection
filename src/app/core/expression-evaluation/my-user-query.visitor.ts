@@ -1,5 +1,5 @@
-import {UserQueryGrammarVisitor} from "./user-query-grammar/UserQueryGrammarVisitor";
-import {AbstractParseTreeVisitor} from "antlr4ts/tree";
+import {UserQueryGrammarVisitor} from './user-query-grammar/UserQueryGrammarVisitor';
+import {AbstractParseTreeVisitor} from 'antlr4ts/tree';
 import {
   ArithmeticConstantContext, ArithmeticComparisonContext, ArithmeticFuncContext, BinaryArithmeticOpContext,
   BinaryBoolOpContext, BoolConstantContext,
@@ -12,15 +12,15 @@ import {
   FUnaryArithmeticOpContext, FArithmeticConstantContext, FStringAtomContext, FBoolConstantContext,
   FArithmeticVariableContext, FStringVariableContext, FBooleanExpressionContext, BoolVariableContext,
   FBoolVariableContext, BoolMVVContext
-} from "./user-query-grammar/UserQueryGrammarParser";
-import {ContextModel} from "../../data-model/context.model";
+} from './user-query-grammar/UserQueryGrammarParser';
+import {ContextModel} from '../../data-model/context.model';
 
-import {VariableTypeError} from "./variable-type.error";
-import {isNumeric} from "rxjs/util/isNumeric";
-import {VariableNotFoundError} from "./variable-not-found.error";
-import {isNullOrUndefined} from "util";
-import {LITERAL_TYPE} from "./literal-type.enum";
-import {VisitorHelper} from "./visitor-helper";
+import {VariableTypeError} from './variable-type.error';
+import {isNumeric} from 'rxjs/util/isNumeric';
+import {VariableNotFoundError} from './variable-not-found.error';
+import {isNullOrUndefined} from 'util';
+import {LITERAL_TYPE} from './literal-type.enum';
+import {VisitorHelper} from './visitor-helper';
 
 
 /**
@@ -44,7 +44,7 @@ export class MyUserQueryVisitor extends AbstractParseTreeVisitor<any> implements
   getVariableValue(concreteSolutionName: string, capabilityName: string, propertyName: string): any {
     const caps = this.context.getCapabilitiesOfSolution(concreteSolutionName);
 
-    if (caps) {//else cs is not in path
+    if (caps) {// else cs is not in path
       for (const cap of caps) {
         if (cap.name === capabilityName && cap.properties.has(propertyName)) {
           return cap.properties.get(propertyName);
@@ -56,24 +56,26 @@ export class MyUserQueryVisitor extends AbstractParseTreeVisitor<any> implements
   }
 
   checkIfValueExists(capabilityName: string, propertyName: string, value: any, type: LITERAL_TYPE, concreteSolutionUri?: string): boolean {
-    if (concreteSolutionUri) {//a solution is specified
+    if (concreteSolutionUri) {// a solution is specified
       const caps = this.context.getCapabilitiesOfSolution(concreteSolutionUri);
 
-      if (caps) {//otherwise the solution is not found or has no caps
+      if (caps) {// otherwise the solution is not found or has no caps
         for (const cap of caps) {
           if (cap.name === capabilityName && cap.properties.has(propertyName)) {
-            if (VisitorHelper.isPropertyValueEqualsValue(cap.properties.get(propertyName), value, type))
+            if (VisitorHelper.isPropertyValueEqualsValue(cap.properties.get(propertyName), value, type)) {
               return true;
+            }
           }
         }
       }
-    }
-    else {//no concrete solution is specified (ANY)
+    } else {// no concrete solution is specified (ANY)
       for (const sol of this.context.getAllCapabilities().values()) {
         for (const cap of sol) {
-          if (cap.name === capabilityName && cap.properties.has(propertyName))
-            if (VisitorHelper.isPropertyValueEqualsValue(cap.properties.get(propertyName), value, type))
+          if (cap.name === capabilityName && cap.properties.has(propertyName)) {
+            if (VisitorHelper.isPropertyValueEqualsValue(cap.properties.get(propertyName), value, type)) {
               return true;
+            }
+          }
         }
       }
     }
@@ -82,21 +84,22 @@ export class MyUserQueryVisitor extends AbstractParseTreeVisitor<any> implements
   }
 
   checkIfCapabilityExists(capabilityName: string, concreteSolution?: string): boolean {
-    if (concreteSolution) {//a concrete solution is specified
+    if (concreteSolution) {// a concrete solution is specified
       const caps = this.context.getCapabilitiesOfSolution(concreteSolution);
 
       if (caps) {
         for (const cap of caps) {
-          if (cap.name === capabilityName)
+          if (cap.name === capabilityName) {
             return true;
+          }
         }
       }
-    }
-    else {//we need to look through solutions (ANY)
+    } else {// we need to look through solutions (ANY)
       for (const caps of this.context.getAllCapabilities().values()) {
         for (const cap of caps) {
-          if (cap.name === capabilityName)
+          if (cap.name === capabilityName) {
             return true;
+          }
         }
       }
     }
@@ -109,11 +112,11 @@ export class MyUserQueryVisitor extends AbstractParseTreeVisitor<any> implements
   }
 
   countVariable(capabilityName: string, propertyName: string): number {
-    let count: number = 0.0;
+    let count = 0.0;
 
     for (const caps of this.context.getAllCapabilities().values()) {
       for (const cap of caps) {
-        if (cap.name === capabilityName && cap.properties.has(propertyName)) {//only sum if the capability has the variable
+        if (cap.name === capabilityName && cap.properties.has(propertyName)) {// only sum if the capability has the variable
           count += 1;
         }
       }
@@ -123,12 +126,12 @@ export class MyUserQueryVisitor extends AbstractParseTreeVisitor<any> implements
   }
 
   sumVariableValues(capabilityName: string, propertyName: string): number {
-    let sum: number = 0.0;
+    let sum = 0.0;
     let currentValue: number;
 
     for (const caps of this.context.getAllCapabilities().values()) {
       for (const cap of caps) {
-        if (cap.name === capabilityName && cap.properties.has(propertyName)) {//only sum if the capability has the variable
+        if (cap.name === capabilityName && cap.properties.has(propertyName)) {// only sum if the capability has the variable
           if (!isNumeric(cap.properties.get(propertyName))) {
             throw new VariableTypeError(null, `The type of variable ${capabilityName}.${propertyName} is not numeric!`);
           }
@@ -142,13 +145,13 @@ export class MyUserQueryVisitor extends AbstractParseTreeVisitor<any> implements
   }
 
   averageVariable(capabilityName: string, propertyName: string): number {
-    let sum: number = 0.0;
-    let count: number = 0;
+    let sum = 0.0;
+    let count = 0;
     let currentValue: number;
 
     for (const caps of this.context.getAllCapabilities().values()) {
       for (const cap of caps) {
-        if (cap.name === capabilityName && cap.properties.has(propertyName)) {//only sum if the capability has the variable
+        if (cap.name === capabilityName && cap.properties.has(propertyName)) {// only sum if the capability has the variable
           if (!isNumeric(cap.properties.get(propertyName))) {
             throw new VariableTypeError(null, `The type of variable ${capabilityName}.${propertyName} is not numeric!`);
           }
@@ -163,17 +166,18 @@ export class MyUserQueryVisitor extends AbstractParseTreeVisitor<any> implements
 
   }
 
-  filter(csUris:string[], filterContext:FBooleanExpressionContext):string[]{
-    const result:string[] = [];
-    for(const csUri of csUris){
+  filter(csUris: string[], filterContext: FBooleanExpressionContext): string[] {
+    const result: string[] = [];
+    for (const csUri of csUris){
       this.currentCSId = csUri;
       try {
-        if(this.visit(filterContext)){//this item is valid
+        if (this.visit(filterContext)) {// this item is valid
           result.push(this.currentCSId);
         }
       }catch (e) {
-        if(!(e instanceof VariableNotFoundError))//otherwise I do not care
+        if (!(e instanceof VariableNotFoundError)) {// otherwise I do not care
           throw e;
+        }
       }
     }
 
@@ -194,7 +198,7 @@ export class MyUserQueryVisitor extends AbstractParseTreeVisitor<any> implements
     const leftValues: any[] = this.visit(ctx._left);
     const rightValue: number = this.visit(ctx._right);
 
-    if (ctx._left.text.toLowerCase().indexOf('any') === 0) {//one is enough
+    if (ctx._left.text.toLowerCase().indexOf('any') === 0) {// one is enough
       for (const leftValue of leftValues) {
         if (!isNullOrUndefined(leftValue)) {
           if (VisitorHelper.checkArithmeticComparison(Number(leftValue), rightValue, ctx._op.text)) {
@@ -204,11 +208,12 @@ export class MyUserQueryVisitor extends AbstractParseTreeVisitor<any> implements
       }
 
       return false;
-    } else {//ALL or filtered ALL
-      for(const leftValue of leftValues) {
-        if (!isNullOrUndefined(leftValue)) {//skip null values
-          if (!VisitorHelper.checkArithmeticComparison(Number(leftValue), rightValue, ctx._op.text))
-            return false;//if one is false, everything is false
+    } else {// ALL or filtered ALL
+      for (const leftValue of leftValues) {
+        if (!isNullOrUndefined(leftValue)) {// skip null values
+          if (!VisitorHelper.checkArithmeticComparison(Number(leftValue), rightValue, ctx._op.text)) {
+            return false; // if one is false, everything is false
+          }
         }
       }
 
@@ -217,25 +222,26 @@ export class MyUserQueryVisitor extends AbstractParseTreeVisitor<any> implements
 
   }
 
-  visitRightMVVArithComp(ctx: RightMVVArithCompContext): boolean{
+  visitRightMVVArithComp(ctx: RightMVVArithCompContext): boolean {
     const leftValue: number = this.visit(ctx._left);
-    const rightValues: any[] = this.visit(ctx._right);//null might be within
+    const rightValues: any[] = this.visit(ctx._right); // null might be within
 
-    if (ctx._right.text.toLowerCase().indexOf('any') === 0) {//any or any[filter] : one is enough
+    if (ctx._right.text.toLowerCase().indexOf('any') === 0) {// any or any[filter] : one is enough
       for (const rightValue of rightValues) {
         if (!isNullOrUndefined(rightValue)) {
-          if (VisitorHelper.checkArithmeticComparison(leftValue, Number(rightValue), ctx._op.text))
+          if (VisitorHelper.checkArithmeticComparison(leftValue, Number(rightValue), ctx._op.text)) {
             return true;
+          }
         }
       }
 
       return false;
-    } else {//ALL or filtered ALL
+    } else {// ALL or filtered ALL
       for (const rightValue of rightValues) {
-        if(!isNullOrUndefined(rightValue)) {//if we have null values, skip them
-          if (!VisitorHelper.checkArithmeticComparison(leftValue, Number(rightValue), ctx._op.text))
-            return false;//if one is false, everything is false
-
+        if (!isNullOrUndefined(rightValue)) {// if we have null values, skip them
+          if (!VisitorHelper.checkArithmeticComparison(leftValue, Number(rightValue), ctx._op.text)) {
+            return false; // if one is false, everything is false
+          }
         }
       }
 
@@ -254,20 +260,22 @@ export class MyUserQueryVisitor extends AbstractParseTreeVisitor<any> implements
     const leftValues: any[] = this.visit(ctx._left);
     const rightValue: string = this.visit(ctx._right);
 
-    if (ctx._left.text.toLowerCase().indexOf('any') === 0) {//one is enough
+    if (ctx._left.text.toLowerCase().indexOf('any') === 0) {// one is enough
       for (const leftValue of leftValues) {
         if (!isNullOrUndefined(leftValue)) {
-          if (VisitorHelper.checkStringComparison(leftValue, rightValue, ctx._op.text))
+          if (VisitorHelper.checkStringComparison(leftValue, rightValue, ctx._op.text)) {
             return true;
+          }
         }
       }
 
       return false;
-    } else {//ALL or filtered ALL
-      for(const leftValue of leftValues) {
-        if (!isNullOrUndefined(leftValue)) {//skip null values
-          if (!VisitorHelper.checkStringComparison(leftValue, rightValue, ctx._op.text))
-            return false;//if one is false, everything is false
+    } else {// ALL or filtered ALL
+      for (const leftValue of leftValues) {
+        if (!isNullOrUndefined(leftValue)) {// skip null values
+          if (!VisitorHelper.checkStringComparison(leftValue, rightValue, ctx._op.text)) {
+            return false; // if one is false, everything is false
+          }
         }
       }
 
@@ -276,24 +284,26 @@ export class MyUserQueryVisitor extends AbstractParseTreeVisitor<any> implements
 
   }
 
-  visitRightMVVStringComp(ctx: RightMVVStringCompContext): boolean{
+  visitRightMVVStringComp(ctx: RightMVVStringCompContext): boolean {
     const leftValue: string = this.visit(ctx._left);
     const rightValues: any[] = this.visit(ctx._right);
 
-    if (ctx._right.text.toLowerCase().indexOf('any') === 0) {//one is enough
+    if (ctx._right.text.toLowerCase().indexOf('any') === 0) {// one is enough
       for (const rightValue of rightValues) {
         if (!isNullOrUndefined(rightValue)) {
-          if (VisitorHelper.checkStringComparison(leftValue, rightValue, ctx._op.text))
+          if (VisitorHelper.checkStringComparison(leftValue, rightValue, ctx._op.text)) {
             return true;
+          }
         }
       }
 
       return false;
-    } else {//ALL or filtered ALL
+    } else {// ALL or filtered ALL
       for (const rightValue of rightValues) {
-        if (!isNullOrUndefined(rightValue)) {//skip null values
-          if (!VisitorHelper.checkStringComparison(leftValue, rightValue, ctx._op.text))
-            return false;//if one is false, everything is false
+        if (!isNullOrUndefined(rightValue)) {// skip null values
+          if (!VisitorHelper.checkStringComparison(leftValue, rightValue, ctx._op.text)) {
+            return false; // if one is false, everything is false
+          }
         }
       }
       return true;
@@ -307,25 +317,29 @@ export class MyUserQueryVisitor extends AbstractParseTreeVisitor<any> implements
   }
 
   visitExistsCap(ctx: ExistsCapContext): boolean {
-    if (ctx.ANY())
+    if (ctx.ANY()) {
       return this.checkIfCapabilityExists(ctx._cap.text);
+    }
 
     return this.checkIfCapabilityExists(ctx._cap.text, VisitorHelper.extractConcreteSolutionUri(ctx._cs.text));
   }
 
   visitExistsVal(ctx: ExistsValContext): boolean {
     let type: LITERAL_TYPE;
-    if (ctx.BOOL_CONSTANT())
+    if (ctx.BOOL_CONSTANT()) {
       type = LITERAL_TYPE.BOOLEAN;
-    else if (ctx.SCIENTIFIC_NUMBER())
+    } else if (ctx.SCIENTIFIC_NUMBER()) {
       type = LITERAL_TYPE.NUMERIC;
-    else
+    } else {
       type = LITERAL_TYPE.STRING;
+    }
 
-    if (ctx.ANY())
+    if (ctx.ANY()) {
       return this.checkIfValueExists(ctx._cap.text, ctx._property.text, ctx._value.text, type);
+    }
 
-    return this.checkIfValueExists(ctx._cap.text, ctx._property.text, ctx._value.text, type, VisitorHelper.extractConcreteSolutionUri(ctx._cs.text));
+    return this.checkIfValueExists(ctx._cap.text, ctx._property.text, ctx._value.text, type,
+      VisitorHelper.extractConcreteSolutionUri(ctx._cs.text));
   }
 
 
@@ -352,10 +366,12 @@ export class MyUserQueryVisitor extends AbstractParseTreeVisitor<any> implements
 
   /*Binary Operators*/
   visitBinaryBoolOp(ctx: BinaryBoolOpContext): boolean {
-    if (ctx.OR())
+    if (ctx.OR()) {
       return this.visit(ctx._left) || this.visit(ctx._right);
-    if (ctx.AND())
+    }
+    if (ctx.AND()) {
       return this.visit(ctx._left) && this.visit(ctx._right);
+    }
 
     console.error('unsupported binary boolean expression ' + ctx._op);
 
@@ -381,11 +397,13 @@ export class MyUserQueryVisitor extends AbstractParseTreeVisitor<any> implements
 
   /*Unary Operators*/
   visitUnaryBoolOp(ctx: UnaryBoolOpContext): boolean {
-    if (ctx.NOT())
+    if (ctx.NOT()) {
       return !this.visit(ctx._exp);
+    }
 
-    if (ctx._op.text === '(')
+    if (ctx._op.text === '(') {
       return this.visit(ctx._exp);
+    }
 
     console.error('unsupported unary boolean expression ' + ctx._op);
   }
@@ -420,22 +438,23 @@ export class MyUserQueryVisitor extends AbstractParseTreeVisitor<any> implements
 
 
   /*Variables*/
-  visitBoolMVV(ctx: BoolMVVContext){
-    const values:any[] = this.visit(ctx.multiValueVariable());
+  visitBoolMVV(ctx: BoolMVVContext) {
+    const values: any[] = this.visit(ctx.multiValueVariable());
 
-    if(ctx.multiValueVariable().text.toLowerCase().indexOf('any') >= 0){
-      for(const item of values){
-        if(!isNullOrUndefined(item)){//ignore nulls
-          if(item.toLowerCase() === 'true')
+    if (ctx.multiValueVariable().text.toLowerCase().indexOf('any') >= 0) {
+      for (const item of values){
+        if (!isNullOrUndefined(item)) {// ignore nulls
+          if (item.toLowerCase() === 'true') {
             return true;
+          }
         }
       }
 
       return false;
-    }else{//all or all[filter]
-      for(const item of values){
-        if(!isNullOrUndefined(item)){//skip nulls
-          if(item.toLowerCase() !== 'true'){
+    }else {// all or all[filter]
+      for (const item of values){
+        if (!isNullOrUndefined(item)) {// skip nulls
+          if (item.toLowerCase() !== 'true') {
             return false;
           }
         }
@@ -444,11 +463,11 @@ export class MyUserQueryVisitor extends AbstractParseTreeVisitor<any> implements
     }
 
   }
-  visitBoolVariable(ctx: BoolVariableContext):boolean{
+  visitBoolVariable(ctx: BoolVariableContext): boolean {
     const concreteSolutionUri: string = VisitorHelper.extractConcreteSolutionUri(ctx.CS().text);
     const result = this.getVariableValue(concreteSolutionUri, ctx._cap.text, ctx._property.text);
 
-    if(result === null){
+    if (result === null) {
       throw new Error(`Variable ${concreteSolutionUri}.${ctx._cap.text}.${ctx._property.text} not found`);
     }
 
@@ -459,7 +478,7 @@ export class MyUserQueryVisitor extends AbstractParseTreeVisitor<any> implements
     const concreteSolutionUri: string = VisitorHelper.extractConcreteSolutionUri(ctx.CS().text);
     const result = this.getVariableValue(concreteSolutionUri, ctx._cap.text, ctx._property.text);
 
-    if(result === null){
+    if (result === null) {
         throw new Error(`Variable ${concreteSolutionUri}.${ctx._cap.text}.${ctx._property.text} not found`);
     }
 
@@ -470,7 +489,7 @@ export class MyUserQueryVisitor extends AbstractParseTreeVisitor<any> implements
     const concreteSolutionUri: string = VisitorHelper.extractConcreteSolutionUri(ctx.CS().text);
     const result = this.getVariableValue(concreteSolutionUri, ctx._cap.text, ctx._property.text);
 
-    if(result === null){
+    if (result === null) {
       throw new Error(`Variable ${concreteSolutionUri}.${ctx._cap.text}.${ctx._property.text} not found`);
     }
 
@@ -481,15 +500,15 @@ export class MyUserQueryVisitor extends AbstractParseTreeVisitor<any> implements
    * gets the array of all concrete solutions, filters it if necessary
    * and then gets the values of the specified capability.
    * */
-  visitMvv(ctx:MvvContext):any[]{
-    let solutions:string[] = this.context.getAllConcreteSolutionsUris();
+  visitMvv(ctx: MvvContext): any[] {
+    let solutions: string[] = this.context.getAllConcreteSolutionsUris();
 
-    if(ctx.fBooleanExpression()){// ALL[fBooleanExpression].cap.val
+    if (ctx.fBooleanExpression()) {// ALL[fBooleanExpression].cap.val
       solutions = this.filter(solutions, ctx.fBooleanExpression());
     }
-    const result:any[] = [];
-    let value:any;
-    for(const cs of solutions){
+    const result: any[] = [];
+    let value: any;
+    for (const cs of solutions){
       value = this.getVariableValue(cs, ctx._capability.text, ctx._property.text);
       result.push(value);
     }
@@ -500,14 +519,14 @@ export class MyUserQueryVisitor extends AbstractParseTreeVisitor<any> implements
 
   /* Filter Expressions */
   /* Filter Comparisons */
-  visitFArithmeticComparison(ctx:FArithmeticComparisonContext):boolean{
+  visitFArithmeticComparison(ctx: FArithmeticComparisonContext): boolean {
     const leftValue = this.visit(ctx._left);
     const rightValue = this.visit(ctx._right);
 
     return VisitorHelper.checkArithmeticComparison(leftValue, rightValue, ctx._op.text);
   }
 
-  visitFStringComparison(ctx:FStringComparisonContext):boolean{
+  visitFStringComparison(ctx: FStringComparisonContext): boolean {
     const leftValue = this.visit(ctx._left);
     const rightValue = this.visit(ctx._right);
 
@@ -516,10 +535,12 @@ export class MyUserQueryVisitor extends AbstractParseTreeVisitor<any> implements
 
   /*Filter Binary Operators*/
   visitFBinaryBoolOp(ctx: FBinaryBoolOpContext): boolean {
-    if (ctx.OR())
+    if (ctx.OR()) {
       return this.visit(ctx._left) || this.visit(ctx._right);
-    if (ctx.AND())
+    }
+    if (ctx.AND()) {
       return this.visit(ctx._left) && this.visit(ctx._right);
+    }
 
     console.error('unsupported binary boolean expression ' + ctx._op);
 
@@ -544,11 +565,13 @@ export class MyUserQueryVisitor extends AbstractParseTreeVisitor<any> implements
 
   /*Filter Unary Operators*/
   visitFUnaryBoolOp(ctx: FUnaryBoolOpContext): boolean {
-    if (ctx.NOT())
+    if (ctx.NOT()) {
       return !this.visit(ctx._exp);
+    }
 
-    if (ctx._op.text === '(')
+    if (ctx._op.text === '(') {
       return this.visit(ctx._exp);
+    }
 
     console.error('unsupported unary boolean expression ' + ctx._op);
   }
@@ -588,7 +611,7 @@ export class MyUserQueryVisitor extends AbstractParseTreeVisitor<any> implements
     const concreteSolutionUri: string = this.currentCSId;
     const result = this.getVariableValue(concreteSolutionUri, ctx._cap.text, ctx._property.text);
 
-    if(result === null){//this is acceptable, just skip the CS
+    if (result === null) {// this is acceptable, just skip the CS
       throw new VariableNotFoundError(null, `Variable ${concreteSolutionUri}.${ctx._cap.text}.${ctx._property.text} not found`);
     }
 
@@ -599,7 +622,7 @@ export class MyUserQueryVisitor extends AbstractParseTreeVisitor<any> implements
     const concreteSolutionUri: string = this.currentCSId;
     const result = this.getVariableValue(concreteSolutionUri, ctx._cap.text, ctx._property.text);
 
-    if(result === null){//this is acceptable, just skip the CS
+    if (result === null) {// this is acceptable, just skip the CS
       throw new VariableNotFoundError(null, `Variable ${concreteSolutionUri}.${ctx._cap.text}.${ctx._property.text} not found`);
     }
 
@@ -610,7 +633,7 @@ export class MyUserQueryVisitor extends AbstractParseTreeVisitor<any> implements
     const concreteSolutionUri: string = this.currentCSId;
     const result = this.getVariableValue(concreteSolutionUri, ctx._cap.text, ctx._property.text);
 
-    if(result === null){
+    if (result === null) {
       throw new VariableNotFoundError(null, `Variable ${concreteSolutionUri}.${ctx._cap.text}.${ctx._property.text} not found`);
     }
 

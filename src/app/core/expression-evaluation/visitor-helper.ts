@@ -1,6 +1,6 @@
-import {LITERAL_TYPE} from "./literal-type.enum";
-import {isNullOrUndefined} from "util";
-import {isNumeric} from "rxjs/util/isNumeric";
+import {LITERAL_TYPE} from './literal-type.enum';
+import {isNullOrUndefined} from 'util';
+import {isNumeric} from 'rxjs/util/isNumeric';
 
 /**
  * Contains static methods common to requirements parse tree visitor and user query parse tree visitor
@@ -13,10 +13,11 @@ export class VisitorHelper {
    * @returns {string}
    */
   static extractConcreteSolutionUri(val: string): string {
-    const splits: string[] = val.split("'");
+    const splits: string[] = val.split('\'');
 
-    if (splits.length != 3)
+    if (splits.length !== 3) {
       throw new Error(`concrete solution identifier is not well-formatted (${val})`);
+    }
 
     return splits[1];
   }
@@ -31,7 +32,7 @@ export class VisitorHelper {
   static isPropertyValueEqualsValue(propertyValue: string, value: any, type: LITERAL_TYPE): boolean {
     switch (type) {
       case LITERAL_TYPE.BOOLEAN:
-        if (propertyValue.toLowerCase() === "false" || propertyValue.toLowerCase() === "true") {
+        if (propertyValue.toLowerCase() === 'false' || propertyValue.toLowerCase() === 'true') {
           return Boolean(propertyValue) === Boolean(value);
         }
         break;
@@ -64,8 +65,9 @@ export class VisitorHelper {
    * @returns {boolean}
    */
   static checkArithmeticComparison(leftValue: number, rightValue: number, operator: string) {
-    if (isNullOrUndefined(leftValue) || isNullOrUndefined(rightValue))
-      return false;//if one of the values does not exist, return false;
+    if (isNullOrUndefined(leftValue) || isNullOrUndefined(rightValue)) {
+      return false; // if one of the values does not exist, return false;
+    }
     let result: boolean;
     switch (operator) {
       case '<':
@@ -105,9 +107,9 @@ export class VisitorHelper {
    */
   static checkStringComparison(leftValue: string, rightValue: string, operator: string) {
     if (isNullOrUndefined(leftValue) || isNullOrUndefined(rightValue)) {
-      return false;//if one of the values does not exist, return false;
+      return false; // if one of the values does not exist, return false;
     }
-    let result: boolean = false;
+    let result = false;
     switch (operator) {
       case '=':
         result = leftValue === rightValue;

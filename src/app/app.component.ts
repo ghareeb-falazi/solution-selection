@@ -1,17 +1,17 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ConcreteSolutionRepositoryService} from './core/concrete-solution-repository/concrete-solution-repository.service';
-import {AggregatorRepositoryService} from "./core/aggregator-repository/aggregator-repository.service";
-import {SolutionSelectorService} from "./core/solution-selector/solution-selector.service";
-import {ConcreteSolutionPathModel} from "./data-model/concrete-solution-path.model";
-import {CapabilityModel} from "./data-model/capability.model";
-import {UserQueryModel} from "./data-model/user-query.model";
-import {PatternSelectorComponent} from "./pattern-selection/pattern-selector.component";
-import {InitialPropertiesComponent} from "./initial-properties/initial-properties.component";
-import {PatternRepositoryService} from "./core/pattern-repository/pattern-repository.service";
-import {GraphNode} from "./graphing/abstract-graph.component";
-import {ConcreteSolutionGraphComponent} from "./graphing/concrete-solution-graph.componen";
-import {PatternsGraphComponent} from "./graphing/patterns-graph.component";
-import {ConcreteSolutionModel} from "./data-model/concrete-solution.model";
+import {AggregatorRepositoryService} from './core/aggregator-repository/aggregator-repository.service';
+import {SolutionSelectorService} from './core/solution-selector/solution-selector.service';
+import {ConcreteSolutionPathModel} from './data-model/concrete-solution-path.model';
+import {CapabilityModel} from './data-model/capability.model';
+import {UserQueryModel} from './data-model/user-query.model';
+import {PatternSelectorComponent} from './pattern-selection/pattern-selector.component';
+import {InitialPropertiesComponent} from './initial-properties/initial-properties.component';
+import {PatternRepositoryService} from './core/pattern-repository/pattern-repository.service';
+import {GraphNode} from './graphing/abstract-graph.component';
+import {ConcreteSolutionGraphComponent} from './graphing/concrete-solution-graph.componen';
+import {PatternsGraphComponent} from './graphing/patterns-graph.component';
+import {ConcreteSolutionModel} from './data-model/concrete-solution.model';
 import {SelectItem} from 'primeng/primeng';
 
 /**
@@ -26,16 +26,7 @@ import {SelectItem} from 'primeng/primeng';
 
 })
 export class AppComponent implements OnInit {
-  ngOnInit(): void {
-    //initialize all services
-    this
-      .csService.waitForInitialization()
-      .then(() => this.aggService.waitForInitialization())
-      .then(() => this.patternService.waitForInitialization())
-      .then(() => {
-        this.isInitialized = true;
-      });
-  }
+
 
   /**
    * The pattern selector child component
@@ -71,7 +62,7 @@ export class AppComponent implements OnInit {
    * are initialized)
    * @type {boolean}
    */
-  isInitialized: boolean = false;//Used for UI
+  isInitialized = false; // Used for UI
   /**
    * The expression that represnents the user query
    */
@@ -89,19 +80,19 @@ export class AppComponent implements OnInit {
    * Indicates whether the panel that describes the currently selected concrete solution is shown or hidden.
    * @type {boolean}
    */
-  display:boolean = false;
+  display = false;
   /**
    * Indicates the currently selected concrete solution
    * @type {any}
    */
-  selectedConcreteSolution:ConcreteSolutionModel = null;
+  selectedConcreteSolution: ConcreteSolutionModel = null;
 
   set selectedPath(path: ConcreteSolutionPathModel){
     this._selectedPath = path;
     this.csGraphComponent.selectPath(path);
   }
 
-  get selectedPath():ConcreteSolutionPathModel{
+  get selectedPath(): ConcreteSolutionPathModel{
     return this._selectedPath;
   }
 
@@ -109,6 +100,16 @@ export class AppComponent implements OnInit {
               private selectService: SolutionSelectorService, private patternService: PatternRepositoryService) {
   }
 
+  ngOnInit(): void {
+    // initialize all services
+    this
+      .csService.waitForInitialization()
+      .then(() => this.aggService.waitForInitialization())
+      .then(() => this.patternService.waitForInitialization())
+      .then(() => {
+        this.isInitialized = true;
+      });
+  }
   /**
    * Executes the mapping algorithm
    */
@@ -117,9 +118,9 @@ export class AppComponent implements OnInit {
     const globalCondition: UserQueryModel = new UserQueryModel(this.userQueryExpression);
     const initialCaps: CapabilityModel[] = this.initialProperties.getCapabilities();
     if (patterns) {
-      const myPaths:ConcreteSolutionPathModel[] =this.selectService.selectConcreteSolutions(patterns, initialCaps, globalCondition);
+      const myPaths: ConcreteSolutionPathModel[] = this.selectService.selectConcreteSolutions(patterns, initialCaps, globalCondition);
       this.paths = [];
-      myPaths.forEach(p=>this.paths.push({label:p.toString(),value:p}));
+      myPaths.forEach(p => this.paths.push({label: p.toString(), value: p}));
     }
 
   }
@@ -129,15 +130,15 @@ export class AppComponent implements OnInit {
    * @param {string[]} patternNames
    * @param {boolean} isHighlighted
    */
-  private highlightPatterns(patternNames:string[], isHighlighted:boolean):void{
-    const solutions:ConcreteSolutionModel[] = [];
-    const solutionUris:string[] = [];
+  private highlightPatterns(patternNames: string[], isHighlighted: boolean): void {
+    const solutions: ConcreteSolutionModel[] = [];
+    const solutionUris: string[] = [];
 
-    for(const patternName of patternNames){
+    for (const patternName of patternNames){
       solutions.push(...this.csService.getConcreteSolutionsOfPattern(patternName));
     }
 
-    solutions.forEach(sol=>solutionUris.push(sol.uri));
+    solutions.forEach(sol => solutionUris.push(sol.uri));
 
     this.csGraphComponent.highlightSolutions(solutionUris, isHighlighted);
     this.patternGraphComponent.highlightPatterns(patternNames, isHighlighted);
@@ -149,21 +150,21 @@ export class AppComponent implements OnInit {
    * @param {GraphNode} node
    */
   patternDoubleClicked(node: GraphNode) {
-    const patternName:string = PatternsGraphComponent.getPatternNameOfNode(node);
+    const patternName: string = PatternsGraphComponent.getPatternNameOfNode(node);
     this.highlightPatterns([patternName], node.isHighlighted);
   }
 
-  mouseOnPattern(node:GraphNode){
-    const patternName:string = PatternsGraphComponent.getPatternNameOfNode(node);
-    const solutions:ConcreteSolutionModel[] = this.csService.getConcreteSolutionsOfPattern(patternName);
-    const uris:string[] = solutions.map(item=>item.uri);
+  mouseOnPattern(node: GraphNode) {
+    const patternName: string = PatternsGraphComponent.getPatternNameOfNode(node);
+    const solutions: ConcreteSolutionModel[] = this.csService.getConcreteSolutionsOfPattern(patternName);
+    const uris: string[] = solutions.map(item => item.uri);
     this.csGraphComponent.setSolutionsOpacity(uris, false);
   }
 
-  mouseOutPattern(node:GraphNode){
-    const patternName:string = PatternsGraphComponent.getPatternNameOfNode(node);
-    const solutions:ConcreteSolutionModel[] = this.csService.getConcreteSolutionsOfPattern(patternName);
-    const uris:string[] = solutions.map(item=>item.uri);
+  mouseOutPattern(node: GraphNode) {
+    const patternName: string = PatternsGraphComponent.getPatternNameOfNode(node);
+    const solutions: ConcreteSolutionModel[] = this.csService.getConcreteSolutionsOfPattern(patternName);
+    const uris: string[] = solutions.map(item => item.uri);
     this.csGraphComponent.setSolutionsOpacity(uris, true);
   }
 
@@ -171,15 +172,15 @@ export class AppComponent implements OnInit {
    * This event originates from the PatternSelectorComponent
    * @param {string[]} patternNames list of patterns that have been selected.
    */
-  patternsSelected(patternNames:string[]){
+  patternsSelected(patternNames: string[]) {
     this.highlightPatterns(patternNames, true);
   }
 
-  patternsUnselected(patternNames:string[]){
+  patternsUnselected(patternNames: string[]) {
     this.highlightPatterns(patternNames, false);
   }
 
-  concreteSolutionDoubleClicked(node:GraphNode){
+  concreteSolutionDoubleClicked(node: GraphNode) {
     const uri = ConcreteSolutionGraphComponent.getConcreteSolutionUriOfNode(node);
     this.selectedConcreteSolution = this.csService.getConcreteSolutionByUri(uri);
     this.display = true;

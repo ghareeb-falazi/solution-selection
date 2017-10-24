@@ -1,6 +1,6 @@
-import {AbstractAggregatorModel} from "./abstract-aggregator.model";
-import {ConcreteSolutionModel} from "./concrete-solution.model";
-import {isNullOrUndefined} from "util";
+import {AbstractAggregatorModel} from './abstract-aggregator.model';
+import {ConcreteSolutionModel} from './concrete-solution.model';
+import {isNullOrUndefined} from 'util';
 
 /**
  * Represents a single step a concrete solution path.
@@ -22,13 +22,14 @@ export class ConcreteSolutionPathStepModel {
       return this.concreteSolution.uri;
     } else {
 
-      let result: string = "->(";
+      let result = '->(';
 
       for (let i = 0; i < this.aggregators.length; i++) {
         result += this.aggregators[i].aggregatorUri;
 
-        if (i < this.aggregators.length - 1)
-          result += ", ";
+        if (i < this.aggregators.length - 1) {
+          result += ', ';
+        }
       }
 
       result += `)->${this.concreteSolution.uri}`;

@@ -1,9 +1,9 @@
-import {Injectable} from "@angular/core";
-import {ConcreteSolutionRepositoryService} from "../concrete-solution-repository/concrete-solution-repository.service";
-import {ExpressionEvaluatorService} from "../expression-evaluation/expression-evaluator.service";
-import {RequirementModel} from "../../data-model/requirement.model";
-import {CapabilityModel} from "../../data-model/capability.model";
-import {isNullOrUndefined} from "util";
+import {Injectable} from '@angular/core';
+import {ConcreteSolutionRepositoryService} from '../concrete-solution-repository/concrete-solution-repository.service';
+import {ExpressionEvaluatorService} from '../expression-evaluation/expression-evaluator.service';
+import {RequirementModel} from '../../data-model/requirement.model';
+import {CapabilityModel} from '../../data-model/capability.model';
+import {isNullOrUndefined} from 'util';
 
 /**
  * A service that provides suggestions for capability names and their properties based on existing capabilities and
@@ -19,6 +19,30 @@ export class SuggestionsService {
    * Used to indicate that service initialization is done
    */
   private initialized: Promise<any>;
+
+
+  /**
+   * Filters out names that do not begin with the given query. Sorts the results alphabetically
+   * @param {string[]} allNames
+   * @param {string} query
+   * @returns {string[]}
+   */
+  private static filterNames(allNames: string[], query: string): string[] {
+    let result: string[];
+    if (query) {
+      result = [];
+
+      for (const name of allNames) {
+        if (name.indexOf(query) >= 0) {
+          result.push(name);
+        }
+      }
+    } else {
+      result = allNames;
+    }
+
+    return result.sort();
+  }
 
   /**
    * Initializes a new instance of the service
@@ -43,7 +67,7 @@ export class SuggestionsService {
       .then(() => this.repoService.getAllCapabilities())
       .then(capabilities => {
         this.fillSuggestionsOfCapabilities(capabilities);
-        console.debug('SuggestionsService is initialized!')
+        console.debug('SuggestionsService is initialized!');
       });
   }
 
@@ -62,21 +86,20 @@ export class SuggestionsService {
   private fillSuggestionsOfRequirements(requirements: RequirementModel[]) {
     this.labels = new Map();
     let currentLabels: Map<string, string[]>;
-    let expression: string = '';
+    let expression = '';
 
-    requirements.map(item => expression += item.expression + " AND ");
-    expression += "TRUE";
-    //Create one big expression in order to run the analysis only once
+    requirements.map(item => expression += item.expression + ' AND ');
+    expression += 'TRUE';
+    // Create one big expression in order to run the analysis only once
     currentLabels = ExpressionEvaluatorService.getLabelsOfRequirement(new RequirementModel(expression));
 
     for (const entry of currentLabels.entries()) {
-      if (!this.labels.has(entry[0])) {//the capability name is new
+      if (!this.labels.has(entry[0])) {// the capability name is new
         this.labels.set(entry[0], entry[1]);
-      }
-      else {//the capability name is existing, check if there are new properties
+      } else {// the capability name is existing, check if there are new properties
         const existingProps: string[] = this.labels.get(entry[0]);
         for (const prop of entry[1]) {
-          if (existingProps.indexOf(prop) < 0) {//this property is new, add it!
+          if (existingProps.indexOf(prop) < 0) {// this property is new, add it!
             existingProps.push(prop);
           }
         }
@@ -91,15 +114,14 @@ export class SuggestionsService {
   private fillSuggestionsOfCapabilities(capabilities: CapabilityModel[]) {
     let currentPropsNames: string[];
     for (const cap of capabilities) {
-      if (!this.labels.has(cap.name)) {//the capability is new, add it and all of its properties
+      if (!this.labels.has(cap.name)) {// the capability is new, add it and all of its properties
         currentPropsNames = [];
         currentPropsNames.push(...cap.properties.keys());
         this.labels.set(cap.name, currentPropsNames);
-      }
-      else {//capability is existing
+      } else {// capability is existing
         currentPropsNames = this.labels.get(cap.name);
         for (const propName of cap.properties.keys()) {
-          if (currentPropsNames.indexOf(propName) < 0) {//the property is new, add it!
+          if (currentPropsNames.indexOf(propName) < 0) {// the property is new, add it!
             currentPropsNames.push(propName);
           }
         }
@@ -132,35 +154,14 @@ export class SuggestionsService {
     return new Promise<string[]>(resolve => {
       const allPropNames: string[] = this.labels.get(capabilityName);
       let result: string[];
-      if (isNullOrUndefined(allPropNames) || allPropNames.length === 0)
+      if (isNullOrUndefined(allPropNames) || allPropNames.length === 0) {
         result = [];
-      else
+      } else {
         result = SuggestionsService.filterNames(allPropNames, query);
+      }
       resolve(result);
     });
   }
 
-  /**
-   * Filters out names that do not begin with the given query. Sorts the results alphabetically
-   * @param {string[]} allNames
-   * @param {string} query
-   * @returns {string[]}
-   */
-  private static filterNames(allNames: string[], query: string): string[] {
-    let result: string[];
-    if (query) {
-      result = [];
 
-      for (const name of allNames) {
-        if (name.indexOf(query) >= 0) {
-          result.push(name);
-        }
-      }
-    }
-    else {
-      result = allNames;
-    }
-
-    return result.sort();
-  }
 }

@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {ConcreteSolutionRepositoryService} from "./concrete-solution-repository/concrete-solution-repository.service";
-import {AggregatorRepositoryService} from "./aggregator-repository/aggregator-repository.service";
-import {PatternRepositoryService} from "./pattern-repository/pattern-repository.service";
-import {SolutionSelectorService} from "./solution-selector/solution-selector.service";
-import {SuggestionsService} from "./suggestions/suggestions.service";
+import {ConcreteSolutionRepositoryService} from './concrete-solution-repository/concrete-solution-repository.service';
+import {AggregatorRepositoryService} from './aggregator-repository/aggregator-repository.service';
+import {PatternRepositoryService} from './pattern-repository/pattern-repository.service';
+import {SolutionSelectorService} from './solution-selector/solution-selector.service';
+import {SuggestionsService} from './suggestions/suggestions.service';
 
 /**
  * Provides access to application-wide singleton services.
@@ -15,7 +15,7 @@ import {SuggestionsService} from "./suggestions/suggestions.service";
     CommonModule
   ],
   declarations: [],
-  providers:[ConcreteSolutionRepositoryService, AggregatorRepositoryService,
-    PatternRepositoryService,SolutionSelectorService,SuggestionsService]
+  providers: [ConcreteSolutionRepositoryService, AggregatorRepositoryService,
+    PatternRepositoryService, SolutionSelectorService, SuggestionsService]
 })
 export class CoreModule { }

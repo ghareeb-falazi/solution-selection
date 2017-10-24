@@ -1,6 +1,6 @@
-import {CapabilityModel} from "./capability.model";
-import {ConcreteSolutionPathModel} from "./concrete-solution-path.model";
-import {ConcreteSolutionModel} from "./concrete-solution.model";
+import {CapabilityModel} from './capability.model';
+import {ConcreteSolutionPathModel} from './concrete-solution-path.model';
+import {ConcreteSolutionModel} from './concrete-solution.model';
 
 /**
  * Represents an ordered set of concrete solution capabilities grouped by the solutions they belong to.
@@ -11,13 +11,13 @@ export class ContextModel {
    * The base key-name for each of the initial properties (A full key would be e.g., IC_1)
    * @type {string}
    */
-  private static readonly INITIAL_CAPABILITIES_KEY: string = 'IC';
+  private static readonly INITIAL_CAPABILITIES_KEY = 'IC';
 
   /**
    * Holds key-value pairs of capability sets. Used to get the set of capabilities that belong to a certain concrete
    * solution efficiently
    */
-  private allCapabilities: Map<string, CapabilityModel[]>;//quick access
+  private allCapabilities: Map<string, CapabilityModel[]>; // quick access
 
   /**
    * Initializes a new instance of the ContextModel class.
@@ -27,12 +27,13 @@ export class ContextModel {
    */
   constructor(private initialProperties: CapabilityModel[], private concreteSolutionPath: ConcreteSolutionPathModel) {
     this.allCapabilities = new Map();
-    let index:number = 0;
-    for(const ic of initialProperties){
+    let index = 0;
+    for (const ic of initialProperties){
       this.allCapabilities.set(`${ContextModel.INITIAL_CAPABILITIES_KEY}_${index}`, [ic]);
       index++;
     }
-    this.concreteSolutionPath.getAllConcreteSolutions().forEach((solution) => this.allCapabilities.set(solution.uri, solution.capabilities));
+    this.concreteSolutionPath.getAllConcreteSolutions().forEach(
+      (solution) => this.allCapabilities.set(solution.uri, solution.capabilities));
   }
 
   /**
@@ -48,11 +49,12 @@ export class ContextModel {
    * @param solutionUri the Uri of the concrete solution
    * @returns {CapabilityModel[]} the set of capabilities for the given concrete solution
    */
-  getCapabilitiesOfSolution(solutionUri):CapabilityModel[]{
+  getCapabilitiesOfSolution(solutionUri): CapabilityModel[] {
     const all = this.getAllCapabilities();
 
-    if(all.has(solutionUri))
+    if (all.has(solutionUri)) {
       return all.get(solutionUri);
+    }
 
     return null;
   }
@@ -82,8 +84,8 @@ export class ContextModel {
    * @returns {string[]}
    */
   getAllConcreteSolutionsUris(): string[] {
-    let result: string[] = [];
-    this.allCapabilities.forEach((val,key)=>{result.push(key);});
+    const result: string[] = [];
+    this.allCapabilities.forEach((val, key) => {result.push(key); });
 
     return result;
   }

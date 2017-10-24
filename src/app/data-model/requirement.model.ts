@@ -1,19 +1,20 @@
-import {BooleanExpressionModel} from "./boolean-expression.model";
+import {BooleanExpressionModel} from './boolean-expression.model';
 
 /**
  * Represents a requirement of a concrete solution
  */
-export class RequirementModel extends BooleanExpressionModel{
-  constructor(expression:string){
-    super(expression);
-  }
-
+export class RequirementModel extends BooleanExpressionModel {
   /**
    * Parses a JSON-deserialized requirement
    * @param {RequirementModel} data JSON-deserialized object
    * @returns {RequirementModel} a parsed concrete implementation of the given JSON-deserialized object
    */
-  static fromData(data: RequirementModel):RequirementModel {
+  static fromData(data: RequirementModel): RequirementModel {
     return new RequirementModel(data.expression);
   }
+  constructor(expression: string){
+    super(expression);
+  }
+
+
 }

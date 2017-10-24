@@ -13,6 +13,9 @@ import {ConcreteSolutionGraphComponent} from './graphing/concrete-solution-graph
 import {PatternsGraphComponent} from './graphing/patterns-graph.component';
 import {ConcreteSolutionModel} from './data-model/concrete-solution.model';
 import {SelectItem} from 'primeng/primeng';
+import {SolutionCompositionService} from './core/solution-composition/solution-composition.service';
+import {isNullOrUndefined} from 'util';
+import {Message} from 'primeng/primeng';
 
 /**
  * The root component
@@ -21,7 +24,6 @@ import {SelectItem} from 'primeng/primeng';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'
-
   ]
 
 })
@@ -51,6 +53,27 @@ export class AppComponent implements OnInit {
    */
   @ViewChild(PatternsGraphComponent)
   private patternGraphComponent: PatternsGraphComponent;
+
+  /**
+   * An observable for the process of composing a concrete solution path.
+   */
+  composingConcreteSolutions: Promise<URL>;
+  /**
+   * The url of the resource that represents the composite concrete solution.
+   */
+  compositeConcreteSolutionURL: URL;
+  /**
+   * The URL of the service that performs the concrete solution composition.
+   */
+  composerURL: string;
+  /**
+   * Indicates whether the selected concrete solution path is being composed into a composite solution.
+   */
+  isComposingSolution: boolean;
+  /**
+   * The messages shown as 'Growls'
+   */
+  msgs: Message[];
 
   /**
    * The title of the page
@@ -87,17 +110,21 @@ export class AppComponent implements OnInit {
    */
   selectedConcreteSolution: ConcreteSolutionModel = null;
 
-  set selectedPath(path: ConcreteSolutionPathModel){
+  set selectedPath(path: ConcreteSolutionPathModel) {
     this._selectedPath = path;
     this.csGraphComponent.selectPath(path);
   }
 
-  get selectedPath(): ConcreteSolutionPathModel{
+  get selectedPath(): ConcreteSolutionPathModel {
     return this._selectedPath;
+  }
+  get isComposerKnown(): boolean {
+    return !isNullOrUndefined(this.composerURL ) && this.composerURL.length > 0;
   }
 
   constructor(private csService: ConcreteSolutionRepositoryService, private aggService: AggregatorRepositoryService,
-              private selectService: SolutionSelectorService, private patternService: PatternRepositoryService) {
+              private selectService: SolutionSelectorService, private patternService: PatternRepositoryService,
+              private compositionService: SolutionCompositionService) {
   }
 
   ngOnInit(): void {
@@ -110,6 +137,7 @@ export class AppComponent implements OnInit {
         this.isInitialized = true;
       });
   }
+
   /**
    * Executes the mapping algorithm
    */
@@ -134,7 +162,7 @@ export class AppComponent implements OnInit {
     const solutions: ConcreteSolutionModel[] = [];
     const solutionUris: string[] = [];
 
-    for (const patternName of patternNames){
+    for (const patternName of patternNames) {
       solutions.push(...this.csService.getConcreteSolutionsOfPattern(patternName));
     }
 
@@ -184,5 +212,31 @@ export class AppComponent implements OnInit {
     const uri = ConcreteSolutionGraphComponent.getConcreteSolutionUriOfNode(node);
     this.selectedConcreteSolution = this.csService.getConcreteSolutionByUri(uri);
     this.display = true;
+  }
+
+  /** Composition **/
+
+  /**
+   * Composes the selected concrete solution path
+   */
+  compose(): void {
+    this.showMessage('The selected concrete solution path is being composed into a single composite solution.',
+      'Composing Solutions');
+    this.composingConcreteSolutions = this.compositionService.composeConcreteSolutions(this.selectedPath, this.composerURL)
+      .then(result => {
+        this.compositeConcreteSolutionURL = result;
+        this.clearMessages();
+
+        return this.compositeConcreteSolutionURL;
+      });
+  }
+
+  showMessage(message: string, title: string) {
+    this.msgs = [{severity: 'info', summary: title,
+      detail: message}];
+  }
+
+  clearMessages() {
+    this.msgs = [];
   }
 }

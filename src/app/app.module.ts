@@ -7,7 +7,7 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import {
   ButtonModule, AccordionModule, PanelModule,
-  ListboxModule, InputTextareaModule, DialogModule
+  ListboxModule, InputTextareaModule, DialogModule, InputTextModule, GrowlModule
 } from 'primeng/primeng';
 import {CoreModule} from './core/core.module';
 import {InitialPropertiesModule} from './initial-properties/initial-properties.module';
@@ -33,7 +33,9 @@ import {PatternSelectionModule} from './pattern-selection/pattern-selection.modu
     DialogModule,
     InitialPropertiesModule,
     GraphingModule,
-    PatternSelectionModule
+    PatternSelectionModule,
+    InputTextModule,
+    GrowlModule
   ],
   bootstrap: [AppComponent]
 })

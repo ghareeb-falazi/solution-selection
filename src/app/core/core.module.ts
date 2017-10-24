@@ -5,6 +5,7 @@ import {AggregatorRepositoryService} from './aggregator-repository/aggregator-re
 import {PatternRepositoryService} from './pattern-repository/pattern-repository.service';
 import {SolutionSelectorService} from './solution-selector/solution-selector.service';
 import {SuggestionsService} from './suggestions/suggestions.service';
+import {SolutionCompositionService} from './solution-composition/solution-composition.service';
 
 /**
  * Provides access to application-wide singleton services.
@@ -16,6 +17,6 @@ import {SuggestionsService} from './suggestions/suggestions.service';
   ],
   declarations: [],
   providers: [ConcreteSolutionRepositoryService, AggregatorRepositoryService,
-    PatternRepositoryService, SolutionSelectorService, SuggestionsService]
+    PatternRepositoryService, SolutionSelectorService, SuggestionsService, SolutionCompositionService]
 })
 export class CoreModule { }

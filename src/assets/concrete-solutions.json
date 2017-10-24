@@ -38,7 +38,12 @@
           "value": "Azure"
         }
       }
-    ]
+    ],
+    "serviceTemplateId": {
+      "ns": "",
+      "id": "azure_based_elastic_load_balancer",
+      "URLencoded": "true"
+    }
   },
   {
     "uri": "cs1.2",
@@ -79,7 +84,12 @@
           "value": "Elastic Beanstalk"
         }
       }
-    ]
+    ],
+    "serviceTemplateId": {
+      "ns": "",
+      "id": "aws_based_elastic_load_balancer",
+      "URLencoded": "true"
+    }
   },
   {
     "uri": "cs2.1",
@@ -123,7 +133,12 @@
           "value": "10.0"
         }
       }
-    ]
+    ],
+    "serviceTemplateId": {
+      "ns": "",
+      "id": "aws_based_stateless_component",
+      "URLencoded": "true"
+    }
   },
   {
     "uri": "cs2.2",
@@ -167,7 +182,12 @@
           "value": "11.0"
         }
       }
-    ]
+    ],
+    "serviceTemplateId": {
+      "ns": "",
+      "id": "azure_based_stateless_component",
+      "URLencoded": "true"
+    }
   },
   {
     "uri": "cs3.1",
@@ -202,7 +222,12 @@
           "value": "5.0"
         }
       }
-    ]
+    ],
+    "serviceTemplateId": {
+      "ns": "",
+      "id": "aws_based_blob_storage",
+      "URLencoded": "true"
+    }
   },
   {
     "uri": "cs3.2",
@@ -237,7 +262,12 @@
           "value": "15.0"
         }
       }
-    ]
+    ],
+    "serviceTemplateId": {
+      "ns": "",
+      "id": "aws_based_blob_storage",
+      "URLencoded": "true"
+    }
   },
   {
     "uri": "cs3.3",
@@ -272,6 +302,11 @@
           "value": "3.0"
         }
       }
-    ]
+    ],
+    "serviceTemplateId": {
+      "ns": "",
+      "id": "azure_based_blob_storage",
+      "URLencoded": "true"
+    }
   }
 ]

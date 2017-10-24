@@ -58,6 +58,10 @@
         <p-listbox [options]="paths" [(ngModel)]="selectedPath" [style]="{'width':'100%'}">
 
         </p-listbox>
+        <div *ngIf="selectedPath && paths.length > 0" style="margin-top: 10px;">
+          <button pButton type="button" label="Compose Solution" (click)="compose()"></button>
+        </div>
+
 
       </div>
 

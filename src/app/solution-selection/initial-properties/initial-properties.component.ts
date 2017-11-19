@@ -1,8 +1,8 @@
 import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
-import {CapabilityInterface, CapabilityModel} from '../data-model/capability.model';
-import {InitialPropertyComponent} from 'app/initial-properties/initial-property/initial-component.component';
+import {CapabilityInterface, CapabilityModel} from '../../data-model/capability.model';
+import {InitialPropertyComponent} from 'app/solution-selection/initial-properties/initial-property/initial-component.component';
 import {isNullOrUndefined} from 'util';
-import {SuggestionsService} from '../core/suggestions/suggestions.service';
+import {SuggestionsService} from '../../core/suggestions/suggestions.service';
 
 /**
  * A component that represents the set of all initial properties

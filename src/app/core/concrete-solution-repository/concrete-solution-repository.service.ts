@@ -8,12 +8,13 @@ import 'rxjs/add/operator/toPromise';
 import {ConcreteSolutionInterface, ConcreteSolutionModel} from '../../data-model/concrete-solution.model';
 import {RequirementModel} from '../../data-model/requirement.model';
 import {CapabilityModel} from '../../data-model/capability.model';
+import {AbstractConcreteSolutionRepository} from "./abstract-concrete-solution-repository";
 
 /**
  * A service that provides access to the concrete solution repository
  */
 @Injectable()
-export class ConcreteSolutionRepositoryService {
+export class ConcreteSolutionRepositoryService extends AbstractConcreteSolutionRepository {
   /**
    * Local cache of concrete solutions
    */
@@ -38,6 +39,7 @@ export class ConcreteSolutionRepositoryService {
    * @param {Http} http Angular service for http connections
    */
   constructor(private http: Http) {
+    super();
     this.initialized = this.initialize();
   }
 

@@ -1,0 +1,97 @@
+<p-growl [(value)]="msgs"></p-growl>
+<div>
+  <div id="options">
+    <p-accordion>
+      <p-accordionTab header="Pattern Sequence">
+        <app-pattern-selector (patternsSelectedEvent)="patternsSelected($event)"
+                              (patternsUnselectedEvent)="patternsUnselected($event)"></app-pattern-selector>
+      </p-accordionTab>
+
+      <p-accordionTab header="Initial Capabilities">
+        <app-caps></app-caps>
+      </p-accordionTab>
+
+      <p-accordionTab header="User Query">
+        <textarea rows="5" cols="65" pInputTextarea autoResize="autoResize" [(ngModel)]="userQueryExpression"
+                  placeholder="Enter a global condition if necessary"></textarea>
+      </p-accordionTab>
+
+
+    </p-accordion>
+
+    <div #resultPanel *ngIf="isInitialized" style="margin-top: 25px;">
+      <p-dialog *ngIf="selectedConcreteSolution" header="Concrete Solution Details" [(visible)]="display" modal="modal"
+                width="600" [responsive]="true">
+        <p style="line-height: 200%;margin-top: 0px;">
+          <b>Concrete Solution ID: </b> <span>{{selectedConcreteSolution.uri}}</span><br/>
+          <b>Description: </b> <span>{{selectedConcreteSolution.description}}</span><br/>
+        </p>
+        <p-panel header="Requirements" [toggleable]="true">
+          <ul style="margin-top: -5px; margin-left: -20px;margin-bottom: 5px;">
+            <li *ngFor="let requirement of selectedConcreteSolution.requirements" style="margin-bottom: 5px;">
+            <span>
+              {{requirement.expression}}
+            </span><br/>
+            </li>
+          </ul>
+        </p-panel>
+        <p></p>
+        <p-panel header="Capabilities" [toggleable]="true">
+          <ul style="margin-top: -5px; margin-left: -20px;margin-bottom: 5px;">
+            <li *ngFor="let capability of selectedConcreteSolution.capabilities" style="margin-bottom: 5px;">
+              <b>{{capability.name}}: </b>
+              <span>{{capability.propertiesAsString()}} </span>
+            </li>
+          </ul>
+        </p-panel>
+
+        <p-footer>
+          <button type="button" pButton icon="fa-check" (click)="display=false" label="Close"></button>
+        </p-footer>
+      </p-dialog>
+
+      <button pButton type="button" label="Execute Algorithm" (click)="search()"></button>
+      <div *ngIf="paths">
+        <h3 style="margin-top: 10px; margin-bottom: 5px;">Results:</h3>
+        <p-listbox [options]="paths" [(ngModel)]="selectedPath" [style]="{'width':'100%'}">
+
+        </p-listbox>
+        <div *ngIf="selectedPath  && paths.length > 0" style="margin-top: 10px;">
+          <input pInputText [(ngModel)]="composerURL" placeholder="Composer URL" style="width: 700px;">
+          <button pButton type="button" [disabled]="!this.isComposerKnown" label="Compose Solution"
+                  (click)="compose()"></button>
+
+          <div *ngIf="compositeConcreteSolutionURL" style="margin-top: 5px;">
+            <a [attr.href]="compositeConcreteSolutionURL.href" >
+              -> click here to show the composite solution! <-
+            </a>
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+    </div>
+
+    <div *ngIf="!isInitialized">
+      Initializing Services...
+    </div>
+  </div>
+
+  <div id="graphs">
+    <p-panel header="Graph Representation" [toggleable]="true">
+      <app-pattern-graph (onNodeDoubleClickedEvent)="patternDoubleClicked($event)"
+                         (onMouseOverNodeEvent)="mouseOnPattern($event)"
+                         (onMouseOutNodeEvent)="mouseOutPattern($event)">
+
+      </app-pattern-graph>
+
+      <app-solutions-graph (onNodeDoubleClickedEvent)="concreteSolutionDoubleClicked($event)">
+
+      </app-solutions-graph>
+    </p-panel>
+  </div>
+</div>
+

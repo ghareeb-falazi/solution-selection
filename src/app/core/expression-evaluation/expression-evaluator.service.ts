@@ -20,8 +20,6 @@ import {ParseTreeWalker} from 'antlr4ts/tree';
  */
 @Injectable()
 export class ExpressionEvaluatorService {
-
-
   /**
    * Checks whether a user query evaluates to true (is fulfilled) based on the given context
    * @param {UserQueryModel} userQuery

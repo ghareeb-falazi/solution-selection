@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {CapabilityModel} from '../../data-model/capability.model';
-import {SuggestionsService} from '../../core/suggestions/suggestions.service';
+import {CapabilityModel} from '../../../data-model/capability.model';
+import {SuggestionsService} from '../../../core/suggestions/suggestions.service';
 
 /**
  * A component that represents a single initial property

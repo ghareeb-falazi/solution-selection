@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {PatternRepositoryService} from '../core/pattern-repository/pattern-repository.service';
+import {PatternRepositoryService} from '../../core/pattern-repository/pattern-repository.service';
 
 
 /**

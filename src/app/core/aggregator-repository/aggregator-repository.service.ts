@@ -7,12 +7,13 @@ import {Http} from '@angular/http';
 import {AbstractAggregatorModel} from '../../data-model/abstract-aggregator.model';
 import {AggregatorCreatorModel} from '../../data-model/aggregator-creator.model';
 import {BasicAggregatorModel} from '../../data-model/basic-aggregator.model';
+import {AbstractAggregatorRepository} from "./abstract-aggregator-repository";
 
 /**
  * A service that provides access to the aggregator repository
  */
 @Injectable()
-export class AggregatorRepositoryService {
+export class AggregatorRepositoryService extends AbstractAggregatorRepository {
   /**
    * Local cache of aggregators
    */
@@ -37,6 +38,7 @@ export class AggregatorRepositoryService {
    * @param {Http} http Angular service for http connections
    */
   constructor(private http: Http) {
+    super();
     this.initialized = this.initialize();
   }
   /**

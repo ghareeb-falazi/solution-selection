@@ -1,0 +1,46 @@
+<h2>
+  Benchmarking
+</h2>
+
+<p-tabView orientation="left" >
+  <p-tabPanel header="Single Execution">
+    <div>
+      <h3>Number of Patterns in the Solution Path:</h3>
+      <p-spinner size="10" [(ngModel)]="patternsCount" [min]="1" [max]="100"></p-spinner>
+    </div>
+    <div style="margin-top: 10px;">
+      <h3>Number of Concrete Solutions per Pattern:</h3>
+      <p-spinner size="10" [(ngModel)]="csPerPattern" [min]="1" [max]="100"></p-spinner>
+    </div>
+    <div style="margin-top: 10px;">
+      <h3>Number of Repetitions:</h3>
+      <p-spinner size="10" [(ngModel)]="repetitions" [min]="1" [max]="100"></p-spinner>
+    </div>
+  </p-tabPanel>
+  <p-tabPanel header="Execution Suite">
+    <div>
+      <p-fileUpload name="myfile[]" customUpload="true" (uploadHandler)="myUploader($event)"
+                    auto="true" mode="basic" chooseLabel="Browse" accept=".csv">
+
+      </p-fileUpload>
+    </div>
+  </p-tabPanel>
+</p-tabView>
+
+
+<button pButton type="button" label="Execute" style="margin-top: 15px;"
+        (click)="executeBenchmark()"></button>
+
+<div style="margin-top: 25px;">
+  <div *ngIf="isExecuting">
+    <label>Executing Benchmark...</label>
+  </div>
+
+  <div *ngIf="!isExecuting">
+    <h3>Results:</h3>
+    <div><label>Total: ~</label> {{executionTime}} <label>ms</label></div>
+    <div><label>Phase1: ~</label> {{phase1}} <label>ms</label></div>
+    <div><label>Phase2: ~</label> {{phase2}} <label>ms</label></div>
+  </div>
+</div>
+

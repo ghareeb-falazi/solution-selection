@@ -2,7 +2,7 @@
   Benchmarking
 </h2>
 
-<p-tabView orientation="left" >
+<p-tabView orientation="left" (activeIndex)="benchType" (onChange)="handleChange($event)">
   <p-tabPanel header="Single Execution">
     <div>
       <h3>Number of Patterns in the Solution Path:</h3>
@@ -18,18 +18,20 @@
     </div>
   </p-tabPanel>
   <p-tabPanel header="Execution Suite">
-    <div>
       <p-fileUpload name="myfile[]" customUpload="true" (uploadHandler)="myUploader($event)"
                     auto="true" mode="basic" chooseLabel="Browse" accept=".csv">
 
       </p-fileUpload>
+    <div *ngIf="inputCSVFileName !== null && inputCSVFileName !== unidentified">
+      <h3>Suite File: </h3>
+      <span >{{inputCSVFileName}}</span>
     </div>
   </p-tabPanel>
 </p-tabView>
 
 
 <button pButton type="button" label="Execute" style="margin-top: 15px;"
-        (click)="executeBenchmark()"></button>
+        (click)="handleExecuteClick()"></button>
 
 <div style="margin-top: 25px;">
   <div *ngIf="isExecuting">

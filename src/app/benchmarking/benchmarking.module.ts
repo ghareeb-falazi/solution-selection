@@ -5,6 +5,7 @@ import {BenchmarkingRoutingModule} from './benchmarking-routing.module';
 import {FormsModule} from '@angular/forms';
 import {ButtonModule, FileUploadModule, SpinnerModule, TabViewModule} from 'primeng/primeng';
 import {BenchmarkingSolutionSelectorService} from './benchmarking-solution-selector.service';
+import {PapaParseModule} from 'ngx-papaparse';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import {BenchmarkingSolutionSelectorService} from './benchmarking-solution-selec
     SpinnerModule,
     TabViewModule,
     FileUploadModule,
-    BenchmarkingRoutingModule
+    BenchmarkingRoutingModule,
+    PapaParseModule
   ],
   declarations: [BenchmarkingComponent],
   providers: [BenchmarkingSolutionSelectorService]

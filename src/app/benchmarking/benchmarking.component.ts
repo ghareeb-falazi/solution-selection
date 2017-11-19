@@ -27,11 +27,6 @@ export class BenchmarkingComponent {
 
     const reader: FileReader = new FileReader();
     reader.onload = file => {
-      const unParsed: CapabilityInterface[] = (file.target as any).result)
-
-      for (const cap of unParsed){
-        this.addCapabilityWithProperties(CapabilityModel.fromData(cap));
-      }
 
     };
     reader.readAsText(event.files[0]);

@@ -4,6 +4,7 @@ import {
   FStringVariableContext, MvvContext,
   StringVariableContext
 } from './requirements-grammar/RequirementsGrammarParser';
+import {TerminalNode} from "antlr4ts/tree";
 
 /**
  * Event listener that collects capability names and property names of a requirement parse tree.
@@ -77,7 +78,7 @@ export class LabelCollectorListener implements RequirementsGrammarListener {
     }
   }
 
-  enterFArithmeticVariable(ctx: FArithmeticVariableContext): void {
+  enterFArithmeticVariable = (ctx: FArithmeticVariableContext) =>  {
     if (!this.propertiesOfLabels.has(ctx._cap.text)) {// the capability is new
       this.propertiesOfLabels.set(ctx._cap.text, []);
     }
@@ -87,4 +88,17 @@ export class LabelCollectorListener implements RequirementsGrammarListener {
     }
   }
 
+  visitTerminal = () => {};
+
+/*  enterFArithmeticVariable(ctx: FArithmeticVariableContext): void {
+    if (!this.propertiesOfLabels.has(ctx._cap.text)) {// the capability is new
+      this.propertiesOfLabels.set(ctx._cap.text, []);
+    }
+
+    if (this.propertiesOfLabels.get(ctx._cap.text).indexOf(ctx._property.text) < 0) {// the property is new
+      this.propertiesOfLabels.get(ctx._cap.text).push(ctx._property.text);
+    }
+  }*/
+
 }
+

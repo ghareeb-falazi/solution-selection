@@ -3,8 +3,8 @@ import {BenchmarkingSolutionSelectorService} from './benchmarking-solution-selec
 import {PapaParseService} from 'ngx-papaparse';
 import {BenchmarkingInputModel} from './benchmarking-input.model';
 import {isNullOrUndefined} from 'util';
-import { saveAs } from 'file-saver/FileSaver';
-
+import {saveAs} from 'file-saver/FileSaver';
+import {isNumeric} from "rxjs/util/isNumeric";
 
 
 @Component({
@@ -43,12 +43,15 @@ export class BenchmarkingComponent {
         let currentInputModel: BenchmarkingInputModel = null;
 
         for (let i = 1; i < results.data.length; i++) { // Skipping csv header
-          currentInputModel = new BenchmarkingInputModel();
-          currentInputModel.concreteSolutionsPerPattern = results.data[i][COL_SOLUTIONS_PER_PATTERN];
-          currentInputModel.solutionPathLength = results.data[i][COL_PATTERNS_PER_PATH];
-          currentInputModel.numberOfRepetitions = results.data[i][COL_REPETITIONS];
+          if (isNumeric(results.data[i][COL_SOLUTIONS_PER_PATTERN]) && isNumeric(results.data[i][COL_PATTERNS_PER_PATH]) &&
+            results.data[i][COL_REPETITIONS]) {
+            currentInputModel = new BenchmarkingInputModel();
+            currentInputModel.concreteSolutionsPerPattern = results.data[i][COL_SOLUTIONS_PER_PATTERN];
+            currentInputModel.solutionPathLength = results.data[i][COL_PATTERNS_PER_PATH];
+            currentInputModel.numberOfRepetitions = results.data[i][COL_REPETITIONS];
 
-          result.push(currentInputModel);
+            result.push(currentInputModel);
+          }
         }
 
         this.inputSuite = result;
@@ -78,7 +81,7 @@ export class BenchmarkingComponent {
 
     this.service.executeSuite(this.inputSuite).then(result => {
       const csv = this.papa.unparse(result);
-      const blob = new Blob([csv], { type: 'text/plain' });
+      const blob = new Blob([csv], {type: 'text/plain'});
       const filename = 'benchmark-result.csv';
       saveAs(blob, filename);
       this.isExecuting = false;

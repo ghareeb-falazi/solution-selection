@@ -6,10 +6,10 @@
     </p-fileUpload>
   </div>
   <p-autoComplete [(ngModel)]="capNameQuery" [suggestions]="suggestions"
-                  (completeMethod)="searchForSuggestions($event)"
+                  (completeMethod)="searchForSuggestions()"
                   placeholder="Choose the name of the capability"
                   [minLength]="1" [size]="30"
-                  [dropdown]="true" (onDropdownClick)="handleDropdown($event)">
+                  [dropdown]="true" (onDropdownClick)="handleDropdown()">
     <ng-template let-capName pTemplate="item">
       <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
         <div style="font-size:18px;float:right;margin:10px 10px 0 0">{{capName}}</div>

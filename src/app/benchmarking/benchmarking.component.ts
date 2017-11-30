@@ -4,7 +4,7 @@ import {PapaParseService} from 'ngx-papaparse';
 import {BenchmarkingInputModel} from './benchmarking-input.model';
 import {isNullOrUndefined} from 'util';
 import {saveAs} from 'file-saver/FileSaver';
-import {isNumeric} from "rxjs/util/isNumeric";
+import {isNumeric} from 'rxjs/util/isNumeric';
 
 
 @Component({

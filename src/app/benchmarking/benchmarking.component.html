@@ -22,7 +22,7 @@
                     auto="true" mode="basic" chooseLabel="Browse" accept=".csv">
 
       </p-fileUpload>
-    <div *ngIf="inputCSVFileName !== null && inputCSVFileName !== unidentified">
+    <div *ngIf="inputCSVFileName !== null && inputCSVFileName !== undefined">
       <h3>Suite File: </h3>
       <span >{{inputCSVFileName}}</span>
     </div>

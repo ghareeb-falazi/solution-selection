@@ -35,6 +35,23 @@ export class SolutionSelectionComponent implements OnInit, OnDestroy {
   private readonly SOURCE_ID_PARAM_NAME = 'sourceid';
   private targetServiceTemplate: string;
   private sourceServiceTemplate: string;
+  private automaticallyRedirectToComposedSolution = false;
+  /**
+   * The URL of the service that performs the concrete solution composition.
+   */
+  composerURL = 'http://localhost:1337/mock';
+  /**
+   * The url of the resource that represents the composite concrete solution.
+   */
+  compositeConcreteSolutionURL: URL;
+  /**
+   * Indicates whether the selected concrete solution path is being composed into a composite solution.
+   */
+  isComposingSolution: boolean;
+  /**
+   * The messages shown as 'Growls'
+   */
+  msgs: Message[];
 
   /**
    * The pattern selector child component
@@ -60,26 +77,7 @@ export class SolutionSelectionComponent implements OnInit, OnDestroy {
   @ViewChild(PatternsGraphComponent)
   private patternGraphComponent: PatternsGraphComponent;
 
-  /**
-   * An observable for the process of composing a concrete solution path.
-   */
-  composingConcreteSolutions: Promise<URL>;
-  /**
-   * The url of the resource that represents the composite concrete solution.
-   */
-  compositeConcreteSolutionURL: URL;
-  /**
-   * The URL of the service that performs the concrete solution composition.
-   */
-  composerURL: string;
-  /**
-   * Indicates whether the selected concrete solution path is being composed into a composite solution.
-   */
-  isComposingSolution: boolean;
-  /**
-   * The messages shown as 'Growls'
-   */
-  msgs: Message[];
+
 
   /**
    * Indicates whether services have been initialized or not (some visula elements are not shown until services
@@ -235,7 +233,7 @@ export class SolutionSelectionComponent implements OnInit, OnDestroy {
   compose(): void {
     const paramsMap: Map<string, string> = new Map<string, string>();
     this.targetServiceTemplate = this.getTargetServiceTemplateId(this.sourceServiceTemplate);
-    console.debug(this.targetServiceTemplate);
+
     if (!isNullOrUndefined(this.targetServiceTemplate)) {
       paramsMap.set(this.TARGET_ID_PARAM_NAME, this.targetServiceTemplate);
       paramsMap.set(this.SOURCE_ID_PARAM_NAME, this.sourceServiceTemplate);
@@ -248,12 +246,14 @@ export class SolutionSelectionComponent implements OnInit, OnDestroy {
       .subscribe(result => {
         this.postSubscription.unsubscribe();
 
-        // this shows a hyperlink on the page
-        this.compositeConcreteSolutionURL = result;
-        this.clearMessages();
-
-        // this redirects the whole page
-        // window.location.href = result.toString();
+        if ( this.automaticallyRedirectToComposedSolution) {
+          // this redirects the whole page
+           window.location.href = result.toString();
+        } else {
+          // this shows a hyperlink on the page
+          this.compositeConcreteSolutionURL = result;
+          this.clearMessages();
+        }
       });
 
 

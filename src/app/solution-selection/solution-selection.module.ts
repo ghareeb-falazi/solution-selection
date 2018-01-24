@@ -21,7 +21,6 @@ import {SolutionSelectionRoutingModule} from './solution-selection-routing.modul
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
-    HttpModule,
     InputTextModule,
     AccordionModule,
     ButtonModule,

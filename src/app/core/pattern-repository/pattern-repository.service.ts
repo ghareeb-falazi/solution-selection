@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
+import {HttpClient} from '@angular/common/http';
 import {PatternModel} from '../../data-model/pattern.model';
 
 /**
@@ -30,7 +30,7 @@ export class PatternRepositoryService {
    * Initializes a new instances of the service
    * @param {Http} http Angular service for http connections
    */
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
     this.initialized = this.initialize();
   }
 
@@ -45,7 +45,7 @@ export class PatternRepositoryService {
       .toPromise()
       .then((response) => {
           const result: PatternModel[] = [];
-          const originalData: PatternModel[] = response.json() as PatternModel[];
+          const originalData: PatternModel[] = response as PatternModel[];
           originalData.forEach(item => result.push(PatternModel.fromData(item)));
 
           let nextPattern: PatternModel;

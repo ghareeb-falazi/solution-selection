@@ -38,12 +38,7 @@
           "value": "Azure"
         }
       }
-    ],
-    "serviceTemplateId": {
-      "ns": "",
-      "id": "azure_based_elastic_load_balancer",
-      "URLencoded": "true"
-    }
+    ]
   },
   {
     "uri": "cs1.2",
@@ -84,12 +79,7 @@
           "value": "Elastic Beanstalk"
         }
       }
-    ],
-    "serviceTemplateId": {
-      "ns": "",
-      "id": "aws_based_elastic_load_balancer",
-      "URLencoded": "true"
-    }
+    ]
   },
   {
     "uri": "cs2.1",
@@ -116,7 +106,7 @@
         }
       },
       {
-        "name":"location",
+        "name": "location",
         "properties": {
           "value": "US"
         }
@@ -133,12 +123,7 @@
           "value": "10.0"
         }
       }
-    ],
-    "serviceTemplateId": {
-      "ns": "",
-      "id": "aws_based_stateless_component",
-      "URLencoded": "true"
-    }
+    ]
   },
   {
     "uri": "cs2.2",
@@ -165,7 +150,7 @@
         }
       },
       {
-        "name":"location",
+        "name": "location",
         "properties": {
           "value": "US"
         }
@@ -182,12 +167,7 @@
           "value": "11.0"
         }
       }
-    ],
-    "serviceTemplateId": {
-      "ns": "",
-      "id": "azure_based_stateless_component",
-      "URLencoded": "true"
-    }
+    ]
   },
   {
     "uri": "cs3.1",
@@ -205,7 +185,7 @@
         }
       },
       {
-        "name":"location",
+        "name": "location",
         "properties": {
           "value": "US"
         }
@@ -222,12 +202,7 @@
           "value": "5.0"
         }
       }
-    ],
-    "serviceTemplateId": {
-      "ns": "",
-      "id": "aws_based_blob_storage",
-      "URLencoded": "true"
-    }
+    ]
   },
   {
     "uri": "cs3.2",
@@ -245,7 +220,7 @@
         }
       },
       {
-        "name":"location",
+        "name": "location",
         "properties": {
           "value": "US"
         }
@@ -262,12 +237,7 @@
           "value": "15.0"
         }
       }
-    ],
-    "serviceTemplateId": {
-      "ns": "",
-      "id": "aws_based_blob_storage",
-      "URLencoded": "true"
-    }
+    ]
   },
   {
     "uri": "cs3.3",
@@ -285,7 +255,7 @@
         }
       },
       {
-        "name":"location",
+        "name": "location",
         "properties": {
           "value": "US"
         }
@@ -302,11 +272,6 @@
           "value": "3.0"
         }
       }
-    ],
-    "serviceTemplateId": {
-      "ns": "",
-      "id": "azure_based_blob_storage",
-      "URLencoded": "true"
-    }
+    ]
   }
 ]

@@ -6,6 +6,7 @@ import {PatternRepositoryService} from './pattern-repository/pattern-repository.
 import {SolutionSelectorService} from './solution-selector/solution-selector.service';
 import {SuggestionsService} from './suggestions/suggestions.service';
 import {SolutionCompositionService} from './solution-composition/solution-composition.service';
+import {HttpClientModule} from '@angular/common/http';
 
 /**
  * Provides access to application-wide singleton services.
@@ -13,7 +14,7 @@ import {SolutionCompositionService} from './solution-composition/solution-compos
  */
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule, HttpClientModule
   ],
   declarations: [],
   providers: [ConcreteSolutionRepositoryService, AggregatorRepositoryService,

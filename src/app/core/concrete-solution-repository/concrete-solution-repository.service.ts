@@ -2,13 +2,13 @@
  * Created by falazigb on 09-Jul-17.
  */
 import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
+import {HttpClient} from '@angular/common/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import {ConcreteSolutionInterface, ConcreteSolutionModel} from '../../data-model/concrete-solution.model';
 import {RequirementModel} from '../../data-model/requirement.model';
 import {CapabilityModel} from '../../data-model/capability.model';
-import {AbstractConcreteSolutionRepository} from "./abstract-concrete-solution-repository";
+import {AbstractConcreteSolutionRepository} from './abstract-concrete-solution-repository';
 
 /**
  * A service that provides access to the concrete solution repository
@@ -38,7 +38,7 @@ export class ConcreteSolutionRepositoryService extends AbstractConcreteSolutionR
    * Initializes a new instances of the service
    * @param {Http} http Angular service for http connections
    */
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
     super();
     this.initialized = this.initialize();
   }
@@ -54,7 +54,7 @@ export class ConcreteSolutionRepositoryService extends AbstractConcreteSolutionR
       .then((response) => {
 
         const result: ConcreteSolutionModel[] = [];
-        const original: ConcreteSolutionInterface[] = response.json();
+        const original: ConcreteSolutionInterface[] = response as ConcreteSolutionInterface[];
 
         for (let i = 0; i < original.length; i++) {
           result.push(ConcreteSolutionModel.fromData(original[i]));

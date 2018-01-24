@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ConcreteSolutionRepositoryService} from '../core/concrete-solution-repository/concrete-solution-repository.service';
 import {AggregatorRepositoryService} from '../core/aggregator-repository/aggregator-repository.service';
 import {SolutionSelectorService} from '../core/solution-selector/solution-selector.service';
@@ -16,6 +16,8 @@ import {SelectItem} from 'primeng/primeng';
 import {SolutionCompositionService} from '../core/solution-composition/solution-composition.service';
 import {isNullOrUndefined} from 'util';
 import {Message} from 'primeng/primeng';
+import {ActivatedRoute} from '@angular/router';
+import {Subscription} from 'rxjs/Subscription';
 
 /**
  * The solution selection component
@@ -26,8 +28,13 @@ import {Message} from 'primeng/primeng';
   ]
 
 })
-export class SolutionSelectionComponent implements OnInit {
-
+export class SolutionSelectionComponent implements OnInit, OnDestroy {
+  private routeSubscription: Subscription;
+  private postSubscription: Subscription;
+  private readonly TARGET_ID_PARAM_NAME = 'targetid';
+  private readonly SOURCE_ID_PARAM_NAME = 'sourceid';
+  private targetServiceTemplate: string;
+  private sourceServiceTemplate: string;
 
   /**
    * The pattern selector child component
@@ -112,13 +119,15 @@ export class SolutionSelectionComponent implements OnInit {
   get selectedPath(): ConcreteSolutionPathModel {
     return this._selectedPath;
   }
+
   get isComposerKnown(): boolean {
-    return !isNullOrUndefined(this.composerURL ) && this.composerURL.length > 0;
+    return !isNullOrUndefined(this.composerURL) && this.composerURL.length > 0;
   }
 
   constructor(private csService: ConcreteSolutionRepositoryService, private aggService: AggregatorRepositoryService,
               private selectService: SolutionSelectorService, private patternService: PatternRepositoryService,
-              private compositionService: SolutionCompositionService) {
+              private compositionService: SolutionCompositionService, private route: ActivatedRoute) {
+
   }
 
   ngOnInit(): void {
@@ -127,10 +136,20 @@ export class SolutionSelectionComponent implements OnInit {
       .csService.waitForInitialization()
       .then(() => this.aggService.waitForInitialization())
       .then(() => this.patternService.waitForInitialization())
-      .then(() => {
-        this.isInitialized = true;
+      .then(() => this.isInitialized = true)
+      .then(() => { // subscribe to query parameters
+        this.routeSubscription = this.route.queryParamMap.subscribe(
+          params => {
+            this.sourceServiceTemplate = params.get(this.SOURCE_ID_PARAM_NAME);
+          }
+        )
       });
   }
+
+  ngOnDestroy(): void {
+    this.routeSubscription.unsubscribe();
+  }
+
 
   /**
    * Executes the mapping algorithm
@@ -214,23 +233,53 @@ export class SolutionSelectionComponent implements OnInit {
    * Composes the selected concrete solution path
    */
   compose(): void {
+    const paramsMap: Map<string, string> = new Map<string, string>();
+    this.targetServiceTemplate = this.getTargetServiceTemplateId(this.sourceServiceTemplate);
+    console.debug(this.targetServiceTemplate);
+    if (!isNullOrUndefined(this.targetServiceTemplate)) {
+      paramsMap.set(this.TARGET_ID_PARAM_NAME, this.targetServiceTemplate);
+      paramsMap.set(this.SOURCE_ID_PARAM_NAME, this.sourceServiceTemplate);
+    }
+
     this.showMessage('The selected concrete solution path is being composed into a single composite solution.',
       'Composing Solutions');
-    this.composingConcreteSolutions = this.compositionService.composeConcreteSolutions(this.selectedPath, this.composerURL)
-      .then(result => {
+    this.postSubscription = this.compositionService.composeConcreteSolutions(this.selectedPath, this.composerURL,
+      paramsMap)
+      .subscribe(result => {
+        this.postSubscription.unsubscribe();
+
+        // this shows a hyperlink on the page
         this.compositeConcreteSolutionURL = result;
         this.clearMessages();
 
-        return this.compositeConcreteSolutionURL;
+        // this redirects the whole page
+        // window.location.href = result.toString();
       });
+
+
   }
 
   showMessage(message: string, title: string) {
-    this.msgs = [{severity: 'info', summary: title,
-      detail: message}];
+    this.msgs = [{
+      severity: 'info', summary: title,
+      detail: message
+    }];
   }
 
   clearMessages() {
     this.msgs = [];
+  }
+
+  getTargetServiceTemplateId(sourceServiceTemplateId: string): string {
+    const regex = new RegExp(/(\S+)\s*\((\d+)\)/);
+    const array = regex.exec(this.sourceServiceTemplate);
+
+    if (!isNullOrUndefined(array)) {
+      const oldNumber: number = Number.parseInt(array[2]);
+
+      return `${array[1]} (${oldNumber + 1})`;
+    } else {
+      return this.sourceServiceTemplate + ' (1)';
+    }
   }
 }

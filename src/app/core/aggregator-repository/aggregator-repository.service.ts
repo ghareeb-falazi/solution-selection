@@ -3,11 +3,11 @@
  */
 import 'rxjs/add/operator/toPromise';
 import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
+import {HttpClient} from '@angular/common/http';
 import {AbstractAggregatorModel} from '../../data-model/abstract-aggregator.model';
 import {AggregatorCreatorModel} from '../../data-model/aggregator-creator.model';
 import {BasicAggregatorModel} from '../../data-model/basic-aggregator.model';
-import {AbstractAggregatorRepository} from "./abstract-aggregator-repository";
+import {AbstractAggregatorRepository} from './abstract-aggregator-repository';
 
 /**
  * A service that provides access to the aggregator repository
@@ -37,7 +37,7 @@ export class AggregatorRepositoryService extends AbstractAggregatorRepository {
    * Initializes a new instances of the service
    * @param {Http} http Angular service for http connections
    */
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
     super();
     this.initialized = this.initialize();
   }
@@ -52,7 +52,7 @@ export class AggregatorRepositoryService extends AbstractAggregatorRepository {
       .toPromise()
       .then((response) => {
           const result: AbstractAggregatorModel[] = [];
-          const originalData: AbstractAggregatorModel[] = response.json() as AbstractAggregatorModel[];
+          const originalData: AbstractAggregatorModel[] = response as AbstractAggregatorModel[];
           const creator: AggregatorCreatorModel = new AggregatorCreatorModel();
 
           for (let i = 0; i < originalData.length; i++) {

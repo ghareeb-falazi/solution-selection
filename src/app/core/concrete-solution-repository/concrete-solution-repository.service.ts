@@ -61,6 +61,7 @@ export class ConcreteSolutionRepositoryService extends AbstractConcreteSolutionR
         }
 
         this.allSolutions = result;
+        //console.debug(this.allSolutions);
         console.debug(`ConcreteSolutionRepository is initialized`);
 
         return result;

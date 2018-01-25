@@ -1,6 +1,7 @@
 [
   {
-    "uri": "cs1.1",
+    "uri": "{http://www.opentosca.org/providers/dataprovider}DataProvider",
+    "visualName": "cs1.1",
     "description": "Azure-based Elastic Load Balancer Implementation",
     "requirements": [
       {
@@ -37,11 +38,18 @@
         "properties": {
           "value": "Azure"
         }
+      },
+      {
+        "name": "isTOSCA",
+        "properties": {
+          "value": "true"
+        }
       }
     ]
   },
   {
     "uri": "cs1.2",
+    "visualName": "cs1.2",
     "description": "Cloud Formation Template-based Elastic Load Balancer",
     "requirements": [
       {
@@ -78,11 +86,18 @@
         "properties": {
           "value": "Elastic Beanstalk"
         }
+      },
+      {
+        "name": "isTOSCA",
+        "properties": {
+          "value": "false"
+        }
       }
     ]
   },
   {
     "uri": "cs2.1",
+    "visualName": "cs2.1",
     "description": "Cloud Formation Template-based Stateless Component",
     "requirements": [
       {
@@ -122,11 +137,18 @@
         "properties": {
           "value": "10.0"
         }
+      },
+      {
+        "name": "isTOSCA",
+        "properties": {
+          "value": "false"
+        }
       }
     ]
   },
   {
-    "uri": "cs2.2",
+    "uri": "{http://www.opentosca.org/providers/vsphereprovider}VSphere_Provider",
+    "visualName": "cs2.2",
     "description": "Azure-based Stateless Component",
     "requirements": [
       {
@@ -166,11 +188,18 @@
         "properties": {
           "value": "11.0"
         }
+      },
+      {
+        "name": "isTOSCA",
+        "properties": {
+          "value": "true"
+        }
       }
     ]
   },
   {
     "uri": "cs3.1",
+    "visualName": "cs3.1",
     "description": "Cloud Formation Template-based Blob Storage",
     "requirements": [
       {
@@ -201,11 +230,18 @@
         "properties": {
           "value": "5.0"
         }
+      },
+      {
+        "name": "isTOSCA",
+        "properties": {
+          "value": "false"
+        }
       }
     ]
   },
   {
     "uri": "cs3.2",
+    "visualName": "cs3.2",
     "description": "Cloud Formation Template-based Blob Storage",
     "requirements": [
       {
@@ -236,11 +272,18 @@
         "properties": {
           "value": "15.0"
         }
+      },
+      {
+        "name": "isTOSCA",
+        "properties": {
+          "value": "false"
+        }
       }
     ]
   },
   {
-    "uri": "cs3.3",
+    "uri": "{http://www.opentosca.org/servicetemplates}MyTinyToDo_For_Injection",
+    "visualName": "cs3.3",
     "description": "Azure-based Blob Storage implementation",
     "requirements": [
       {
@@ -270,6 +313,12 @@
         "name": "cost",
         "properties": {
           "value": "3.0"
+        }
+      },
+      {
+        "name": "isTOSCA",
+        "properties": {
+          "value": "true"
         }
       }
     ]

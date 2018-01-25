@@ -19,7 +19,7 @@ export class ConcreteSolutionPathStepModel {
   toString(): string {
     if (isNullOrUndefined(this.aggregators) || this.aggregators.length === 0) {
 
-      return this.concreteSolution.uri;
+      return this.concreteSolution.visualName;
     } else {
 
       let result = '->(';
@@ -32,7 +32,7 @@ export class ConcreteSolutionPathStepModel {
         }
       }
 
-      result += `)->${this.concreteSolution.uri}`;
+      result += `)->${this.concreteSolution.visualName}`;
 
       return result;
     }

@@ -21,6 +21,10 @@ export class BasicAggregatorModel extends AbstractAggregatorModel {
     this.concreteSolution2Uri = concreteSolution2URI;
   }
 
+  public toString(): string {
+    return this.aggregatorUri;
+  }
+
   /**
    * Checks whether this aggregator can aggregate the given concrete solutions
    * @param {string} csUri1 one of the concrete solutions to check for aggregability

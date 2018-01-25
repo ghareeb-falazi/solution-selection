@@ -23,6 +23,7 @@
       <p-dialog *ngIf="selectedConcreteSolution" header="Concrete Solution Details" [(visible)]="display" modal="modal"
                 width="600" [responsive]="true">
         <p style="line-height: 200%;margin-top: 0px;">
+          <b>Concrete Solution Name: </b> <span>{{selectedConcreteSolution.visualName}}</span><br/>
           <b>Concrete Solution ID: </b> <span>{{selectedConcreteSolution.uri}}</span><br/>
           <b>Description: </b> <span>{{selectedConcreteSolution.description}}</span><br/>
         </p>
@@ -50,19 +51,23 @@
         </p-footer>
       </p-dialog>
 
-      <button pButton type="button" label="Execute Algorithm" (click)="search()"></button>
+      <button pButton type="button" label="Find CS Paths" (click)="search()"></button>
       <div *ngIf="paths">
         <h3 style="margin-top: 10px; margin-bottom: 5px;">Results:</h3>
         <p-listbox [options]="paths" [(ngModel)]="selectedPath" [style]="{'width':'100%'}">
 
         </p-listbox>
         <div *ngIf="selectedPath  && paths.length > 0" style="margin-top: 10px;">
-          <input pInputText [(ngModel)]="composerURL" placeholder="Composer URL" style="width: 700px;">
-          <button pButton type="button" [disabled]="!this.isComposerKnown" label="Compose Solution"
+          <h3 style="margin-top: 10px; margin-bottom: 5px;">Path Composition:</h3>
+          <div>
+            <label style="width: 700px; margin-top: 10px;">Composer: </label ><label style="width: 700px; margin-top: 10px;">{{composerURL}}</label>
+            <input pInputText [(ngModel)]="targetServiceTemplate" placeholder="Target Service Template ID" style="width: 700px; margin-top: 10px; margin-bottom: 10px;">
+          </div>
+          <button pButton type="button" [disabled]="!this.isComposerKnown" label="Compose"
                   (click)="compose()"></button>
 
-          <div *ngIf="compositeConcreteSolutionURL" style="margin-top: 5px;">
-            <a [attr.href]="compositeConcreteSolutionURL.href" >
+          <div *ngIf="compositeConcreteSolutionURL" style="margin-top: 10px;">
+            <a [attr.href]="compositeConcreteSolutionURL.href">
               -> click here to show the composite solution! <-
             </a>
           </div>

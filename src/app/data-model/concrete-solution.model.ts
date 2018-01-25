@@ -6,6 +6,7 @@ import {RequirementModel} from './requirement.model';
  */
 export interface ConcreteSolutionInterface {
   uri: string;
+  visualName: string;
   description: string;
   requirements: RequirementModel[];
   capabilities: CapabilityInterface[];
@@ -16,6 +17,7 @@ export interface ConcreteSolutionInterface {
  */
 export class ConcreteSolutionModel implements  ConcreteSolutionInterface {
   uri: string;
+  visualName: string;
   description: string;
   requirements: RequirementModel[];
   capabilities: CapabilityModel[];
@@ -36,15 +38,19 @@ export class ConcreteSolutionModel implements  ConcreteSolutionInterface {
       reqs.push(RequirementModel.fromData(data.requirements[i]));
     }
 
-    return new ConcreteSolutionModel(data.uri, data.description, reqs, caps);
+    return new ConcreteSolutionModel(data.uri, data.visualName, data.description, reqs, caps);
   }
-  constructor(uri: string, description: string, requirements: RequirementModel[], capabilities: CapabilityModel[]) {
+  constructor(uri: string, visualName: string, description: string, requirements: RequirementModel[], capabilities: CapabilityModel[]) {
     this.uri = uri;
+    this.visualName = visualName;
     this.description = description;
     this.requirements = requirements;
     this.capabilities = capabilities;
   }
 
+  public toString(): string {
+    return this.uri;
+  }
 
 
   /**

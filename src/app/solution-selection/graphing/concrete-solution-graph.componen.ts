@@ -20,7 +20,7 @@ class ConcreteSolutionGraphNode extends GraphNode {
   constructor(id: string, public cs: ConcreteSolutionModel) {
     super(id, ConcreteSolutionGraphNode.FILL_COLOR, ConcreteSolutionGraphNode.STROKE_COLOR,
       ConcreteSolutionGraphNode.HIGHLIGHTED_STROKE_COLOR);
-    this.label = cs.uri;
+    this.label = cs.visualName;
   }
 }
 
@@ -57,7 +57,7 @@ export class ConcreteSolutionGraphComponent extends AbstractGraphComponent {
 
 
   static getConcreteSolutionUriOfNode(node: GraphNode): string {
-    return (<ConcreteSolutionGraphNode>node).label;
+    return (<ConcreteSolutionGraphNode>node).cs.uri;
   }
 
   constructor(private csRepoService: ConcreteSolutionRepositoryService, private aggRepoService: AggregatorRepositoryService) {

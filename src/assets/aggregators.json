@@ -7,8 +7,8 @@
 
   {
     "aggregatorUri":"agg2",
-    "concreteSolution1Uri":"cs1.1",
-    "concreteSolution2Uri":"cs2.2"
+    "concreteSolution1Uri":"{http://www.opentosca.org/providers/dataprovider}DataProvider",
+    "concreteSolution2Uri":"{http://www.opentosca.org/providers/vsphereprovider}VSphere_Provider"
   },
 
   {
@@ -26,13 +26,13 @@
 
   {
     "aggregatorUri":"agg5",
-    "concreteSolution1Uri":"cs2.2",
+    "concreteSolution1Uri":"{http://www.opentosca.org/providers/vsphereprovider}VSphere_Provider",
     "concreteSolution2Uri":"cs3.2"
   },
 
   {
     "aggregatorUri":"agg6",
-    "concreteSolution1Uri":"cs2.2",
-    "concreteSolution2Uri":"cs3.3"
+    "concreteSolution1Uri":"{http://www.opentosca.org/providers/vsphereprovider}VSphere_Provider",
+    "concreteSolution2Uri":"{http://www.opentosca.org/servicetemplates}MyTinyToDo_For_Injection"
   }
 ]

@@ -29,17 +29,14 @@ import {Subscription} from 'rxjs/Subscription';
 
 })
 export class SolutionSelectionComponent implements OnInit, OnDestroy {
+  // http%3A%2F%2Flocalhost%3A4200%2Fmock
   private routeSubscription: Subscription;
   private postSubscription: Subscription;
   private readonly TARGET_ID_PARAM_NAME = 'targetid';
-  private readonly SOURCE_ID_PARAM_NAME = 'sourceid';
-  private targetServiceTemplate: string;
-  private sourceServiceTemplate: string;
+  private readonly SOURCE_URL_PARAM_NAME = 'sourceurl';
+  targetServiceTemplate: string;
   private automaticallyRedirectToComposedSolution = false;
-  /**
-   * The URL of the service that performs the concrete solution composition.
-   */
-  composerURL = 'http://localhost:1337/mock';
+  private composerURL: string;
   /**
    * The url of the resource that represents the composite concrete solution.
    */
@@ -138,7 +135,7 @@ export class SolutionSelectionComponent implements OnInit, OnDestroy {
       .then(() => { // subscribe to query parameters
         this.routeSubscription = this.route.queryParamMap.subscribe(
           params => {
-            this.sourceServiceTemplate = params.get(this.SOURCE_ID_PARAM_NAME);
+            this.composerURL = params.get(this.SOURCE_URL_PARAM_NAME);
           }
         )
       });
@@ -232,11 +229,9 @@ export class SolutionSelectionComponent implements OnInit, OnDestroy {
    */
   compose(): void {
     const paramsMap: Map<string, string> = new Map<string, string>();
-    this.targetServiceTemplate = this.getTargetServiceTemplateId(this.sourceServiceTemplate);
 
     if (!isNullOrUndefined(this.targetServiceTemplate)) {
       paramsMap.set(this.TARGET_ID_PARAM_NAME, this.targetServiceTemplate);
-      paramsMap.set(this.SOURCE_ID_PARAM_NAME, this.sourceServiceTemplate);
     }
 
     this.showMessage('The selected concrete solution path is being composed into a single composite solution.',
@@ -270,16 +265,16 @@ export class SolutionSelectionComponent implements OnInit, OnDestroy {
     this.msgs = [];
   }
 
-  getTargetServiceTemplateId(sourceServiceTemplateId: string): string {
-    const regex = new RegExp(/(\S+)\s*\((\d+)\)/);
-    const array = regex.exec(this.sourceServiceTemplate);
-
-    if (!isNullOrUndefined(array)) {
-      const oldNumber: number = Number.parseInt(array[2]);
-
-      return `${array[1]} (${oldNumber + 1})`;
-    } else {
-      return this.sourceServiceTemplate + ' (1)';
-    }
-  }
+  // generateTargetId(sourceServiceTemplateId: string): string {
+  //   const regex = new RegExp(/(\S+)\s*\((\d+)\)/);
+  //   const array = regex.exec(this.sourceServiceTemplate);
+  //
+  //   if (!isNullOrUndefined(array)) {
+  //     const oldNumber: number = Number.parseInt(array[2]);
+  //
+  //     return `${array[1]} (${oldNumber + 1})`;
+  //   } else {
+  //     return this.sourceServiceTemplate + ' (1)';
+  //   }
+  // }
 }

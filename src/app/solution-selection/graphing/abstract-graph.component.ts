@@ -166,14 +166,12 @@ export abstract class AbstractGraphComponent {
       myNodes.push(currentNode);
       counter++;
     }
-
     for (const item of items) {
       const startNode: GraphNode = myNodes.find(param => this.isNodeEqualsItem(param, item));
 
       for (const nextItem of this.getNextItems(item)) {
         const endNode: GraphNode = myNodes.find(param => this.isNodeEqualsItem(param, nextItem));
         currentLink = this.createLink(startNode, endNode, item, nextItem);
-
         myLinks.push(currentLink);
       }
     }

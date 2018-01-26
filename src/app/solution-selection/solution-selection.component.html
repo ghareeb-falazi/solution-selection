@@ -59,9 +59,12 @@
         </p-listbox>
         <div *ngIf="selectedPath  && paths.length > 0" style="margin-top: 10px;">
           <h3 style="margin-top: 10px; margin-bottom: 5px;">Path Composition:</h3>
+
+          <label style="width: 700px; margin-top: 10px;">Composer: </label><label
+          style="width: 700px; margin-top: 10px;">{{composerURL}}</label>
           <div>
-            <label style="width: 700px; margin-top: 10px;">Composer: </label ><label style="width: 700px; margin-top: 10px;">{{composerURL}}</label>
-            <input pInputText [(ngModel)]="targetServiceTemplate" placeholder="Target Service Template ID" style="width: 700px; margin-top: 10px; margin-bottom: 10px;">
+            <input pInputText [(ngModel)]="targetServiceTemplate" placeholder="Target Service Template ID"
+                   style="width: 700px; margin-top: 10px; margin-bottom: 10px;">
           </div>
           <button pButton type="button" [disabled]="!this.isComposerKnown" label="Compose"
                   (click)="compose()"></button>

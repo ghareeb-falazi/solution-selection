@@ -34,8 +34,9 @@ export class SolutionSelectionComponent implements OnInit, OnDestroy {
   private postSubscription: Subscription;
   private readonly TARGET_ID_PARAM_NAME = 'targetid';
   private readonly SOURCE_URL_PARAM_NAME = 'sourceurl';
+  private readonly AUTO_REDIRECT_PARAM_NAME = 'redirect';
   targetServiceTemplate: string;
-  private automaticallyRedirectToComposedSolution = false;
+  private automaticallyRedirectToComposedSolution = false; // the value can be also passed as a query param 'redirect'
   private composerURL: string;
   /**
    * The url of the resource that represents the composite concrete solution.
@@ -73,7 +74,6 @@ export class SolutionSelectionComponent implements OnInit, OnDestroy {
    */
   @ViewChild(PatternsGraphComponent)
   private patternGraphComponent: PatternsGraphComponent;
-
 
 
   /**
@@ -136,6 +136,10 @@ export class SolutionSelectionComponent implements OnInit, OnDestroy {
         this.routeSubscription = this.route.queryParamMap.subscribe(
           params => {
             this.composerURL = params.get(this.SOURCE_URL_PARAM_NAME);
+
+            if (params.get(this.AUTO_REDIRECT_PARAM_NAME)) {
+              this.automaticallyRedirectToComposedSolution = params.get(this.AUTO_REDIRECT_PARAM_NAME).toLocaleLowerCase() === 'true';
+            }
           }
         )
       });
@@ -241,9 +245,9 @@ export class SolutionSelectionComponent implements OnInit, OnDestroy {
       .subscribe(result => {
         this.postSubscription.unsubscribe();
 
-        if ( this.automaticallyRedirectToComposedSolution) {
+        if (this.automaticallyRedirectToComposedSolution) {
           // this redirects the whole page
-           window.location.href = result.toString();
+          window.location.href = result.toString();
         } else {
           // this shows a hyperlink on the page
           this.compositeConcreteSolutionURL = result;

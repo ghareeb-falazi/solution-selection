@@ -37,7 +37,7 @@ export class BenchmarkingConcreteSolutionRepository extends AbstractConcreteSolu
       caps.push(capLastCS);
     }
 
-    return new ConcreteSolutionModel(uri, '', reqs, caps);
+    return new ConcreteSolutionModel(uri, uri, '', reqs, caps);
   }
 
   /**

@@ -282,7 +282,7 @@
     ]
   },
   {
-    "uri": "{http://www.opentosca.org/servicetemplates}MyTinyToDo_For_Injection",
+    "uri": "{http://opentosca.org/servicetemplates}MyTinyToDo_For_Injection",
     "visualName": "cs3.3",
     "description": "Azure-based Blob Storage implementation",
     "requirements": [

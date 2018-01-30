@@ -47,7 +47,7 @@ export class AggregatorRepositoryService extends AbstractAggregatorRepository {
    */
   private initialize(): Promise<any> {
     // const url = 'assets/aggregators.json';
-    const url = 'https://rawgit.com/ghareeb-falazi/solution-selection/master/src/assets/aggregators.json';
+    const url = 'https://raw.githubusercontent.com/ghareeb-falazi/solution-selection/master/src/assets/aggregators.json';
 
     return this.http.get(url)
       .toPromise()

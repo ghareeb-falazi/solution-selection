@@ -49,7 +49,8 @@ export class ConcreteSolutionRepositoryService extends AbstractConcreteSolutionR
    */
   private initialize(): Promise<any> {
     // const url = 'assets/concrete-solutions.json';
-    const url = 'https://rawgit.com/ghareeb-falazi/solution-selection/master/src/assets/concrete-solutions.json';
+    // const url = 'https://rawgit.com/ghareeb-falazi/solution-selection/master/src/assets/concrete-solutions.json';
+    const url = 'https://raw.githubusercontent.com/ghareeb-falazi/solution-selection/master/src/assets/concrete-solutions.json';
     return this.http.get(url)
       .toPromise()
       .then((response) => {

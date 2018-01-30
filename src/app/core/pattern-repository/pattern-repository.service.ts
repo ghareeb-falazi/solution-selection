@@ -40,7 +40,7 @@ export class PatternRepositoryService {
    */
   private initialize(): Promise<any> {
     // const url = 'assets/patterns.json';
-    const url = 'https://rawgit.com/ghareeb-falazi/solution-selection/master/src/assets/patterns.json';
+    const url = 'https://raw.githubusercontent.com/ghareeb-falazi/solution-selection/master/src/assets/patterns.json';
 
     return this.http.get(url)
       .toPromise()

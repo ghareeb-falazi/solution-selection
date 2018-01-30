@@ -33,6 +33,6 @@
   {
     "aggregatorUri":"agg6",
     "concreteSolution1Uri":"{http://www.opentosca.org/providers/vsphereprovider}VSphere_Provider",
-    "concreteSolution2Uri":"{http://www.opentosca.org/servicetemplates}MyTinyToDo_For_Injection"
+    "concreteSolution2Uri":"{http://opentosca.org/servicetemplates}MyTinyToDo_For_Injection"
   }
 ]

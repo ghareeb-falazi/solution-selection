@@ -48,7 +48,8 @@ export class ConcreteSolutionRepositoryService extends AbstractConcreteSolutionR
    * @returns {Promise<any>} a Promise that gets resolved when initialization is done.
    */
   private initialize(): Promise<any> {
-    const url = 'assets/concrete-solutions.json';
+    // const url = 'assets/concrete-solutions.json';
+    const url = 'https://rawgit.com/ghareeb-falazi/solution-selection/master/src/assets/concrete-solutions.json';
     return this.http.get(url)
       .toPromise()
       .then((response) => {
@@ -61,7 +62,7 @@ export class ConcreteSolutionRepositoryService extends AbstractConcreteSolutionR
         }
 
         this.allSolutions = result;
-        //console.debug(this.allSolutions);
+        // console.debug(this.allSolutions);
         console.debug(`ConcreteSolutionRepository is initialized`);
 
         return result;

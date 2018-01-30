@@ -46,7 +46,8 @@ export class AggregatorRepositoryService extends AbstractAggregatorRepository {
    * @returns {Promise<any>} a Promise that gets resolved when initialization is done.
    */
   private initialize(): Promise<any> {
-    const url = 'assets/aggregators.json';
+    // const url = 'assets/aggregators.json';
+    const url = 'https://rawgit.com/ghareeb-falazi/solution-selection/master/src/assets/aggregators.json';
 
     return this.http.get(url)
       .toPromise()

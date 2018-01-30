@@ -39,7 +39,8 @@ export class PatternRepositoryService {
    * @returns {Promise<any>} a Promise that gets resolved when initialization is done.
    */
   private initialize(): Promise<any> {
-    const url = 'assets/patterns.json';
+    // const url = 'assets/patterns.json';
+    const url = 'https://rawgit.com/ghareeb-falazi/solution-selection/master/src/assets/patterns.json';
 
     return this.http.get(url)
       .toPromise()

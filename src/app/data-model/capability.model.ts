@@ -1,11 +1,10 @@
-import 'core-js/library';
 
 /**
  * An interface to describe JSON-deserialized capability objects
  */
 export interface CapabilityInterface {
   name: string;
-  properties: any;
+  properties: Map<string, string>;
 }
 
 /**

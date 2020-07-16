@@ -10,10 +10,17 @@ import {AbstractGraphComponent, GraphLink, GraphNode} from './abstract-graph.com
 class PatternGraphNode extends GraphNode {
   static readonly FILL_COLOR = '#edebec';
   static readonly STROKE_COLOR = 'black';
-  static readonly  HIGHLIGHTED_STROKE_COLOR = 'blue';
+  static readonly HIGHLIGHTED_STROKE_COLOR = 'blue';
+  static readonly WIDTH = 160;
+  static readonly HEIGHT = 80;
 
   constructor(id: string, public label: string, public imageUrl: string ) {
-    super(id, PatternGraphNode.FILL_COLOR, PatternGraphNode.STROKE_COLOR, PatternGraphNode.HIGHLIGHTED_STROKE_COLOR);
+    super(id,
+      PatternGraphNode.FILL_COLOR,
+      PatternGraphNode.STROKE_COLOR,
+      PatternGraphNode.HIGHLIGHTED_STROKE_COLOR,
+      PatternGraphNode.WIDTH,
+      PatternGraphNode.HEIGHT);
   }
 
 }

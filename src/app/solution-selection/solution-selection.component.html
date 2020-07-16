@@ -1,4 +1,4 @@
-<p-growl [(value)]="msgs"></p-growl>
+<p-toast></p-toast>
 <div>
   <div id="options">
     <p-accordion>
@@ -88,7 +88,7 @@
     </div>
   </div>
 
-  <div id="graphs">
+  <div id="graphs" *ngIf="isInitialized">
     <p-panel header="Graph Representation" [toggleable]="true">
       <app-pattern-graph (onNodeDoubleClickedEvent)="patternDoubleClicked($event)"
                          (onMouseOverNodeEvent)="mouseOnPattern($event)"

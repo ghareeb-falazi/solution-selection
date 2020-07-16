@@ -1,5 +1,5 @@
 import * as shape from 'd3-shape';
-import {Output, EventEmitter} from '@angular/core';
+import { Output, EventEmitter, Directive } from '@angular/core';
 import {isNullOrUndefined} from 'util';
 
 /**
@@ -13,7 +13,7 @@ export class GraphNode {
   readonly normalStrokeColor: string;
 
 
-  constructor(public id: string, public fillColor: string, public strokeColor: string, public readonly highlightedStrokeColor) {
+  constructor(public id: string, public fillColor: string, public strokeColor: string, public readonly highlightedStrokeColor, public width: number, public height: number) {
     this.normalStrokeColor = strokeColor;
   }
 }
@@ -37,6 +37,7 @@ export class GraphLink {
 /**
  * Abstract graph
  */
+@Directive()
 export abstract class AbstractGraphComponent {
   /**
    * Nodes of the graph
@@ -67,11 +68,8 @@ export abstract class AbstractGraphComponent {
    * @type {[number , number]}
    */
   view: any[] = [this.width, this.height];
-  /**
-   * The flow direction of the graph
-   * @type {string}
-   */
-  orientation= 'LR';
+
+  layout = 'dagre';
   /**
    * Whether a legend should be shown when hovering over a node
    * @type {boolean}

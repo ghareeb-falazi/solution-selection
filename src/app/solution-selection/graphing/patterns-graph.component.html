@@ -1,12 +1,13 @@
-<ngx-charts-directed-graph
+<ngx-graph
   class="chart-container"
   [view]="view"
   [legend]="showLegend"
   [links]="myLinks"
   [nodes]="myNodes"
-  [orientation]="orientation"
   [curve]="curve"
-  [zoomLevel]="0.8"
+  [layout]="layout"
+  [autoZoom]="true"
+  [zoomSpeed]="0.02"
   >
 
   <ng-template #defsTemplate>
@@ -35,4 +36,4 @@
     </svg:g>
   </ng-template>
 
-</ngx-charts-directed-graph>
+</ngx-graph>

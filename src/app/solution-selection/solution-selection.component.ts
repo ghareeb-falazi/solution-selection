@@ -12,12 +12,11 @@ import {GraphNode} from './graphing/abstract-graph.component';
 import {ConcreteSolutionGraphComponent} from './graphing/concrete-solution-graph.componen';
 import {PatternsGraphComponent} from './graphing/patterns-graph.component';
 import {ConcreteSolutionModel} from '../data-model/concrete-solution.model';
-import {SelectItem} from 'primeng/primeng';
 import {SolutionCompositionService} from '../core/solution-composition/solution-composition.service';
 import {isNullOrUndefined} from 'util';
-import {Message} from 'primeng/primeng';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
+import { Message, MessageService, SelectItem } from 'primeng';
 
 /**
  * The solution selection component
@@ -46,10 +45,6 @@ export class SolutionSelectionComponent implements OnInit, OnDestroy {
    * Indicates whether the selected concrete solution path is being composed into a composite solution.
    */
   isComposingSolution: boolean;
-  /**
-   * The messages shown as 'Growls'
-   */
-  msgs: Message[];
 
   /**
    * The pattern selector child component
@@ -119,18 +114,22 @@ export class SolutionSelectionComponent implements OnInit, OnDestroy {
     return !isNullOrUndefined(this.composerURL) && this.composerURL.length > 0;
   }
 
-  constructor(private csService: ConcreteSolutionRepositoryService, private aggService: AggregatorRepositoryService,
-              private selectService: SolutionSelectorService, private patternService: PatternRepositoryService,
-              private compositionService: SolutionCompositionService, private route: ActivatedRoute) {
+  constructor(private csService: ConcreteSolutionRepositoryService,
+              private aggService: AggregatorRepositoryService,
+              private selectService: SolutionSelectorService,
+              private patternService: PatternRepositoryService,
+              private compositionService: SolutionCompositionService,
+              private route: ActivatedRoute,
+              private messageService: MessageService) {
 
   }
 
   ngOnInit(): void {
     // initialize all services
-    this
-      .csService.waitForInitialization()
-      .then(() => this.aggService.waitForInitialization())
-      .then(() => this.patternService.waitForInitialization())
+    Promise.all([
+      this.csService.waitForInitialization(),
+      this.aggService.waitForInitialization(),
+      this.patternService.waitForInitialization()])
       .then(() => this.isInitialized = true)
       .then(() => { // subscribe to query parameters
         this.routeSubscription = this.route.queryParamMap.subscribe(
@@ -259,14 +258,11 @@ export class SolutionSelectionComponent implements OnInit, OnDestroy {
   }
 
   showMessage(message: string, title: string) {
-    this.msgs = [{
-      severity: 'info', summary: title,
-      detail: message
-    }];
+    this.messageService.add({severity: 'info', summary: title, detail: message});
   }
 
   clearMessages() {
-    this.msgs = [];
+    this.messageService.clear();
   }
 
   // generateTargetId(sourceServiceTemplateId: string): string {

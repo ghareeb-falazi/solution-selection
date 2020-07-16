@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'solution-selection', pathMatch: 'full'},
-  { path: 'benchmarking', loadChildren: 'app/benchmarking/benchmarking.module#BenchmarkingModule' }
+  { path: 'benchmarking', loadChildren: () => import('app/benchmarking/benchmarking.module').then(m => m.BenchmarkingModule) }
 ];
 
 @NgModule({

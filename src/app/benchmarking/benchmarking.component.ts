@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {BenchmarkingSolutionSelectorService} from './benchmarking-solution-selector.service';
-import {PapaParseService} from 'ngx-papaparse';
+import {Papa} from 'ngx-papaparse';
 import {BenchmarkingInputModel} from './benchmarking-input.model';
 import {isNullOrUndefined} from 'util';
 import {saveAs} from 'file-saver/FileSaver';
@@ -23,7 +23,7 @@ export class BenchmarkingComponent {
   inputCSVFileName: string = null;
   benchType = 0;
 
-  constructor(private service: BenchmarkingSolutionSelectorService, private papa: PapaParseService) {
+  constructor(private service: BenchmarkingSolutionSelectorService, private papa: Papa) {
 
   }
 

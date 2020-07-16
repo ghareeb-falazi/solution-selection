@@ -1,11 +1,11 @@
-import {AbstractGraphComponent, GraphLink, GraphNode} from './abstract-graph.component';
-import {ConcreteSolutionModel} from '../../data-model/concrete-solution.model';
-import {BasicAggregatorModel} from '../../data-model/basic-aggregator.model';
-import {Component} from '@angular/core';
-import {ConcreteSolutionRepositoryService} from '../../core/concrete-solution-repository/concrete-solution-repository.service';
-import {AggregatorRepositoryService} from '../../core/aggregator-repository/aggregator-repository.service';
-import {ConcreteSolutionPathModel} from '../../data-model/concrete-solution-path.model';
-import {AbstractAggregatorModel} from '../../data-model/abstract-aggregator.model';
+import { AbstractGraphComponent, GraphLink, GraphNode } from './abstract-graph.component';
+import { ConcreteSolutionModel } from '../../data-model/concrete-solution.model';
+import { BasicAggregatorModel } from '../../data-model/basic-aggregator.model';
+import { Component } from '@angular/core';
+import { ConcreteSolutionRepositoryService } from '../../core/concrete-solution-repository/concrete-solution-repository.service';
+import { AggregatorRepositoryService } from '../../core/aggregator-repository/aggregator-repository.service';
+import { ConcreteSolutionPathModel } from '../../data-model/concrete-solution-path.model';
+import { AbstractAggregatorModel } from '../../data-model/abstract-aggregator.model';
 
 /**
  * An implementation of graph node suitable for concrete solutions
@@ -14,12 +14,17 @@ class ConcreteSolutionGraphNode extends GraphNode {
   static readonly FILL_COLOR = '#fff4e6';
   static readonly STROKE_COLOR = 'black';
   static readonly HIGHLIGHTED_STROKE_COLOR = 'blue';
+  static readonly SIDE = 50;
   nodeType = 'CS';
   label: string;
 
   constructor(id: string, public cs: ConcreteSolutionModel) {
-    super(id, ConcreteSolutionGraphNode.FILL_COLOR, ConcreteSolutionGraphNode.STROKE_COLOR,
-      ConcreteSolutionGraphNode.HIGHLIGHTED_STROKE_COLOR);
+    super(id,
+      ConcreteSolutionGraphNode.FILL_COLOR,
+      ConcreteSolutionGraphNode.STROKE_COLOR,
+      ConcreteSolutionGraphNode.HIGHLIGHTED_STROKE_COLOR,
+      ConcreteSolutionGraphNode.SIDE,
+      ConcreteSolutionGraphNode.SIDE);
     this.label = cs.visualName;
   }
 }
@@ -30,12 +35,18 @@ class ConcreteSolutionGraphNode extends GraphNode {
 class AggregatorGraphNode extends GraphNode {
   static readonly FILL_COLOR = 'white';
   static readonly STROKE_COLOR = 'black';
-  static readonly  HIGHLIGHTED_STROKE_COLOR = 'blue';
+  static readonly HIGHLIGHTED_STROKE_COLOR = 'blue';
+  static readonly SIDE = 50;
   nodeType = 'Agg';
   label: string;
 
   constructor(id: string, public aggregator: BasicAggregatorModel) {
-    super(id, AggregatorGraphNode.FILL_COLOR, AggregatorGraphNode.STROKE_COLOR, AggregatorGraphNode.HIGHLIGHTED_STROKE_COLOR);
+    super(id,
+      AggregatorGraphNode.FILL_COLOR,
+      AggregatorGraphNode.STROKE_COLOR,
+      AggregatorGraphNode.HIGHLIGHTED_STROKE_COLOR,
+      AggregatorGraphNode.SIDE,
+      AggregatorGraphNode.SIDE);
     this.label = this.aggregator.aggregatorUri;
   }
 }
@@ -55,7 +66,6 @@ export class ConcreteSolutionGraphComponent extends AbstractGraphComponent {
    */
   readonly nodeSide = 60;
 
-
   static getConcreteSolutionUriOfNode(node: GraphNode): string {
     return (<ConcreteSolutionGraphNode>node).cs.uri;
   }
@@ -73,7 +83,6 @@ export class ConcreteSolutionGraphComponent extends AbstractGraphComponent {
       });
   }
 
-
   createNode(id: any, item: any): GraphNode {
     if (item instanceof ConcreteSolutionModel) {
       return new ConcreteSolutionGraphNode(id, item);
@@ -88,21 +97,20 @@ export class ConcreteSolutionGraphComponent extends AbstractGraphComponent {
 
   isNodeEqualsItem(node: GraphNode, item: any): boolean {
     if (node instanceof ConcreteSolutionGraphNode && item instanceof ConcreteSolutionModel) {
-      return (<ConcreteSolutionModel> item).uri === (<ConcreteSolutionGraphNode>node).cs.uri;
+      return (<ConcreteSolutionModel>item).uri === (<ConcreteSolutionGraphNode>node).cs.uri;
     } else if (node instanceof AggregatorGraphNode && item instanceof BasicAggregatorModel) {
-      return (<BasicAggregatorModel> item).aggregatorUri === (<AggregatorGraphNode>node).aggregator.aggregatorUri;
+      return (<BasicAggregatorModel>item).aggregatorUri === (<AggregatorGraphNode>node).aggregator.aggregatorUri;
     } else {
       return false;
     }
 
   }
 
-
   getNextItems(currentItem: any): any[] {
     if (currentItem instanceof BasicAggregatorModel) {// the node is an aggregator node
       const csUri = (<BasicAggregatorModel>currentItem).concreteSolution2Uri;
       return [this.csRepoService.allSolutions.find(sol => sol.uri.toLowerCase() === csUri.toLowerCase())];
-    }else {// the node is a cs node
+    } else {// the node is a cs node
       const csUri = (<ConcreteSolutionModel>currentItem).uri;
       return this.aggRepoService.getOutgoingAggregators(csUri);
     }
@@ -145,7 +153,6 @@ export class ConcreteSolutionGraphComponent extends AbstractGraphComponent {
     this.changeNodesOpacity(nodes, newValue, true);
   }
 
-
   /**
    * Changes the fill-color of a concrete solution path
    * @param {ConcreteSolutionPathModel} path
@@ -154,8 +161,8 @@ export class ConcreteSolutionGraphComponent extends AbstractGraphComponent {
     this.resetSelections();
     // Change color of concrete solutions
     const sols: ConcreteSolutionModel[] = path.getAllConcreteSolutions();
-    for (const sol of sols){
-      for (const node of this.myNodes){
+    for (const sol of sols) {
+      for (const node of this.myNodes) {
         if (node instanceof ConcreteSolutionGraphNode) {
           if ((<ConcreteSolutionGraphNode>node).cs.uri === sol.uri) {
             node.fillColor = ConcreteSolutionGraphComponent.SELECTION_COLOR;
@@ -170,8 +177,8 @@ export class ConcreteSolutionGraphComponent extends AbstractGraphComponent {
     const aggsFlat: AbstractAggregatorModel[] = [];
     aggs.forEach(stepAgg => aggsFlat.push(...stepAgg));
 
-    for (const agg of aggsFlat){
-      for (const node of this.myNodes){
+    for (const agg of aggsFlat) {
+      for (const node of this.myNodes) {
         if (node instanceof AggregatorGraphNode) {
           if ((<AggregatorGraphNode>node).label === agg.aggregatorUri) {
             node.fillColor = ConcreteSolutionGraphComponent.SELECTION_COLOR;
@@ -187,15 +194,14 @@ export class ConcreteSolutionGraphComponent extends AbstractGraphComponent {
    * Restores the default fill color of all nodes
    */
   resetSelections(): void {
-    for (const node of this.myNodes){
+    for (const node of this.myNodes) {
       if (node instanceof AggregatorGraphNode) {
         node.fillColor = AggregatorGraphNode.FILL_COLOR;
-      }else {
+      } else {
         node.fillColor = ConcreteSolutionGraphNode.FILL_COLOR;
       }
     }
 
   }
-
 
 }

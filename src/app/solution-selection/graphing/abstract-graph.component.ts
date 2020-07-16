@@ -13,7 +13,7 @@ export class GraphNode {
   readonly normalStrokeColor: string;
 
 
-  constructor(public id: string, public fillColor: string, public strokeColor: string, public readonly highlightedStrokeColor) {
+  constructor(public id: string, public fillColor: string, public strokeColor: string, public readonly highlightedStrokeColor, public width: number, public height: number) {
     this.normalStrokeColor = strokeColor;
   }
 }
@@ -68,11 +68,8 @@ export abstract class AbstractGraphComponent {
    * @type {[number , number]}
    */
   view: any[] = [this.width, this.height];
-  /**
-   * The flow direction of the graph
-   * @type {string}
-   */
-  orientation= 'LR';
+
+  layout = 'dagre';
   /**
    * Whether a legend should be shown when hovering over a node
    * @type {boolean}

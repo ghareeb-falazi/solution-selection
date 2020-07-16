@@ -3,9 +3,12 @@ import { CommonModule } from '@angular/common';
 import { BenchmarkingComponent } from './benchmarking.component';
 import {BenchmarkingRoutingModule} from './benchmarking-routing.module';
 import {FormsModule} from '@angular/forms';
-import {ButtonModule, FileUploadModule, SpinnerModule, TabViewModule} from 'primeng/primeng';
 import {BenchmarkingSolutionSelectorService} from './benchmarking-solution-selector.service';
-import {PapaParseModule} from 'ngx-papaparse';
+import { Papa } from 'ngx-papaparse';
+import { ButtonModule } from 'primeng/button';
+import { SpinnerModule } from 'primeng/spinner';
+import { TabViewModule } from 'primeng/tabview';
+import { FileUploadModule } from 'primeng/fileupload';
 
 @NgModule({
   imports: [
@@ -15,10 +18,9 @@ import {PapaParseModule} from 'ngx-papaparse';
     SpinnerModule,
     TabViewModule,
     FileUploadModule,
-    BenchmarkingRoutingModule,
-    PapaParseModule
+    BenchmarkingRoutingModule
   ],
   declarations: [BenchmarkingComponent],
-  providers: [BenchmarkingSolutionSelectorService]
+  providers: [BenchmarkingSolutionSelectorService, Papa]
 })
 export class BenchmarkingModule { }

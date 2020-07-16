@@ -1,5 +1,5 @@
 import * as shape from 'd3-shape';
-import {Output, EventEmitter} from '@angular/core';
+import { Output, EventEmitter, Directive } from '@angular/core';
 import {isNullOrUndefined} from 'util';
 
 /**
@@ -37,6 +37,7 @@ export class GraphLink {
 /**
  * Abstract graph
  */
+@Directive()
 export abstract class AbstractGraphComponent {
   /**
    * Nodes of the graph

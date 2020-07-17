@@ -1,0 +1,11 @@
+query 1:
+SUM(cost.value)<20.0
+
+query 2:
+ALL.deployedOn.value = 'Azure'
+
+query 3:
+CS['cs1.2'].cost.value < 10 AND SUM(cost.value) < 25 AND
+(ALL.location.value = 'EU' OR ALL.location.value = 'US') AND
+ALL[implements.value = 'Elastic Load Balancer'].minComponents.value > 5 AND
+(ALL.deployedOn.value = 'Elastic Beanstalk' OR All.deployedOn.value = 'Azure')
